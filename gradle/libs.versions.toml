@@ -15,6 +15,8 @@ appcompat = "1.7.0"
 material = "1.12.0"
 jetbrainsKotlinJvm = "2.1.0"
 hilt = "2.51.1"
+hiltNavigationCompose = "1.2.0"
+navigationCompose = "2.8.5"
 ksp = "2.1.0-1.0.29"
 
 [libraries]
@@ -36,6 +38,8 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
 [plugins]
 app-namespace = { id = "com.mkdev.nimblesurvey" }
