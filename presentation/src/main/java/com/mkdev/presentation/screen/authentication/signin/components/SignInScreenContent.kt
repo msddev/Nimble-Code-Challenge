@@ -3,6 +3,7 @@ package com.mkdev.presentation.screen.authentication.signin.components
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -124,7 +125,7 @@ internal fun SignInScreenContent(
         TextFieldView(
             modifier = Modifier.fillMaxWidth(),
             textState = passwordState,
-            visualTransformation = PasswordVisualTransformation(),
+            visualTransformation = PasswordVisualTransformation(mask = '●'),
             hint = stringResource(R.string.password_text),
             isError = passwordError.value.isError,
             errorResId = passwordError.value.errorText,
@@ -215,7 +216,11 @@ private fun TextFieldView(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     TextField(
-        modifier = modifier,
+        modifier = modifier.border(
+            width = Dimens.Border1dp,
+            color = Color.White.copy(alpha = 0.2f),
+            shape = CircleShape
+        ),
         shape = CircleShape,
         value = textState.value,
         onValueChange = {

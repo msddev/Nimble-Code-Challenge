@@ -47,5 +47,6 @@ object Dimens {
 
     val BlurEffect50dp: Dp = 50.dp
 
-    val Divider: Dp = 1.dp
+    val Divider1dp: Dp = 1.dp
+    val Border1dp: Dp = 1.dp
 }
