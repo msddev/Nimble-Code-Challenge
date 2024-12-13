@@ -41,6 +41,10 @@ object Dimens {
     val Elevation2dp: Dp = 2.dp
     val Elevation1dp: Dp = 1.dp
 
+    val ButtonHeightSmall: Dp = 48.dp
+    val ButtonHeightMedium: Dp = 56.dp
+    val ButtonHeightLarge: Dp = 64.dp
+
     val BlurEffect50dp: Dp = 50.dp
 
     val Divider: Dp = 1.dp

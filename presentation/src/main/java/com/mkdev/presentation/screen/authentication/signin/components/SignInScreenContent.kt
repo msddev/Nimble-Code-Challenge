@@ -18,6 +18,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -35,11 +36,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
 import com.mkdev.presentation.R
 import com.mkdev.presentation.theme.CommonColors
 import com.mkdev.presentation.theme.Dimens
@@ -48,7 +49,7 @@ import com.mkdev.presentation.theme.Dimens
 internal fun SignInScreenContent(
     modifier: Modifier,
     onForgotPasswordClick: () -> Unit = {},
-    onKeyboardDoneActionInvoked: () -> Unit,
+    onLoginClick: () -> Unit,
 ) {
     var emailValue = remember { mutableStateOf("") }
     var passwordValue = remember { mutableStateOf("") }
@@ -132,18 +133,25 @@ internal fun SignInScreenContent(
                     style = MaterialTheme.typography.bodyLarge
                 )
             },
-            onKeyboardDoneActionInvoked = onKeyboardDoneActionInvoked
+            onKeyboardDoneActionInvoked = onLoginClick
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(Dimens.PaddingStandard))
 
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
-            onClick = { }
+                .height(Dimens.ButtonHeightMedium),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.White,
+                contentColor = Color.Black,
+            ),
+            onClick = onLoginClick
         ) {
-            Text("Log in")
+            Text(
+                text = stringResource(R.string.log_in_text),
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+            )
         }
     }
 }

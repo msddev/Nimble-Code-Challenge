@@ -26,5 +26,4 @@ object CommonColors {
         Color.Black.copy(alpha = 0.9f),
         Color.Black
     )
-
 }
