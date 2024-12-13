@@ -28,6 +28,7 @@ object Dimens {
     val CornerRadiusSmall: Dp = 8.dp
     val CornerRadiusLarge: Dp = 12.dp
     val CornerRadiusXLarge: Dp = 16.dp
+    val CornerRadius2XLarge: Dp = 20.dp
 
     val IconSizeXLarge: Dp = 48.dp
     val IconSizeLarge: Dp = 36.dp
@@ -40,6 +41,7 @@ object Dimens {
     val Elevation4dp: Dp = 4.dp
     val Elevation2dp: Dp = 2.dp
     val Elevation1dp: Dp = 1.dp
+    val Elevation0dp: Dp = 0.dp
 
     val ButtonHeightSmall: Dp = 48.dp
     val ButtonHeightMedium: Dp = 56.dp
@@ -49,4 +51,5 @@ object Dimens {
 
     val Divider1dp: Dp = 1.dp
     val Border1dp: Dp = 1.dp
+    val HomeProfileContainerPadding: Dp = 20.dp
 }
