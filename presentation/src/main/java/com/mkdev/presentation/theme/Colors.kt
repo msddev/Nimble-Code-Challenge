@@ -15,3 +15,8 @@ object DarkColors {
     val Tertiary = Color(0xFF625b71)
     val Background = Color(0xFF303030)
 }
+
+object CommonColors {
+    val GradientBlack = listOf(Color.Black.copy(alpha = 0.1f), Color.Black)
+
+}
