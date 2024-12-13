@@ -51,7 +51,7 @@ internal fun SplashScreenContent(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Brush.verticalGradient(CommonColors.GradientBlack))
+                .background(Brush.verticalGradient(CommonColors.GradientBlack1))
         )
 
         AnimatedVisibility(

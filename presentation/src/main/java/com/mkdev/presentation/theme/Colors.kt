@@ -17,6 +17,14 @@ object DarkColors {
 }
 
 object CommonColors {
-    val GradientBlack = listOf(Color.Black.copy(alpha = 0.1f), Color.Black)
+    val GradientBlack1 = listOf(
+        Color.Black.copy(alpha = 0.1f),
+        Color.Black
+    )
+    val GradientBlack2 = listOf(
+        Color.Black.copy(alpha = 0.5f),
+        Color.Black.copy(alpha = 0.9f),
+        Color.Black
+    )
 
 }
