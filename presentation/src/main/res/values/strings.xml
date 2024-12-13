@@ -4,4 +4,6 @@
     <string name="password_text">Password</string>
     <string name="forgot_text">Forgot?</string>
     <string name="log_in_text">Log in</string>
+    <string name="email_empty_error">Email is not valid.</string>
+    <string name="password_empty_error">Password is not valid.</string>
 </resources>

@@ -18,7 +18,7 @@ internal fun SignInScreen(
         onForgotPasswordClick = {
 
         },
-        onKeyboardDoneActionInvoked = {
+        onLoginClick = { email: String, password: String ->
 
         }
     )

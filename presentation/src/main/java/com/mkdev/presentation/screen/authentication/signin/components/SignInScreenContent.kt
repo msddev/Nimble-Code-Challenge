@@ -1,5 +1,6 @@
 package com.mkdev.presentation.screen.authentication.signin.components
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,17 +43,23 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.mkdev.presentation.R
+import com.mkdev.presentation.model.local.TextFieldErrorModel
 import com.mkdev.presentation.theme.CommonColors
 import com.mkdev.presentation.theme.Dimens
+import com.mkdev.presentation.utils.isValidEmail
+import com.mkdev.presentation.utils.isValidPassword
 
 @Composable
 internal fun SignInScreenContent(
     modifier: Modifier,
     onForgotPasswordClick: () -> Unit = {},
-    onLoginClick: () -> Unit,
+    onLoginClick: (email: String, password: String) -> Unit,
 ) {
-    var emailValue = remember { mutableStateOf("") }
-    var passwordValue = remember { mutableStateOf("") }
+    val emailState = remember { mutableStateOf("") }
+    val passwordState = remember { mutableStateOf("") }
+
+    val emailError = remember { mutableStateOf(TextFieldErrorModel()) }
+    val passwordError = remember { mutableStateOf(TextFieldErrorModel()) }
 
     Box(modifier = modifier) {
         Image(
@@ -102,8 +109,10 @@ internal fun SignInScreenContent(
     ) {
         TextFieldView(
             modifier = Modifier.fillMaxWidth(),
-            textState = emailValue,
+            textState = emailState,
             hint = stringResource(R.string.email_text),
+            isError = emailError.value.isError,
+            errorResId = emailError.value.errorText,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
@@ -114,9 +123,11 @@ internal fun SignInScreenContent(
 
         TextFieldView(
             modifier = Modifier.fillMaxWidth(),
-            textState = passwordValue,
+            textState = passwordState,
             visualTransformation = PasswordVisualTransformation(),
             hint = stringResource(R.string.password_text),
+            isError = passwordError.value.isError,
+            errorResId = passwordError.value.errorText,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
@@ -133,7 +144,23 @@ internal fun SignInScreenContent(
                     style = MaterialTheme.typography.bodyLarge
                 )
             },
-            onKeyboardDoneActionInvoked = onLoginClick
+            onKeyboardDoneActionInvoked = {
+                validateAndLogin(
+                    email = emailState.value,
+                    password = passwordState.value,
+                    onError = { emailModel, passwordModel ->
+                        emailError.value = emailError.value.copy(
+                            isError = emailModel.isError,
+                            errorText = emailModel.errorText,
+                        )
+                        passwordError.value = passwordError.value.copy(
+                            isError = passwordModel.isError,
+                            errorText = passwordModel.errorText,
+                        )
+                    },
+                    onLoginClick = onLoginClick,
+                )
+            }
         )
 
         Spacer(modifier = Modifier.height(Dimens.PaddingStandard))
@@ -146,7 +173,23 @@ internal fun SignInScreenContent(
                 containerColor = Color.White,
                 contentColor = Color.Black,
             ),
-            onClick = onLoginClick
+            onClick = {
+                validateAndLogin(
+                    email = emailState.value,
+                    password = passwordState.value,
+                    onError = { emailModel, passwordModel ->
+                        emailError.value = emailError.value.copy(
+                            isError = emailModel.isError,
+                            errorText = emailModel.errorText,
+                        )
+                        passwordError.value = passwordError.value.copy(
+                            isError = passwordModel.isError,
+                            errorText = passwordModel.errorText,
+                        )
+                    },
+                    onLoginClick = onLoginClick,
+                )
+            }
         ) {
             Text(
                 text = stringResource(R.string.log_in_text),
@@ -162,6 +205,8 @@ private fun TextFieldView(
     textState: MutableState<String>,
     hint: String,
     maxLength: Int = 25,
+    isError: Boolean,
+    @StringRes errorResId: Int?,
     keyboardOptions: KeyboardOptions,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -200,6 +245,48 @@ private fun TextFieldView(
             unfocusedTextColor = Color.White,
             focusedPlaceholderColor = Color.White.copy(alpha = 0.5f),
             unfocusedPlaceholderColor = Color.White.copy(alpha = 0.5f),
+            cursorColor = Color.White.copy(alpha = 0.2f),
+            errorIndicatorColor = Color.Transparent,
+            errorTextColor = MaterialTheme.colorScheme.error,
+            errorContainerColor = Color.White.copy(alpha = 0.2f),
+            errorCursorColor = MaterialTheme.colorScheme.error,
+            errorPlaceholderColor = Color.White.copy(alpha = 0.5f),
         ),
     )
+    if (isError && errorResId != null) {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Dimens.PaddingStandard, vertical = Dimens.Padding3xSmall),
+            text = stringResource(errorResId),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.error
+        )
+    }
+}
+
+private fun validateAndLogin(
+    email: String,
+    password: String,
+    onError: (TextFieldErrorModel, TextFieldErrorModel) -> Unit,
+    onLoginClick: (String, String) -> Unit,
+) {
+    val isEmailValid = email.isNotBlank() && email.isValidEmail()
+    val isPasswordValid = password.isNotBlank() && password.isValidPassword()
+
+    onError(
+        TextFieldErrorModel(
+            isError = !isEmailValid,
+            errorText = if (!isEmailValid) R.string.email_empty_error else null
+        ),
+
+        TextFieldErrorModel(
+            isError = !isPasswordValid,
+            errorText = if (!isPasswordValid) R.string.password_empty_error else null
+        ),
+    )
+
+    if (isEmailValid && isPasswordValid) {
+        onLoginClick(email, password)
+    }
 }
