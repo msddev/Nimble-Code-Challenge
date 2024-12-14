@@ -10,8 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.mkdev.presentation.navigation.NimbleNavHost
-import com.mkdev.presentation.screen.home.HomeNavigation
-import com.mkdev.presentation.screen.thankYou.ThankYouNavigation
+import com.mkdev.presentation.screen.authentication.signin.SignInNavigation
 import com.mkdev.presentation.theme.NimbleSurveyTheme
 
 class MainActivity : ComponentActivity() {
@@ -28,12 +27,10 @@ class MainActivity : ComponentActivity() {
                 ) {
                     NimbleNavHost(
                         navController = navController,
-                        startDestination = ThankYouNavigation.ROUTE
+                        startDestination = SignInNavigation.ROUTE
                     )
                 }
             }
         }
-
-
     }
 }

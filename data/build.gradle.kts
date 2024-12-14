@@ -37,15 +37,21 @@ android {
 dependencies {
     implementation(project(":domain"))
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-
     // Dagger Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    // Networking
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.retrofit2.adapter.rxjava2)
+    implementation(libs.okhttp3)
+    implementation(libs.okhttp3.logging.interceptor)
+    implementation(libs.kotlinx.serialization.json)
+
+    // Unit Test
     testImplementation(libs.junit)
+    testImplementation(libs.mockito)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
