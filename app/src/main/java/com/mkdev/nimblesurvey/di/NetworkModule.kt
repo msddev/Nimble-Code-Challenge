@@ -1,7 +1,7 @@
 package com.mkdev.nimblesurvey.di
 
 import android.content.Context
-import com.mkdev.data.datasource.remote.api.AuthenticationApi
+import com.mkdev.data.datasource.remote.api.AuthApi
 import com.mkdev.nimblesurvey.BuildConfig
 import com.mkdev.nimblesurvey.utils.ApiConfigs
 import dagger.Module
@@ -66,7 +66,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAuthenticationApiService(
+    fun provideAuthApiService(
         retrofit: Retrofit,
-    ): AuthenticationApi = retrofit.create(AuthenticationApi::class.java)
+    ): AuthApi = retrofit.create(AuthApi::class.java)
 }

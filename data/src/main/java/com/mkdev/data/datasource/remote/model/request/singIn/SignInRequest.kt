@@ -1,4 +1,4 @@
-package com.mkdev.data.datasource.remote.request
+package com.mkdev.data.datasource.remote.model.request.singIn
 
 data class SignInRequest(
     val grantType: String = "password",

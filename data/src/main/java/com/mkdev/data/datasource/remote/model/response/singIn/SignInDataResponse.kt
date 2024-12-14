@@ -1,4 +1,4 @@
-package com.mkdev.data.datasource.remote.response.singIn
+package com.mkdev.data.datasource.remote.model.response.singIn
 
 
 import com.google.gson.annotations.SerializedName
