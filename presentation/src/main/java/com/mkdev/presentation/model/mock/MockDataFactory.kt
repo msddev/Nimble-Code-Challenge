@@ -5,8 +5,8 @@ import com.mkdev.presentation.model.local.SurveyModel
 internal val fakeSurveyData = listOf(
     SurveyModel(
         id = "d5de6a8f8f5f1cfe51bc",
-        title = "Scarlett Bangkok",
-        description = "We'd love ot hear from you!",
+        title = "Scarlett Bangkok Scarlett Bangkok Scarlett Bangkok",
+        description = "We'd love ot hear from you! We'd love ot hear from you! We'd love ot hear from you! We'd love ot hear from you!",
         coverImageUrl = "https://ucarecdn.com/62886578-df8b-4f65-902e-8e88d97748b8/-/quality/smart_retina/-/format/auto/",
         surveyType = "Restaurant"
     ),

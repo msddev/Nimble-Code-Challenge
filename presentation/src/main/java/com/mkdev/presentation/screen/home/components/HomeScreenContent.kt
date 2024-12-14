@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.mkdev.presentation.R
 import com.mkdev.presentation.common.utils.pagerFadeTransition
 import com.mkdev.presentation.model.mock.fakeSurveyData
@@ -73,9 +72,6 @@ internal fun HomeScreenContent(
                     containerColor = Color.White.copy(alpha = 0.2f), // Card background color
                     contentColor = Color.White  // Card content color,e.g.text
                 ),
-                onClick = {
-
-                },
             ) {
                 Row(
                     modifier = Modifier
@@ -93,7 +89,7 @@ internal fun HomeScreenContent(
                             .weight(1f)
                     ) {
                         Text(
-                            text = "Monday, JUNE 15",
+                            text = "MONDAY, JUNE 15",
                             modifier = Modifier.fillMaxWidth(),
                             color = Color.White,
                             style = MaterialTheme.typography.bodyMedium
@@ -111,9 +107,9 @@ internal fun HomeScreenContent(
 
                     Image(
                         modifier = Modifier
-                            .size(56.dp)
+                            .size(Dimens.IconSize2XLarge)
                             .clip(CircleShape),
-                        painter = painterResource(id = R.drawable.img_place_holder),
+                        painter = painterResource(id = R.drawable.img_user_avatar),
                         contentScale = ContentScale.Crop,
                         contentDescription = null,
                     )

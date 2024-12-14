@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.mkdev.presentation.common.component.GlideImageLoader
 import com.mkdev.presentation.common.utils.pagerFadeTransition
 import com.mkdev.presentation.model.local.SurveyModel
@@ -63,7 +62,7 @@ internal fun SurveyItemView(
                 modifier = Modifier
                     .pagerFadeTransition(page = page, pagerState = pagerState)
                     .fillMaxWidth()
-                    .height(100.dp),
+                    .padding(bottom = Dimens.PaddingStandard),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {

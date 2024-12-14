@@ -30,6 +30,7 @@ object Dimens {
     val CornerRadiusXLarge: Dp = 16.dp
     val CornerRadius2XLarge: Dp = 20.dp
 
+    val IconSize2XLarge: Dp = 56.dp
     val IconSizeXLarge: Dp = 48.dp
     val IconSizeLarge: Dp = 36.dp
     val IconSizeStandard: Dp = 24.dp
