@@ -12,7 +12,9 @@ import androidx.navigation.compose.rememberNavController
 import com.mkdev.presentation.navigation.NimbleNavHost
 import com.mkdev.presentation.screen.authentication.signin.SignInNavigation
 import com.mkdev.presentation.theme.NimbleSurveyTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
