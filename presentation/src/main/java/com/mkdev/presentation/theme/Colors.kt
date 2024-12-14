@@ -28,4 +28,9 @@ object CommonColors {
         Color.Black.copy(alpha = 0.9f),
         Color.Black
     )
+
+    val Green: Color = Color(0xFF4AAF57)
+    val LightGreen: Color = Color(0xFF8BC255)
+    val Lime: Color = Color(0xFFCDDC4C)
+    val ThankYouBackColor: Color = Color(0xFF15151A)
 }

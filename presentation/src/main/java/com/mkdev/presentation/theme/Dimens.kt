@@ -55,4 +55,5 @@ object Dimens {
     val HomeProfileContainerPadding: Dp = 20.dp
     val PagerIndicatorWidth: Dp = 20.dp
     val PagerIndicatorHeight: Dp = 12.dp
+    val ThankYouImageSize: Dp = 180.dp
 }

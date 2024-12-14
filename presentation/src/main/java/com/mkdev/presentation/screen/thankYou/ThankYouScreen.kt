@@ -1,10 +1,11 @@
 package com.mkdev.presentation.screen.thankYou
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mkdev.presentation.screen.thankYou.components.ThankYouScreenContent
+import com.mkdev.presentation.theme.CommonColors
 
 @Composable
 internal fun ThankYouScreen(
@@ -13,6 +14,6 @@ internal fun ThankYouScreen(
     ThankYouScreenContent(
         modifier = Modifier
             .fillMaxSize()
-            .clickable(onClick = onNavigateUp)
+            .background(CommonColors.ThankYouBackColor)
     )
 }
