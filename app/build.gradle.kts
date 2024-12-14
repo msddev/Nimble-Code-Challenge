@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.ksp)
+    id("com.google.protobuf") version "0.9.4"
 }
 
 android {
@@ -80,6 +81,11 @@ dependencies {
     implementation(libs.okhttp3.logging.interceptor)
     implementation(libs.kotlinx.serialization.json)
 
+    // DataStore, ProtoBuf
+    implementation(libs.datastore)
+    implementation(libs.protobuf.javalite)
+    implementation(libs.tink.android)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -87,4 +93,19 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:4.29.1"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.plugins{
+                create("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }

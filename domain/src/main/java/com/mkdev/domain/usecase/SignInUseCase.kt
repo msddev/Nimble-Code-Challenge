@@ -13,6 +13,10 @@ class SignInUseCase(
         email: String,
         password: String,
     ): Flow<Resource<SignInEntity>> {
-        return authRepository.signIn()
+        return authRepository.signIn(
+            grantType = grantType,
+            email = email,
+            password = password,
+        )
     }
 }

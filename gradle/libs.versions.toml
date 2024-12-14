@@ -25,6 +25,10 @@ okhttp3 = "5.0.0-alpha.12"
 kotlinxSerializationJson = "1.6.3"
 lifecycleCompose = "2.8.7"
 composeRuntimeLivedata = "1.7.6"
+datastore = "1.1.1"
+protobufJavalite = "4.29.1"
+protobuf = "0.9.4"
+tinkAndroid = "1.7.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -60,6 +64,9 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleCompose" }
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleCompose" }
 compose-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "composeRuntimeLivedata" }
+datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobufJavalite" }
+tink-android = { module = "com.google.crypto.tink:tink-android", version.ref = "tinkAndroid" }
 
 [plugins]
 app-namespace = { id = "com.mkdev.nimblesurvey" }
@@ -72,4 +79,5 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobuf" }
 

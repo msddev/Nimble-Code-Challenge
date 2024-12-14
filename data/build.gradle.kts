@@ -49,6 +49,11 @@ dependencies {
     implementation(libs.okhttp3.logging.interceptor)
     implementation(libs.kotlinx.serialization.json)
 
+    // DataStore, ProtoBuf
+    implementation(libs.datastore)
+    implementation(libs.protobuf.javalite)
+    implementation(libs.tink.android)
+
     // Unit Test
     testImplementation(libs.junit)
     testImplementation(libs.mockito)
