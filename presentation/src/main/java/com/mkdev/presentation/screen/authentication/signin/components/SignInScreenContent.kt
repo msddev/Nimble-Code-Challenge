@@ -47,8 +47,8 @@ import com.mkdev.presentation.R
 import com.mkdev.presentation.model.local.TextFieldErrorModel
 import com.mkdev.presentation.theme.CommonColors
 import com.mkdev.presentation.theme.Dimens
-import com.mkdev.presentation.utils.isValidEmail
-import com.mkdev.presentation.utils.isValidPassword
+import com.mkdev.presentation.common.utils.isValidEmail
+import com.mkdev.presentation.common.utils.isValidPassword
 
 @Composable
 internal fun SignInScreenContent(

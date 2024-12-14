@@ -19,6 +19,7 @@ hiltNavigationCompose = "1.2.0"
 navigationCompose = "2.8.5"
 ksp = "2.1.0-1.0.29"
 kotlinxCoroutines = "1.9.0"
+glideCompose = "2.4.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +44,7 @@ hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", ve
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+glide-compose = { module = "com.github.skydoves:landscapist-glide", version.ref = "glideCompose" }
 
 [plugins]
 app-namespace = { id = "com.mkdev.nimblesurvey" }

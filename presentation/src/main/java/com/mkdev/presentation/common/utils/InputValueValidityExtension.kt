@@ -1,4 +1,4 @@
-package com.mkdev.presentation.utils
+package com.mkdev.presentation.common.utils
 
 import androidx.core.util.PatternsCompat
 
