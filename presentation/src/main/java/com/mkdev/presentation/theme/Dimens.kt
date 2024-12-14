@@ -52,4 +52,6 @@ object Dimens {
     val Divider1dp: Dp = 1.dp
     val Border1dp: Dp = 1.dp
     val HomeProfileContainerPadding: Dp = 20.dp
+    val PagerIndicatorWidth: Dp = 20.dp
+    val PagerIndicatorHeight: Dp = 12.dp
 }

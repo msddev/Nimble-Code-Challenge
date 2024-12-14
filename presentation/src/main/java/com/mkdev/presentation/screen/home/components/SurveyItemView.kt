@@ -1,23 +1,20 @@
 package com.mkdev.presentation.screen.home.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,12 +23,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.mkdev.presentation.R
 import com.mkdev.presentation.common.component.GlideImageLoader
+import com.mkdev.presentation.common.utils.pagerFadeTransition
 import com.mkdev.presentation.model.local.SurveyModel
 import com.mkdev.presentation.theme.Dimens
 
@@ -40,115 +38,97 @@ import com.mkdev.presentation.theme.Dimens
 internal fun SurveyItemView(
     modifier: Modifier,
     survey: SurveyModel,
-    pageCount: Int,
-    currentPage: Int,
+    page: Int,
+    pagerState: PagerState,
 ) {
-    Box(modifier = modifier) {
-
+    Box {
         GlideImageLoader(
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier,
             imageUrl = survey.coverImageUrl,
             contentScale = ContentScale.Crop,
         )
 
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = Color.Black.copy(alpha = 0.6f))
+            modifier = modifier.background(color = Color.Black.copy(alpha = 0.6f))
         )
 
-
         Column(
-            modifier = modifier
-                .statusBarsPadding()
-                .padding(Dimens.PaddingStandard)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Dimens.PaddingLarge, vertical = Dimens.Padding2xLarge)
+                .align(Alignment.BottomCenter)
         ) {
-            Box(
+
+            Row(
                 modifier = Modifier
+                    .pagerFadeTransition(page = page, pagerState = pagerState)
                     .fillMaxWidth()
-                    .weight(1f)
+                    .height(100.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = Dimens.PaddingLarge),
-                    shape = RoundedCornerShape(Dimens.CornerRadius2XLarge),
-                    elevation = CardDefaults.cardElevation(Dimens.Elevation0dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White.copy(alpha = 0.2f), // Card background color
-                        contentColor = Color.White  // Card content color,e.g.text
-                    ),
-                    onClick = {
-
-                    },
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                horizontal = Dimens.PaddingStandard,
-                                vertical = Dimens.HomeProfileContainerPadding
-                            ),
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .wrapContentHeight()
-                                .weight(1f)
-                        ) {
-                            Text(
-                                text = "Monday, JUNE 15",
-                                modifier = Modifier.fillMaxWidth(),
-                                color = Color.White,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-
-                            Spacer(modifier = Modifier.height(Dimens.Padding2xSmall))
-
-                            Text(
-                                text = "Today",
-                                modifier = Modifier.fillMaxWidth(),
-                                color = Color.White,
-                                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold)
-                            )
-                        }
-
-                        Image(
-                            modifier = Modifier
-                                .size(56.dp)
-                                .clip(CircleShape),
-                            painter = painterResource(id = R.drawable.img_place_holder),
-                            contentScale = ContentScale.Crop,
-                            contentDescription = null,
+                repeat(pagerState.pageCount) { iteration ->
+                    val color: Color
+                    val shape: Shape
+                    val modifier: Modifier
+                    if (pagerState.currentPage == iteration) {
+                        color = Color.DarkGray
+                        shape = RoundedCornerShape(50)
+                        modifier = Modifier.size(
+                            width = Dimens.PagerIndicatorWidth,
+                            height = Dimens.PagerIndicatorHeight
                         )
+                    } else {
+                        color = Color.LightGray
+                        shape = CircleShape
+                        modifier = Modifier.size(Dimens.PagerIndicatorHeight)
                     }
+                    Box(
+                        modifier = Modifier
+                            .padding(Dimens.Padding3xSmall)
+                            .clip(shape)
+                            .background(color)
+                            .then(modifier)
+                    )
                 }
             }
 
-            Column(
+            Text(
+                text = survey.title,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                color = Color.White,
+                style = MaterialTheme.typography.headlineLarge
+            )
+
+            Spacer(modifier = Modifier.height(Dimens.PaddingStandard))
+
+            Text(
+                text = survey.description,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                color = Color.White.copy(alpha = 0.7f),
+                style = MaterialTheme.typography.bodyLarge
+            )
+
+            Spacer(modifier = Modifier.height(Dimens.PaddingStandard))
+
+            Button(
                 modifier = Modifier
                     .fillMaxWidth()
-            ) {
-                Row(
-                    Modifier
-                        .wrapContentHeight()
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    repeat(pageCount) { iteration ->
-                        val color =
-                            if (currentPage == iteration) Color.DarkGray else Color.LightGray
-                        Box(
-                            modifier = Modifier
-                                .padding(2.dp)
-                                .clip(CircleShape)
-                                .background(color)
-                                .size(16.dp)
-                        )
-                    }
+                    .height(Dimens.ButtonHeightMedium),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black,
+                ),
+                onClick = {
+
                 }
+            ) {
+                Text(
+                    text = "Take This Survey",
+                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                )
             }
         }
     }
