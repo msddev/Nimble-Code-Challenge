@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.ksp)
-    id("com.google.protobuf") version "0.9.4"
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -101,7 +101,7 @@ protobuf {
     }
     generateProtoTasks {
         all().forEach { task ->
-            task.plugins{
+            task.plugins {
                 create("java") {
                     option("lite")
                 }
