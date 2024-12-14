@@ -1,66 +1,103 @@
 package com.mkdev.data.datasource.remote.interceptor
 
-/*class AuthInterceptor @Inject constructor(
+import android.util.Log
+import com.mkdev.data.BuildConfig
+import com.mkdev.data.datasource.local.dataStore.UserLocalSource
+import com.mkdev.data.datasource.remote.api.AuthApi
+import com.mkdev.data.datasource.remote.model.request.refreshToken.RefreshTokenRequest
+import com.mkdev.data.utils.ApiConfigs
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import okhttp3.Interceptor
+import okhttp3.Request
+import okhttp3.Response
+import java.net.HttpURLConnection.HTTP_OK
+import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
+import javax.inject.Inject
+import javax.inject.Provider
+
+
+class AuthInterceptor @Inject constructor(
     private val userLocalSource: UserLocalSource,
-    private val apiService: Provider<ApiService>,
+    private val authApi: Provider<AuthApi>,
 ) : Interceptor {
     private val mutex = Mutex()
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val req = chain.request().also { debug("[1] $it") }
-
-        if (ApiConfigs.NO_AUTH in req.headers.values(ApiConfigs.CUSTOM_HEADER)) {
-            return chain.proceedWithToken(req, null)
+        val request = chain.request().also {
+            debug("[1] $it")
         }
 
-        val token = runBlocking(appDispatchers.io) { userLocalSource.user().first() }
-            ?.token
-            .also { debug("[2] $req $it") }
-        val res = chain.proceedWithToken(req, token)
-
-        if (res.code != HTTP_UNAUTHORIZED || token == null) {
-            return res
+        if (ApiConfigs.NO_AUTH in request.headers.values(ApiConfigs.CUSTOM_HEADER)) {
+            return chain.proceedWithToken(request, null)
         }
 
-        debug("[3] $req")
+        val accessToken = runBlocking(Dispatchers.IO) {
+            userLocalSource.user().first()
+        }?.accessToken.also {
+            debug("[2] $request $it")
+        }
 
-        val newToken: String? = runBlocking(appDispatchers.io) {
+        val response = chain.proceedWithToken(request, accessToken)
+
+        if (response.code != HTTP_UNAUTHORIZED || accessToken == null) {
+            return response
+        }
+
+        debug("[3] $request")
+
+        val newToken: String? = runBlocking(Dispatchers.IO) {
             mutex.withLock {
-                val user =
-                    userLocalSource.user().first().also { debug("[4] $req $it") }
-                val maybeUpdatedToken = user?.token
+                val user = userLocalSource.user().first().also { debug("[4] $request $it") }
+                val maybeUpdatedToken = user?.accessToken
 
                 when {
-                    user == null || maybeUpdatedToken == null -> null.also { debug("[5-1] $req") } // already logged out!
-                    maybeUpdatedToken != token -> maybeUpdatedToken.also { debug("[5-2] $req") } // refreshed by another request
+                    user == null || maybeUpdatedToken == null -> null.also { debug("[5-1] $request") } // already logged out!
+                    maybeUpdatedToken != accessToken -> maybeUpdatedToken.also { debug("[5-2] $request") } // refreshed by another request
                     else -> {
-                        debug("[5-3] $req")
+                        debug("[5-3] $request")
 
-                        val refreshTokenRes = apiService.get()
-                            .refreshToken(user.toRefreshTokenBody())
-                            .also { debug("[6] $req $it") }
+                        val refreshTokenResponse =
+                            authApi.get().refreshToken(
+                                RefreshTokenRequest(
+                                    grantType = "password",
+                                    refreshToken = user.refreshToken,
+                                    clientId = BuildConfig.CLIENT_ID,
+                                    clientSecret = BuildConfig.CLIENT_SECRET
+                                )
+                            )
+                                .also { debug("[6] $request $it") }
 
-                        when (refreshTokenRes.code()) {
+                        when (refreshTokenResponse.code()) {
                             HTTP_OK -> {
-                                debug("[7-1] $req")
-                                refreshTokenRes.body()!!.token.also { updatedToken ->
+                                debug("[7-1] $request")
+                                refreshTokenResponse.body()!!.data?.attributes?.also { data ->
                                     userLocalSource.update {
                                         (it ?: return@update null)
                                             .toBuilder()
-                                            .setToken(updatedToken)
+                                            .setAccessToken(data.accessToken)
+                                            .setRefreshToken(data.refreshToken)
+                                            .setCreatedAt(data.createdAt)
+                                            .setExpiresIn(data.expiresIn)
+                                            .setTokenType(data.tokenType)
                                             .build()
                                     }
+                                }?.run {
+                                    this.accessToken
                                 }
                             }
 
                             HTTP_UNAUTHORIZED -> {
-                                debug("[7-2] $req")
+                                debug("[7-2] $request")
                                 userLocalSource.update { null }
                                 null
                             }
 
                             else -> {
-                                debug("[7-3] $req")
+                                debug("[7-3] $request")
                                 null
                             }
                         }
@@ -69,11 +106,11 @@ package com.mkdev.data.datasource.remote.interceptor
             }
         }
 
-        return if (newToken !== null) chain.proceedWithToken(req, newToken) else res
+        return if (newToken !== null) chain.proceedWithToken(request, newToken) else response
     }
 
-    private fun Interceptor.Chain.proceedWithToken(req: Request, token: String?): Response =
-        req.newBuilder()
+    private fun Interceptor.Chain.proceedWithToken(request: Request, token: String?): Response =
+        request.newBuilder()
             .apply {
                 if (token !== null) {
                     addHeader("Authorization", "Bearer $token")
@@ -84,11 +121,9 @@ package com.mkdev.data.datasource.remote.interceptor
             .let(::proceed)
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun debug(s: String) = Timber.tag(LOG_TAG).d(s)
+    private inline fun debug(s: String) = Log.d(LOG_TAG, s)
 
     private companion object {
         private val LOG_TAG = AuthInterceptor::class.java.simpleName
     }
 }
-
-private fun UserLocal.toRefreshTokenBody() = RefreshTokenBody(refreshToken, username)*/

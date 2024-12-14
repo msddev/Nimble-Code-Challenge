@@ -12,6 +12,7 @@ import com.mkdev.data.datasource.local.dataStore.UserLocalSerializer
 import com.mkdev.data.datasource.local.dataStore.UserLocalSource
 import com.mkdev.data.datasource.local.dataStore.UserLocalSourceImpl
 import com.mkdev.data.datasource.remote.api.AuthApi
+import com.mkdev.data.datasource.remote.interceptor.AuthInterceptor
 import com.mkdev.nimblesurvey.BuildConfig
 import com.mkdev.nimblesurvey.utils.ApiConfigs
 import com.mkdev.nimblesurvey.utils.DataConfigs
@@ -68,13 +69,17 @@ abstract class DataModule {
 
         @Provides
         @Singleton
-        fun provideOkHttpClient(cache: okhttp3.Cache): OkHttpClient = OkHttpClient.Builder()
+        fun provideOkHttpClient(
+            cache: okhttp3.Cache,
+            authInterceptor: AuthInterceptor,
+        ): OkHttpClient = OkHttpClient.Builder()
             .apply {
                 if (BuildConfig.DEBUG) {
                     val loggingInterceptor = HttpLoggingInterceptor().apply {
                         level = HttpLoggingInterceptor.Level.BODY
                     }
                     addInterceptor(loggingInterceptor)
+                    addInterceptor(authInterceptor)
                 }
             }
             .cache(cache)

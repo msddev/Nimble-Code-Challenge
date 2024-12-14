@@ -1,5 +1,6 @@
 package com.mkdev.data.repository
 
+import com.mkdev.data.BuildConfig
 import com.mkdev.data.datasource.remote.api.AuthApi
 import com.mkdev.data.datasource.remote.model.request.singIn.SignInRequest
 import com.mkdev.domain.entity.signIn.SignInEntity
@@ -26,6 +27,8 @@ class AuthRepositoryImpl(
                     grantType = grantType,
                     email = email,
                     password = password,
+                    clientId = BuildConfig.CLIENT_ID,
+                    clientSecret = BuildConfig.CLIENT_SECRET
                 )
             )
 
