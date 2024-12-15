@@ -67,10 +67,7 @@ class AuthInterceptor @Inject constructor(
                                     userLocalSource.update {
                                         (it ?: return@update null)
                                             .toBuilder()
-                                            .setAccessToken(data.accessToken)
                                             .setRefreshToken(data.refreshToken)
-                                            .setCreatedAt(data.createdAt)
-                                            .setExpiresIn(data.expiresIn)
                                             .setTokenType(data.tokenType)
                                             .build()
                                     }

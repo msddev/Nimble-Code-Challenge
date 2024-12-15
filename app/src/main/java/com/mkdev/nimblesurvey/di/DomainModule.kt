@@ -1,5 +1,6 @@
 package com.mkdev.nimblesurvey.di
 
+import com.mkdev.data.datasource.local.dataStore.UserLocalSource
 import com.mkdev.data.datasource.remote.api.AuthApi
 import com.mkdev.data.repository.AuthRepositoryImpl
 import com.mkdev.data.utils.ApiErrorHandler
@@ -22,6 +23,14 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(authApi: AuthApi, apiErrorHandler: ApiErrorHandler): AuthRepository =
-        AuthRepositoryImpl(authApi = authApi, apiErrorHandler = apiErrorHandler)
+    fun provideAuthRepository(
+        userLocalSource: UserLocalSource,
+        authApi: AuthApi,
+        apiErrorHandler: ApiErrorHandler
+    ): AuthRepository =
+        AuthRepositoryImpl(
+            userLocalSource = userLocalSource,
+            authApi = authApi,
+            apiErrorHandler = apiErrorHandler
+        )
 }

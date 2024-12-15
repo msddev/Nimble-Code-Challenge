@@ -1,7 +1,9 @@
 package com.mkdev.data.repository
 
 import com.mkdev.data.BuildConfig
+import com.mkdev.data.datasource.local.dataStore.UserLocalSource
 import com.mkdev.data.datasource.remote.api.AuthApi
+import com.mkdev.data.datasource.remote.mapper.toUserLocal
 import com.mkdev.data.datasource.remote.model.request.singIn.SignInRequest
 import com.mkdev.data.utils.ApiErrorHandler
 import com.mkdev.domain.repository.AuthRepository
@@ -11,6 +13,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 
 class AuthRepositoryImpl(
+    private val userLocalSource: UserLocalSource,
     private val authApi: AuthApi,
     private val apiErrorHandler: ApiErrorHandler,
 ) : AuthRepository {
@@ -35,6 +38,7 @@ class AuthRepositoryImpl(
             )
         }.onSuccess { result ->
             if (result.isSuccessful) {
+                userLocalSource.update { result.body()?.data?.toUserLocal() }
                 emit(Resource.Success(Unit))
             } else {
                 val apiException = apiErrorHandler.handleError(HttpException(result))
