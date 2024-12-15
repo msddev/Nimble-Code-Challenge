@@ -1,6 +1,6 @@
-package com.mkdev.domain.entity.signIn
+package com.mkdev.presentation.model.signIn
 
-data class SignInEntity(
+data class SignInModel(
     val accessToken: String,
     val createdAt: String,
     val expiresIn: String,

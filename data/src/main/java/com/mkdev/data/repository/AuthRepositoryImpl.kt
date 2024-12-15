@@ -2,6 +2,7 @@ package com.mkdev.data.repository
 
 import com.mkdev.data.BuildConfig
 import com.mkdev.data.datasource.remote.api.AuthApi
+import com.mkdev.data.datasource.remote.mapper.toSignInEntity
 import com.mkdev.data.datasource.remote.model.request.singIn.SignInRequest
 import com.mkdev.domain.entity.signIn.SignInEntity
 import com.mkdev.domain.repository.AuthRepository
@@ -21,8 +22,8 @@ class AuthRepositoryImpl(
 
         emit(Resource.Loading())
 
-        try {
-            val result = authApi.signIn(
+        runCatching {
+            authApi.signIn(
                 SignInRequest(
                     grantType = grantType,
                     email = email,
@@ -31,11 +32,10 @@ class AuthRepositoryImpl(
                     clientSecret = BuildConfig.CLIENT_SECRET
                 )
             )
-
-            //emit(Resource.Success(remoteSearchTripResult.trips.map { tripDtoToModelMapper.mapFrom(it) }))
-
-        } catch (exception: Exception) {
-            emit(Resource.Error(message = exception.message.orEmpty()))
+        }.onSuccess { result ->
+            emit(Resource.Success(result.data?.toSignInEntity()))
+        }.onFailure { throwable ->
+            emit(Resource.Error(message = throwable.message.orEmpty()))
         }
     }
 }
