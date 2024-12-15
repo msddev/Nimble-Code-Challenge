@@ -1,6 +1,5 @@
 package com.mkdev.domain.repository
 
-import com.mkdev.domain.entity.signIn.SignInEntity
 import com.mkdev.domain.utils.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -9,5 +8,5 @@ interface AuthRepository {
         grantType: String,
         email: String,
         password: String,
-    ): Flow<Resource<SignInEntity>>
+    ): Flow<Resource<Unit>>
 }

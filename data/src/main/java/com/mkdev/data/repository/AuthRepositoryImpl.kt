@@ -2,10 +2,8 @@ package com.mkdev.data.repository
 
 import com.mkdev.data.BuildConfig
 import com.mkdev.data.datasource.remote.api.AuthApi
-import com.mkdev.data.datasource.remote.mapper.toSignInEntity
 import com.mkdev.data.datasource.remote.model.request.singIn.SignInRequest
 import com.mkdev.data.utils.ApiErrorHandler
-import com.mkdev.domain.entity.signIn.SignInEntity
 import com.mkdev.domain.repository.AuthRepository
 import com.mkdev.domain.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +19,7 @@ class AuthRepositoryImpl(
         grantType: String,
         email: String,
         password: String,
-    ): Flow<Resource<SignInEntity>> = flow {
+    ): Flow<Resource<Unit>> = flow {
 
         emit(Resource.Loading())
 
@@ -37,7 +35,7 @@ class AuthRepositoryImpl(
             )
         }.onSuccess { result ->
             if (result.isSuccessful) {
-                emit(Resource.Success(result.body()?.data?.toSignInEntity()))
+                emit(Resource.Success(Unit))
             } else {
                 val apiException = apiErrorHandler.handleError(HttpException(result))
                 emit(Resource.Error(apiException.message))

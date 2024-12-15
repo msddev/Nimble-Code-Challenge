@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mkdev.domain.usecase.SignInUseCase
 import com.mkdev.domain.utils.Resource
-import com.mkdev.presentation.mapper.toSignInModel
 import com.mkdev.presentation.screen.authentication.signin.SignInUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,7 +37,7 @@ internal class SignInViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        _state.value = SignInUiState.Success(data = result.data?.toSignInModel())
+                        _state.value = SignInUiState.Success
                     }
 
                     is Resource.Error -> {

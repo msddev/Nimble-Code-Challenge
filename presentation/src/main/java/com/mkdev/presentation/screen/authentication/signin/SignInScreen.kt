@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -15,7 +14,6 @@ import com.mkdev.presentation.common.component.AlertView
 import com.mkdev.presentation.common.component.loading.LoadingView
 import com.mkdev.presentation.screen.authentication.signin.components.SignInScreenContent
 import com.mkdev.presentation.viewmodel.SignInViewModel
-import kotlinx.coroutines.delay
 
 @Composable
 internal fun SignInScreen(
@@ -44,19 +42,7 @@ internal fun SignInScreen(
         }
 
         is SignInUiState.Success -> {
-            if (uiState.data == null) {
-                AlertView(
-                    isVisible = true,
-                    text = stringResource(R.string.oops_something_went_wrong),
-                    alertType = AlertType.ERROR,
-                )
-                return
-            }
-
-            LaunchedEffect(Unit) {
-                delay(1000)
-                onNavigateToHome()
-            }
+            onNavigateToHome()
         }
 
         is SignInUiState.Error -> {
