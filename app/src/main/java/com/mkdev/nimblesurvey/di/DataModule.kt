@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStoreFile
+import com.google.gson.Gson
 import com.mkdev.data.datasource.local.UserLocal
 import com.mkdev.data.datasource.local.crypto.Crypto
 import com.mkdev.data.datasource.local.crypto.CryptoImpl
@@ -13,6 +14,7 @@ import com.mkdev.data.datasource.local.dataStore.UserLocalSource
 import com.mkdev.data.datasource.local.dataStore.UserLocalSourceImpl
 import com.mkdev.data.datasource.remote.api.AuthApi
 import com.mkdev.data.datasource.remote.interceptor.AuthInterceptor
+import com.mkdev.data.utils.ApiErrorHandler
 import com.mkdev.nimblesurvey.BuildConfig
 import com.mkdev.nimblesurvey.utils.ApiConfigs
 import com.mkdev.nimblesurvey.utils.DataConfigs
@@ -51,6 +53,16 @@ abstract class DataModule {
     ): UserLocalSource
 
     internal companion object {
+
+        @Provides
+        @Singleton
+        fun provideApiErrorHandler(gson: Gson): ApiErrorHandler {
+            return ApiErrorHandler(gson)
+        }
+
+        @Provides
+        @Singleton
+        fun provideGson(): Gson = Gson()
 
         @Provides
         @Singleton

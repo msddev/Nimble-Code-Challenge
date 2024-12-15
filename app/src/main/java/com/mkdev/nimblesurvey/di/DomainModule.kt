@@ -2,6 +2,7 @@ package com.mkdev.nimblesurvey.di
 
 import com.mkdev.data.datasource.remote.api.AuthApi
 import com.mkdev.data.repository.AuthRepositoryImpl
+import com.mkdev.data.utils.ApiErrorHandler
 import com.mkdev.domain.repository.AuthRepository
 import com.mkdev.domain.usecase.SignInUseCase
 import dagger.Module
@@ -21,6 +22,6 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(authApi: AuthApi): AuthRepository =
-        AuthRepositoryImpl(authApi = authApi)
+    fun provideAuthRepository(authApi: AuthApi, apiErrorHandler: ApiErrorHandler): AuthRepository =
+        AuthRepositoryImpl(authApi = authApi, apiErrorHandler = apiErrorHandler)
 }

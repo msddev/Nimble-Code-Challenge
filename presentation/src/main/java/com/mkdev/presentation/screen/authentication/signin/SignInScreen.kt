@@ -62,7 +62,7 @@ internal fun SignInScreen(
         is SignInUiState.Error -> {
             AlertView(
                 isVisible = true,
-                text = stringResource(R.string.oops_something_went_wrong),
+                text = uiState.message ?: stringResource(R.string.oops_something_went_wrong),
                 alertType = AlertType.ERROR,
             )
         }

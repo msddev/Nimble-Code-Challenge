@@ -14,7 +14,7 @@ import retrofit2.http.POST
 interface AuthApi {
     @Headers("${ApiConfigs.CUSTOM_HEADER}: ${ApiConfigs.NO_AUTH}")
     @POST("oauth/token")
-    suspend fun signIn(@Body request: SignInRequest): BaseApiResponse<SignInResponse>
+    suspend fun signIn(@Body request: SignInRequest): Response<BaseApiResponse<SignInResponse>>
 
     @Headers("${ApiConfigs.CUSTOM_HEADER}: ${ApiConfigs.NO_AUTH}")
     @POST("oauth/token")
