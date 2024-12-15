@@ -2,23 +2,35 @@ package com.mkdev.presentation.common.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.mkdev.presentation.R
 import com.mkdev.presentation.theme.CommonColors
+import com.mkdev.presentation.theme.Dimens
+import kotlinx.coroutines.delay
 
 enum class AlertType {
     SUCCESS, ERROR
@@ -49,31 +61,66 @@ private object AlertDefaults {
 }
 
 @Composable
-fun AlertView(
+internal fun AlertView(
+    modifier: Modifier = Modifier,
+    isVisible: Boolean,
     text: String,
-    type: AlertType,
-    modifier: Modifier = Modifier
+    alertType: AlertType,
+) {
+    var alertVisibility by remember { mutableStateOf<Boolean>(isVisible) }
+
+    if (alertVisibility) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .padding(Dimens.PaddingStandard),
+        ) {
+            AlertContent(
+                modifier = modifier,
+                text = text,
+                alertType = alertType
+            )
+        }
+    }
+
+    LaunchedEffect(isVisible) {
+        delay(5000)
+        alertVisibility = false
+    }
+}
+
+@Composable
+private fun BoxScope.AlertContent(
+    modifier: Modifier = Modifier,
+    text: String,
+    alertType: AlertType,
 ) {
     Box(
         modifier = modifier
+            .wrapContentSize()
             .clip(AlertDefaults.shape)
-            .background(AlertDefaults.containerColor(alertType = type))
+            .background(AlertDefaults.containerColor(alertType = alertType))
+            .align(Alignment.TopCenter),
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            modifier = Modifier.padding(
+                horizontal = Dimens.PaddingMedium,
+                vertical = Dimens.PaddingSmall
+            ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                modifier = Modifier.size(18.dp),
-                painter = painterResource(id = AlertDefaults.iconResId(type)),
+                modifier = Modifier.size(Dimens.IconSizeMedium),
+                painter = painterResource(id = AlertDefaults.iconResId(alertType)),
                 contentDescription = null,
-                tint = AlertDefaults.contentColor(type)
+                tint = AlertDefaults.contentColor(alertType)
             )
             Spacer(modifier = Modifier.width(6.dp))
             Text(
                 text = text,
-                style = MaterialTheme.typography.labelSmall,
-                color = AlertDefaults.contentColor(type)
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.White,
             )
         }
     }

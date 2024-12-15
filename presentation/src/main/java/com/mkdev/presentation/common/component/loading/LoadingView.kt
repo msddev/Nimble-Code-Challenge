@@ -1,9 +1,9 @@
 package com.mkdev.presentation.common.component.loading
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
@@ -15,11 +15,11 @@ import com.mkdev.presentation.theme.Dimens
 
 @Composable
 fun LoadingView(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
 ) {
     Column(
         modifier = modifier
-            .fillMaxSize()
+            .clickable(enabled = false, onClick = {})
             .background(color = Color.Black.copy(alpha = 0.5f)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -27,7 +27,8 @@ fun LoadingView(
         CircularProgressIndicator(
             modifier = Modifier
                 .size(Dimens.IconSizeXLarge)
-                .padding(top = Dimens.PaddingStandard)
+                .padding(top = Dimens.PaddingStandard),
+            color = Color.White,
         )
     }
 }
