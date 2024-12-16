@@ -16,7 +16,7 @@ internal fun ThankYouScreen(
     ThankYouScreenContent(
         modifier = Modifier
             .fillMaxSize()
-            .background(CommonColors.ThankYouBackColor)
+            .background(CommonColors.ScreenBackColor)
     )
 
     LaunchedEffect(key1 = Unit) {

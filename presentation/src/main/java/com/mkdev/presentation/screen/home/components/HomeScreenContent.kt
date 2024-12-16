@@ -1,6 +1,7 @@
 package com.mkdev.presentation.screen.home.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,11 +29,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.mkdev.domain.entity.survey.SurveyModel
 import com.mkdev.presentation.R
 import com.mkdev.presentation.common.utils.pagerFadeTransition
+import com.mkdev.presentation.theme.CommonColors
 import com.mkdev.presentation.theme.Dimens
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -49,79 +53,88 @@ internal fun HomeScreenContent(
     })
 
     Box {
-        HorizontalPager(
-            modifier = modifier,
-            state = pagerState
-        ) { page ->
-            surveysPaging[page]?.let { survey ->
-                SurveyItemView(
-                    modifier = Modifier
-                        .pagerFadeTransition(page = page, pagerState = pagerState)
-                        .fillMaxSize(),
-                    survey = survey,
-                    page = page,
-                    pagerState = pagerState,
-                    onSurveyClick = onSurveyClick,
-                )
-            }
-        }
-
-        Column(
-            modifier = modifier
-                .statusBarsPadding()
-                .padding(Dimens.PaddingStandard)
+        if (
+            surveysPaging.itemCount == 0 &&
+            surveysPaging.loadState.refresh is LoadState.Loading
         ) {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = Dimens.PaddingLarge),
-                shape = RoundedCornerShape(Dimens.CornerRadius2XLarge),
-                elevation = CardDefaults.cardElevation(Dimens.Elevation0dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White.copy(alpha = 0.2f), // Card background color
-                    contentColor = Color.White  // Card content color,e.g.text
-                ),
+            ShimmerLoadingView(
+                modifier = modifier.background(CommonColors.ScreenBackColor)
+            )
+        } else {
+            HorizontalPager(
+                modifier = modifier,
+                state = pagerState
+            ) { page ->
+                surveysPaging[page]?.let { survey ->
+                    SurveyItemView(
+                        modifier = Modifier
+                            .pagerFadeTransition(page = page, pagerState = pagerState)
+                            .fillMaxSize(),
+                        survey = survey,
+                        page = page,
+                        pagerState = pagerState,
+                        onSurveyClick = onSurveyClick,
+                    )
+                }
+            }
+
+            Column(
+                modifier = modifier
+                    .statusBarsPadding()
+                    .padding(Dimens.PaddingStandard)
             ) {
-                Row(
+                Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(
-                            horizontal = Dimens.PaddingStandard,
-                            vertical = Dimens.HomeProfileContainerPadding
-                        ),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
+                        .padding(top = Dimens.PaddingLarge),
+                    shape = RoundedCornerShape(Dimens.CornerRadius2XLarge),
+                    elevation = CardDefaults.cardElevation(Dimens.Elevation0dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White.copy(alpha = 0.2f), // Card background color
+                        contentColor = Color.White  // Card content color,e.g.text
+                    ),
                 ) {
-                    Column(
+                    Row(
                         modifier = Modifier
-                            .wrapContentHeight()
-                            .weight(1f)
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = Dimens.PaddingStandard,
+                                vertical = Dimens.HomeProfileContainerPadding
+                            ),
+                        horizontalArrangement = Arrangement.Start,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = getCurrentDateInLocaleFormat(),
-                            modifier = Modifier.fillMaxWidth(),
-                            color = Color.White,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
+                        Column(
+                            modifier = Modifier
+                                .wrapContentHeight()
+                                .weight(1f)
+                        ) {
+                            Text(
+                                text = getCurrentDateInLocaleFormat(),
+                                modifier = Modifier.fillMaxWidth(),
+                                color = Color.White,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
 
-                        Spacer(modifier = Modifier.height(Dimens.Padding2xSmall))
+                            Spacer(modifier = Modifier.height(Dimens.Padding2xSmall))
 
-                        Text(
-                            text = "Today",
-                            modifier = Modifier.fillMaxWidth(),
-                            color = Color.White,
-                            style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold)
+                            Text(
+                                text = stringResource(R.string.today),
+                                modifier = Modifier.fillMaxWidth(),
+                                color = Color.White,
+                                style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold)
+                            )
+                        }
+
+                        Image(
+                            modifier = Modifier
+                                .size(Dimens.IconSize2XLarge)
+                                .clip(CircleShape),
+                            painter = painterResource(id = R.drawable.img_user_avatar),
+                            contentScale = ContentScale.Crop,
+                            contentDescription = null,
                         )
                     }
-
-                    Image(
-                        modifier = Modifier
-                            .size(Dimens.IconSize2XLarge)
-                            .clip(CircleShape),
-                        painter = painterResource(id = R.drawable.img_user_avatar),
-                        contentScale = ContentScale.Crop,
-                        contentDescription = null,
-                    )
                 }
             }
         }

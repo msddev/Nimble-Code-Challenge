@@ -17,8 +17,7 @@ internal fun HomeScreen(
     val surveysPaging = homeViewModel.surveysPaging.collectAsLazyPagingItems()
 
     HomeScreenContent(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         surveysPaging = surveysPaging,
         onSurveyClick = onNavigateToThankYou
     )

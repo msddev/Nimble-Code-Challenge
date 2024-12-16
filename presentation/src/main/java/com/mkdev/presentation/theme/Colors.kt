@@ -32,7 +32,7 @@ object CommonColors {
     val Green: Color = Color(0xFF4AAF57)
     val LightGreen: Color = Color(0xFF8BC255)
     val Lime: Color = Color(0xFFCDDC4C)
-    val ThankYouBackColor: Color = Color(0xFF15151A)
+    val ScreenBackColor: Color = Color(0xFF15151A)
 
     // Alert & Status
     val Success: Color = Color(0xFF4ADE80)
