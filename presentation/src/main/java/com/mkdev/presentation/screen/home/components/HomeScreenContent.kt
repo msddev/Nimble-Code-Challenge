@@ -34,6 +34,9 @@ import com.mkdev.domain.entity.survey.SurveyModel
 import com.mkdev.presentation.R
 import com.mkdev.presentation.common.utils.pagerFadeTransition
 import com.mkdev.presentation.theme.Dimens
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 internal fun HomeScreenContent(
@@ -95,7 +98,7 @@ internal fun HomeScreenContent(
                             .weight(1f)
                     ) {
                         Text(
-                            text = "MONDAY, JUNE 15",
+                            text = getCurrentDateInLocaleFormat(),
                             modifier = Modifier.fillMaxWidth(),
                             color = Color.White,
                             style = MaterialTheme.typography.bodyMedium
@@ -123,4 +126,10 @@ internal fun HomeScreenContent(
             }
         }
     }
+}
+
+private fun getCurrentDateInLocaleFormat(): String {
+    val currentDate = Date()
+    val formatter = SimpleDateFormat("EEEE, MMMM dd", Locale.getDefault())
+    return formatter.format(currentDate).uppercase(Locale.getDefault())
 }
