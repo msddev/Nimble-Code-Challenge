@@ -1,6 +1,6 @@
-package com.mkdev.presentation.model.local
+package com.mkdev.domain.entity.survey
 
-internal data class SurveyModel(
+data class SurveyEntity(
     val id: String,
     val title: String,
     val description: String,
