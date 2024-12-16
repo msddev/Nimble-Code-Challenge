@@ -1,10 +1,13 @@
 package com.mkdev.nimblesurvey.di
 
-import com.mkdev.data.datasource.local.dataStore.UserLocalSource
+import com.mkdev.data.datasource.local.database.room.dao.SurveyDao
+import com.mkdev.data.datasource.local.database.room.dao.SurveyRemoteKeyDao
+import com.mkdev.data.datasource.local.datastore.UserLocalSource
 import com.mkdev.data.datasource.local.mapper.SignInMapper
+import com.mkdev.data.datasource.local.mapper.SurveyEntityMapper
 import com.mkdev.data.datasource.remote.api.AuthApi
 import com.mkdev.data.datasource.remote.api.SurveyApi
-import com.mkdev.data.datasource.remote.mapper.SurveyMapper
+import com.mkdev.data.datasource.remote.mapper.SurveyDomainMapper
 import com.mkdev.data.repository.AuthRepositoryImpl
 import com.mkdev.data.repository.SurveyRepositoryImpl
 import com.mkdev.data.utils.ApiErrorHandler
@@ -57,10 +60,16 @@ class DomainModule {
     @Singleton
     fun provideSurveyRepository(
         surveyApi: SurveyApi,
-        surveyMapper: SurveyMapper,
+        surveyDao: SurveyDao,
+        surveyRemoteKeyDao: SurveyRemoteKeyDao,
+        surveyDomainMapper: SurveyDomainMapper,
+        surveyEntityMapper: SurveyEntityMapper,
     ): SurveyRepository =
         SurveyRepositoryImpl(
             surveyApi = surveyApi,
-            surveyMapper = surveyMapper,
+            surveyDao = surveyDao,
+            surveyRemoteKeyDao = surveyRemoteKeyDao,
+            surveyDomainMapper = surveyDomainMapper,
+            surveyEntityMapper = surveyEntityMapper,
         )
 }
