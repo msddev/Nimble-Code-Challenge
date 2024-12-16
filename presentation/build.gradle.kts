@@ -69,6 +69,9 @@ dependencies {
     // Glide
     implementation(libs.glide.compose)
 
+    // Paging compose
+    implementation(libs.paging.compose)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
