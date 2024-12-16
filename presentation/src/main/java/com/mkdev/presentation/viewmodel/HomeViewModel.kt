@@ -2,26 +2,19 @@ package com.mkdev.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.mkdev.domain.entity.survey.SurveyModel
 import com.mkdev.domain.usecase.GetSurveysUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
 internal class HomeViewModel @Inject constructor(
-    private val getSurveysUseCase: GetSurveysUseCase,
+    getSurveysUseCase: GetSurveysUseCase,
 ) : ViewModel() {
 
-    /*val surveys: Flow<PagingData<SurveyModel>> = getSurveysUseCase()
-        .cachedIn(viewModelScope)*/
-
-    fun getSurveys() {
-        viewModelScope.launch {
-            getSurveysUseCase().onEach { result ->
-
-            }.launchIn(this)
-        }
-    }
+    val surveysPaging: Flow<PagingData<SurveyModel>> =
+        getSurveysUseCase().cachedIn(viewModelScope)
 }

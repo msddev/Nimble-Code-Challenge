@@ -29,32 +29,34 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.paging.compose.LazyPagingItems
+import com.mkdev.domain.entity.survey.SurveyModel
 import com.mkdev.presentation.R
 import com.mkdev.presentation.common.utils.pagerFadeTransition
-import com.mkdev.presentation.model.mock.fakeSurveyData
 import com.mkdev.presentation.theme.Dimens
 
 @Composable
 internal fun HomeScreenContent(
     modifier: Modifier,
+    surveysPaging: LazyPagingItems<SurveyModel>,
 ) {
-    val pagerState = rememberPagerState(pageCount = { fakeSurveyData.size })
+    val pagerState = rememberPagerState(pageCount = { surveysPaging.itemCount })
 
     Box {
         HorizontalPager(
             modifier = modifier,
             state = pagerState
         ) { page ->
-            val survey = fakeSurveyData[page]
-
-            SurveyItemView(
-                modifier = Modifier
-                    .pagerFadeTransition(page = page, pagerState = pagerState)
-                    .fillMaxSize(),
-                survey = survey,
-                page = page,
-                pagerState = pagerState,
-            )
+            surveysPaging[page]?.let { survey ->
+                SurveyItemView(
+                    modifier = Modifier
+                        .pagerFadeTransition(page = page, pagerState = pagerState)
+                        .fillMaxSize(),
+                    survey = survey,
+                    page = page,
+                    pagerState = pagerState,
+                )
+            }
         }
 
         Column(

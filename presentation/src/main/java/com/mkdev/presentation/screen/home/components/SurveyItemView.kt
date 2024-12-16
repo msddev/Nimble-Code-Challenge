@@ -25,9 +25,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.mkdev.domain.entity.survey.SurveyModel
+import com.mkdev.presentation.R
 import com.mkdev.presentation.common.component.GlideImageLoader
 import com.mkdev.presentation.common.utils.pagerFadeTransition
 import com.mkdev.presentation.theme.Dimens
@@ -125,7 +127,7 @@ internal fun SurveyItemView(
                 }
             ) {
                 Text(
-                    text = "Take This Survey",
+                    text = stringResource(R.string.take_this_survey),
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
                 )
             }

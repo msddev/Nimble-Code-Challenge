@@ -54,7 +54,7 @@ class AuthInterceptor @Inject constructor(
                         val refreshTokenResponse =
                             authApi.get().refreshToken(
                                 RefreshTokenRequest(
-                                    grantType = "password",
+                                    grantType = "refresh_token",
                                     refreshToken = user.refreshToken,
                                     clientId = BuildConfig.CLIENT_ID,
                                     clientSecret = BuildConfig.CLIENT_SECRET
@@ -67,7 +67,10 @@ class AuthInterceptor @Inject constructor(
                                     userLocalSource.update {
                                         (it ?: return@update null)
                                             .toBuilder()
+                                            .setAccessToken(data.accessToken)
                                             .setRefreshToken(data.refreshToken)
+                                            .setCreatedAt(data.createdAt)
+                                            .setExpiresIn(data.expiresIn)
                                             .setTokenType(data.tokenType)
                                             .build()
                                     }
@@ -90,7 +93,12 @@ class AuthInterceptor @Inject constructor(
             }
         }
 
-        return if (newToken !== null) chain.proceedWithToken(request, newToken) else response
+        return if (newToken !== null) {
+            response.close()
+            chain.proceedWithToken(request, newToken)
+        } else {
+            response
+        }
     }
 
     private fun Interceptor.Chain.proceedWithToken(request: Request, token: String?): Response {
