@@ -41,6 +41,7 @@ internal fun SurveyItemView(
     survey: SurveyModel,
     page: Int,
     pagerState: PagerState,
+    onSurveyClick: () -> Unit,
 ) {
     Box {
         GlideImageLoader(
@@ -122,9 +123,7 @@ internal fun SurveyItemView(
                     containerColor = Color.White,
                     contentColor = Color.Black,
                 ),
-                onClick = {
-
-                }
+                onClick = onSurveyClick
             ) {
                 Text(
                     text = stringResource(R.string.take_this_survey),

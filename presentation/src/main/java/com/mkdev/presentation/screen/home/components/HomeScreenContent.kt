@@ -39,6 +39,7 @@ import com.mkdev.presentation.theme.Dimens
 internal fun HomeScreenContent(
     modifier: Modifier,
     surveysPaging: LazyPagingItems<SurveyModel>,
+    onSurveyClick: () -> Unit,
 ) {
     val pagerState = rememberPagerState(pageCount = { surveysPaging.itemCount })
 
@@ -55,6 +56,7 @@ internal fun HomeScreenContent(
                     survey = survey,
                     page = page,
                     pagerState = pagerState,
+                    onSurveyClick = onSurveyClick,
                 )
             }
         }

@@ -20,6 +20,7 @@ internal fun HomeScreen(
         modifier = Modifier
             .fillMaxSize(),
         surveysPaging = surveysPaging,
+        onSurveyClick = onNavigateToThankYou
     )
 
     BackHandler {}
