@@ -41,7 +41,9 @@ internal fun HomeScreenContent(
     surveysPaging: LazyPagingItems<SurveyModel>,
     onSurveyClick: () -> Unit,
 ) {
-    val pagerState = rememberPagerState(pageCount = { surveysPaging.itemCount })
+    val pagerState = rememberPagerState(pageCount = {
+        surveysPaging.itemCount
+    })
 
     Box {
         HorizontalPager(

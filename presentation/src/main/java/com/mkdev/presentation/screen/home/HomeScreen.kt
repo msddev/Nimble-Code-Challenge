@@ -24,6 +24,4 @@ internal fun HomeScreen(
     )
 
     BackHandler {}
-
-
 }
