@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_package = "com.mkdev.data.datasource.local";
+option java_multiple_files = true;
+
+message UserLocal {
+  string access_token = 1;
+  string created_at = 2;
+  string expires_in = 3;
+  string refresh_token = 4;
+  string token_type = 5;
+}

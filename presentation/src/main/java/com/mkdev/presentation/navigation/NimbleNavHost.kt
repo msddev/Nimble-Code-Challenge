@@ -23,7 +23,10 @@ fun NimbleNavHost(
         navController = navController,
         startDestination = startDestination,
     ) {
-        splashRoute(onNavigateToSignIn = navController::navigateToSignInRoute)
+        splashRoute(
+            onNavigateToSignIn = navController::navigateToSignInRoute,
+            onNavigateToHome = navController::navigateToHomeRoute,
+        )
         signInRoute(onNavigateToHome = navController::navigateToHomeRoute)
         homeRoute(
             onNavigateToThankYou = navController::navigateToThankYouRoute,

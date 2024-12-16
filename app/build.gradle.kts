@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -56,6 +57,10 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
 
+    implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.compose.runtime.livedata)
+
     // Dagger Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
@@ -63,6 +68,23 @@ dependencies {
     // Compose Navigation
     implementation(libs.navigation.compose)
     implementation(libs.hilt.navigation.compose)
+
+    // Kotlin Coroutine
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
+
+    // Networking
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.retrofit2.adapter.rxjava2)
+    implementation(libs.okhttp3)
+    implementation(libs.okhttp3.logging.interceptor)
+    implementation(libs.kotlinx.serialization.json)
+
+    // DataStore, ProtoBuf
+    implementation(libs.datastore)
+    implementation(libs.protobuf.javalite)
+    implementation(libs.tink.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

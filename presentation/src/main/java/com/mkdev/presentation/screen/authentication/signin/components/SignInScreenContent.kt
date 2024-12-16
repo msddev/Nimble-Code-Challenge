@@ -44,11 +44,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.mkdev.presentation.R
+import com.mkdev.presentation.common.utils.isValidEmail
 import com.mkdev.presentation.model.local.TextFieldErrorModel
 import com.mkdev.presentation.theme.CommonColors
 import com.mkdev.presentation.theme.Dimens
-import com.mkdev.presentation.common.utils.isValidEmail
-import com.mkdev.presentation.common.utils.isValidPassword
 
 @Composable
 internal fun SignInScreenContent(
@@ -56,11 +55,14 @@ internal fun SignInScreenContent(
     onForgotPasswordClick: () -> Unit = {},
     onLoginClick: (email: String, password: String) -> Unit,
 ) {
-    val emailState = remember { mutableStateOf("") }
-    val passwordState = remember { mutableStateOf("") }
+    val emailState = remember { mutableStateOf("msd.khoshkam@gmail.com") }
+    val passwordState = remember { mutableStateOf("12345678") }
 
     val emailError = remember { mutableStateOf(TextFieldErrorModel()) }
     val passwordError = remember { mutableStateOf(TextFieldErrorModel()) }
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+    keyboardController?.hide()
 
     Box(modifier = modifier) {
         Image(
@@ -146,6 +148,8 @@ internal fun SignInScreenContent(
                 )
             },
             onKeyboardDoneActionInvoked = {
+                keyboardController?.hide()
+
                 validateAndLogin(
                     email = emailState.value,
                     password = passwordState.value,
@@ -175,6 +179,8 @@ internal fun SignInScreenContent(
                 contentColor = Color.Black,
             ),
             onClick = {
+                keyboardController?.hide()
+
                 validateAndLogin(
                     email = emailState.value,
                     password = passwordState.value,
@@ -277,7 +283,7 @@ private fun validateAndLogin(
     onLoginClick: (String, String) -> Unit,
 ) {
     val isEmailValid = email.isNotBlank() && email.isValidEmail()
-    val isPasswordValid = password.isNotBlank() && password.isValidPassword()
+    val isPasswordValid = password.isNotBlank()
 
     onError(
         TextFieldErrorModel(

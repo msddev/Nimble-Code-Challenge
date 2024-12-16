@@ -62,6 +62,10 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
 
+    // Paging Compose
+    implementation(libs.paging.compose)
+    implementation(libs.paging.common.ktx)
+
     // Glide
     implementation(libs.glide.compose)
 
