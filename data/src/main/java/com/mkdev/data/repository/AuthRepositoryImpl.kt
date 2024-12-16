@@ -1,7 +1,7 @@
 package com.mkdev.data.repository
 
 import com.mkdev.data.BuildConfig
-import com.mkdev.data.datasource.local.dataStore.UserLocalSource
+import com.mkdev.data.datasource.local.datastore.UserLocalSource
 import com.mkdev.data.datasource.local.mapper.SignInMapper
 import com.mkdev.data.datasource.remote.api.AuthApi
 import com.mkdev.data.datasource.remote.model.request.singIn.SignInRequest

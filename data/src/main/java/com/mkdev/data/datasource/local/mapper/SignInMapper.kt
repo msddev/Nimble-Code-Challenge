@@ -6,13 +6,13 @@ import javax.inject.Inject
 
 class SignInMapper @Inject constructor() {
     fun mapToUserLocal(signInResponse: SignInResponse?): UserLocal? {
-        return signInResponse?.attributes?.run {
+        return signInResponse?.attributes?.let { attributes ->
             UserLocal.newBuilder()
-                .setAccessToken(accessToken)
-                .setRefreshToken(refreshToken)
-                .setCreatedAt(createdAt)
-                .setExpiresIn(expiresIn)
-                .setTokenType(tokenType)
+                .setAccessToken(attributes.accessToken)
+                .setRefreshToken(attributes.refreshToken)
+                .setCreatedAt(attributes.createdAt)
+                .setExpiresIn(attributes.expiresIn)
+                .setTokenType(attributes.tokenType)
                 .build()
         }
     }

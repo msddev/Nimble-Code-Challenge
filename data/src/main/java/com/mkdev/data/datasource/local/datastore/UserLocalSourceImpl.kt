@@ -1,4 +1,4 @@
-package com.mkdev.data.datasource.local.dataStore
+package com.mkdev.data.datasource.local.datastore
 
 import android.util.Log
 import androidx.datastore.core.DataStore

@@ -1,6 +1,6 @@
 package com.mkdev.presentation.model.mock
 
-import com.mkdev.presentation.model.local.SurveyModel
+import com.mkdev.domain.entity.survey.SurveyModel
 
 internal val fakeSurveyData = listOf(
     SurveyModel(

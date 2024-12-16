@@ -1,4 +1,4 @@
-package com.mkdev.data.datasource.local.dataStore
+package com.mkdev.data.datasource.local.datastore
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer

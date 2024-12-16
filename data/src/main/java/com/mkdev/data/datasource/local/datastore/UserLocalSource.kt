@@ -1,4 +1,4 @@
-package com.mkdev.data.datasource.local.dataStore
+package com.mkdev.data.datasource.local.datastore
 
 import com.mkdev.data.datasource.local.UserLocal
 import kotlinx.coroutines.flow.Flow

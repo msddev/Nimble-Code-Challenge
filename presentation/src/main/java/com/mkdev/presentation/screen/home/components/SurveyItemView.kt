@@ -27,9 +27,9 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.mkdev.domain.entity.survey.SurveyModel
 import com.mkdev.presentation.common.component.GlideImageLoader
 import com.mkdev.presentation.common.utils.pagerFadeTransition
-import com.mkdev.presentation.model.local.SurveyModel
 import com.mkdev.presentation.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
