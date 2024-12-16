@@ -13,6 +13,7 @@ import com.mkdev.data.datasource.local.dataStore.UserLocalSerializer
 import com.mkdev.data.datasource.local.dataStore.UserLocalSource
 import com.mkdev.data.datasource.local.dataStore.UserLocalSourceImpl
 import com.mkdev.data.datasource.remote.api.AuthApi
+import com.mkdev.data.datasource.remote.api.SurveyApi
 import com.mkdev.data.datasource.remote.interceptor.AuthInterceptor
 import com.mkdev.data.utils.ApiErrorHandler
 import com.mkdev.nimblesurvey.BuildConfig
@@ -124,5 +125,11 @@ abstract class DataModule {
         fun provideAuthApiService(
             retrofit: Retrofit,
         ): AuthApi = retrofit.create(AuthApi::class.java)
+
+        @Singleton
+        @Provides
+        fun provideSurveyApiService(
+            retrofit: Retrofit,
+        ): SurveyApi = retrofit.create(SurveyApi::class.java)
     }
 }
