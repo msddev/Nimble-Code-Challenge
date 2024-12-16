@@ -9,7 +9,9 @@ import com.mkdev.data.utils.ApiErrorHandler
 import com.mkdev.domain.repository.AuthRepository
 import com.mkdev.domain.utils.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 
 class AuthRepositoryImpl(
@@ -48,5 +50,16 @@ class AuthRepositoryImpl(
             val apiException = apiErrorHandler.handleError(throwable)
             emit(Resource.Error(apiException.message))
         }
+    }
+
+    override fun signOut(): Flow<Resource<Unit>> = flow {
+        userLocalSource.update { null }
+        emit(Resource.Success(Unit))
+    }
+
+    override fun isUserSignedIn(): Flow<Boolean> {
+        return userLocalSource.user().map { userLocal ->
+            userLocal != null
+        }.distinctUntilChanged()
     }
 }

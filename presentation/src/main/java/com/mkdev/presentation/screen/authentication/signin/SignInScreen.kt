@@ -20,7 +20,7 @@ internal fun SignInScreen(
     signInViewModel: SignInViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
 ) {
-    val uiState = signInViewModel.state.collectAsStateWithLifecycle().value
+    val uiState = signInViewModel.signInState.collectAsStateWithLifecycle().value
 
     SignInScreenContent(
         modifier = Modifier

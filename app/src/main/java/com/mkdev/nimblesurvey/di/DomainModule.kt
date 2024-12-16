@@ -5,6 +5,7 @@ import com.mkdev.data.datasource.remote.api.AuthApi
 import com.mkdev.data.repository.AuthRepositoryImpl
 import com.mkdev.data.utils.ApiErrorHandler
 import com.mkdev.domain.repository.AuthRepository
+import com.mkdev.domain.usecase.IsUserSignedInUseCase
 import com.mkdev.domain.usecase.SignInUseCase
 import dagger.Module
 import dagger.Provides
@@ -20,6 +21,11 @@ class DomainModule {
     @Singleton
     fun provideSignInUseCase(repository: AuthRepository): SignInUseCase =
         SignInUseCase(authRepository = repository)
+
+    @Provides
+    @Singleton
+    fun provideIsUserSignInUseCase(repository: AuthRepository): IsUserSignedInUseCase =
+        IsUserSignedInUseCase(authRepository = repository)
 
     @Provides
     @Singleton

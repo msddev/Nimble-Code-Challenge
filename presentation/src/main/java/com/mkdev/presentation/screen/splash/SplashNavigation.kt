@@ -9,10 +9,14 @@ object SplashNavigation {
 
 fun NavGraphBuilder.splashRoute(
     onNavigateToSignIn: () -> Unit,
+    onNavigateToHome: () -> Unit,
 ) {
     composable(
         route = SplashNavigation.ROUTE,
     ) {
-        SplashScreen(onNavigateToSignIn = onNavigateToSignIn)
+        SplashScreen(
+            onNavigateToSignIn = onNavigateToSignIn,
+            onNavigateToHome = onNavigateToHome,
+        )
     }
 }
