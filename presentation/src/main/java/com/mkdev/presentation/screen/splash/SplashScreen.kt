@@ -1,6 +1,5 @@
 package com.mkdev.presentation.screen.splash
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
