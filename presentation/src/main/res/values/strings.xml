@@ -9,6 +9,7 @@
     <string name="password_empty_error">Password is not valid.</string>
     <string name="thanks_for_taking_the_survey">Thanks for taking the survey.</string>
     <string name="oops_something_went_wrong">Oops! something went wrong</string>
+    <string name="we_have_email_new_password">We’ve email you instructions to reset your password.</string>
     <string name="take_this_survey">Take This Survey</string>
     <string name="today">Today</string>
     <string name="retry">Retry</string>

@@ -10,9 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.mkdev.presentation.navigation.NimbleNavHost
-import com.mkdev.presentation.screen.authentication.forgotPassword.ForgotPasswordNavigation
-import com.mkdev.presentation.screen.home.HomeNavigation
-import com.mkdev.presentation.screen.splash.SplashNavigation
+import com.mkdev.presentation.screen.authentication.resetPassword.ResetPasswordNavigation
 import com.mkdev.presentation.theme.NimbleSurveyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,7 +29,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     NimbleNavHost(
                         navController = navController,
-                        startDestination = ForgotPasswordNavigation.ROUTE
+                        startDestination = ResetPasswordNavigation.ROUTE
                     )
                 }
             }

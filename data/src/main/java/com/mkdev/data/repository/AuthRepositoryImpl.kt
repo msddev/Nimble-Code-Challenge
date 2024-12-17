@@ -4,6 +4,8 @@ import com.mkdev.data.BuildConfig
 import com.mkdev.data.datasource.local.datastore.UserLocalSource
 import com.mkdev.data.datasource.local.mapper.SignInMapper
 import com.mkdev.data.datasource.remote.api.AuthApi
+import com.mkdev.data.datasource.remote.model.request.resetPassword.ResetPasswordRequest
+import com.mkdev.data.datasource.remote.model.request.resetPassword.UserRequest
 import com.mkdev.data.datasource.remote.model.request.singIn.SignInRequest
 import com.mkdev.data.utils.ApiErrorHandler
 import com.mkdev.domain.repository.AuthRepository
@@ -31,7 +33,7 @@ class AuthRepositoryImpl(
 
         runCatching {
             authApi.signIn(
-                SignInRequest(
+                requestBody = SignInRequest(
                     grantType = grantType,
                     email = email,
                     password = password,
@@ -62,5 +64,29 @@ class AuthRepositoryImpl(
         return userLocalSource.user().map { userLocal ->
             userLocal != null
         }.distinctUntilChanged()
+    }
+
+    override fun resetPassword(email: String): Flow<Resource<String>> = flow {
+        emit(Resource.Loading())
+
+        runCatching {
+            authApi.resetPassword(
+                requestBody = ResetPasswordRequest(
+                    user = UserRequest(email = email),
+                    clientId = BuildConfig.CLIENT_ID,
+                    clientSecret = BuildConfig.CLIENT_SECRET
+                )
+            )
+        }.onSuccess { result ->
+            if (result.isSuccessful) {
+                emit(Resource.Success(result.body()?.meta?.message))
+            } else {
+                val apiException = apiErrorHandler.handleError(HttpException(result))
+                emit(Resource.Error(apiException.message))
+            }
+        }.onFailure { throwable ->
+            val apiException = apiErrorHandler.handleError(throwable)
+            emit(Resource.Error(apiException.message))
+        }
     }
 }

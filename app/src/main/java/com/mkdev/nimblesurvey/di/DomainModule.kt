@@ -15,6 +15,7 @@ import com.mkdev.domain.repository.AuthRepository
 import com.mkdev.domain.repository.SurveyRepository
 import com.mkdev.domain.usecase.GetSurveysUseCase
 import com.mkdev.domain.usecase.IsUserSignedInUseCase
+import com.mkdev.domain.usecase.ResetPasswordUseCase
 import com.mkdev.domain.usecase.SignInUseCase
 import dagger.Module
 import dagger.Provides
@@ -40,6 +41,11 @@ class DomainModule {
     @Singleton
     fun provideGetSurveysUseCase(repository: SurveyRepository): GetSurveysUseCase =
         GetSurveysUseCase(surveyRepository = repository)
+
+    @Provides
+    @Singleton
+    fun provideResetPasswordUseCase(repository: AuthRepository): ResetPasswordUseCase =
+        ResetPasswordUseCase(authRepository = repository)
 
     @Provides
     @Singleton

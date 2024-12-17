@@ -49,8 +49,8 @@ private object AlertDefaults {
 
     @Composable
     fun containerColor(alertType: AlertType) = when (alertType) {
-        AlertType.SUCCESS -> CommonColors.Success.copy(alpha = 0.2f)
-        AlertType.ERROR -> CommonColors.Error.copy(alpha = 0.2f)
+        AlertType.SUCCESS -> CommonColors.Success.copy(alpha = 0.5f)
+        AlertType.ERROR -> CommonColors.Error.copy(alpha = 0.5f)
     }
 
     fun iconResId(alertType: AlertType) = when (alertType) {
@@ -66,6 +66,7 @@ internal fun AlertView(
     isVisible: Boolean,
     text: String,
     alertType: AlertType,
+    lengthTime: Long = 5000,
 ) {
     var alertVisibility by remember { mutableStateOf<Boolean>(isVisible) }
 
@@ -74,7 +75,7 @@ internal fun AlertView(
             modifier = Modifier
                 .fillMaxSize()
                 .statusBarsPadding()
-                .padding(Dimens.PaddingStandard),
+                .padding(vertical = Dimens.PaddingStandard, horizontal = Dimens.PaddingLarge),
         ) {
             AlertContent(
                 modifier = modifier,
@@ -85,7 +86,7 @@ internal fun AlertView(
     }
 
     LaunchedEffect(isVisible) {
-        delay(5000)
+        delay(lengthTime)
         alertVisibility = false
     }
 }
@@ -116,10 +117,10 @@ private fun BoxScope.AlertContent(
                 contentDescription = null,
                 tint = AlertDefaults.contentColor(alertType)
             )
-            Spacer(modifier = Modifier.width(6.dp))
+            Spacer(modifier = Modifier.width(Dimens.PaddingXSmall))
             Text(
                 text = text,
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.labelLarge,
                 color = Color.White,
             )
         }

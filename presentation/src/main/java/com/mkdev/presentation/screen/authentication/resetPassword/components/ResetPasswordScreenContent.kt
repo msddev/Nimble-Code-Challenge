@@ -1,4 +1,4 @@
-package com.mkdev.presentation.screen.authentication.forgotPassword.components
+package com.mkdev.presentation.screen.authentication.resetPassword.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +36,7 @@ import com.mkdev.presentation.model.local.TextFieldErrorModel
 import com.mkdev.presentation.theme.Dimens
 
 @Composable
-internal fun ForgotPasswordScreenContent(
+internal fun ResetPasswordScreenContent(
     modifier: Modifier,
     onResetClick: (email: String) -> Unit = {},
     onBackClick: () -> Unit,
