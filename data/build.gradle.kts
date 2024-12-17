@@ -76,6 +76,8 @@ dependencies {
     // Unit Test
     testImplementation(libs.junit)
     testImplementation(libs.mockito)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.core.testing)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

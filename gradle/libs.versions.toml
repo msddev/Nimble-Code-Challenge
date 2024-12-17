@@ -30,6 +30,8 @@ protobufJavalite = "4.29.1"
 protobuf = "0.9.4"
 tinkAndroid = "1.7.0"
 roomRuntime = "2.6.1"
+robolectric = "4.11.1"
+androidxCoreTesting = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -72,6 +74,8 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRunti
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 room-paging = { module = "androidx.room:room-paging", version.ref = "roomRuntime" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "androidxCoreTesting" }
 
 [plugins]
 app-namespace = { id = "com.mkdev.nimblesurvey" }
