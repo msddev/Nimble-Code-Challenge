@@ -17,6 +17,6 @@ internal class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     @OptIn(FlowPreview::class)
-    val surveysPaging: Flow<PagingData<SurveyModel>> =
+    internal val surveysPaging: Flow<PagingData<SurveyModel>> =
         getSurveysUseCase().cachedIn(viewModelScope)
 }

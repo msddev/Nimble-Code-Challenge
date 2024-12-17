@@ -5,11 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-object HomeNavigation {
+private object HomeNavigation {
     const val ROUTE = "home"
 }
 
-fun NavGraphBuilder.homeRoute(
+internal fun NavGraphBuilder.homeRoute(
     onNavigateToThankYou: () -> Unit,
 ) {
     composable(route = HomeNavigation.ROUTE) {
@@ -19,6 +19,6 @@ fun NavGraphBuilder.homeRoute(
     }
 }
 
-fun NavHostController.navigateToHomeRoute(navOptions: NavOptions? = null) {
+internal fun NavHostController.navigateToHomeRoute(navOptions: NavOptions? = null) {
     navigate(route = HomeNavigation.ROUTE, navOptions = navOptions)
 }

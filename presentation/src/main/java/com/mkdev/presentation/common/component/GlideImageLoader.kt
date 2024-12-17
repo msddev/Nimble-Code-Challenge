@@ -12,7 +12,7 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun GlideImageLoader(
+internal fun GlideImageLoader(
     modifier: Modifier,
     imageUrl: String,
     contentScale: ContentScale,

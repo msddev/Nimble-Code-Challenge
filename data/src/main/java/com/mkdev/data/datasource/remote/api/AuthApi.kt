@@ -5,7 +5,7 @@ import com.mkdev.data.datasource.remote.model.request.resetPassword.ResetPasswor
 import com.mkdev.data.datasource.remote.model.request.singIn.SignInRequest
 import com.mkdev.data.datasource.remote.model.response.singIn.SignInResponse
 import com.mkdev.data.utils.ApiConfigs
-import com.mkdev.data.utils.BaseApiResponse
+import com.mkdev.data.datasource.remote.model.response.base.BaseApiResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers

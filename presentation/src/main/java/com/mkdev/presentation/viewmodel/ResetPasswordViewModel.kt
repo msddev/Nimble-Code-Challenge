@@ -20,9 +20,9 @@ internal class ResetPasswordViewModel @Inject constructor(
 
     private val _resetPasswordState =
         MutableStateFlow<ResetPasswordUiState>(ResetPasswordUiState.Idle)
-    val resetPasswordState = _resetPasswordState.asStateFlow()
+    internal val resetPasswordState = _resetPasswordState.asStateFlow()
 
-    fun resetPassword(
+    internal fun resetPassword(
         email: String,
     ) {
         viewModelScope.launch {

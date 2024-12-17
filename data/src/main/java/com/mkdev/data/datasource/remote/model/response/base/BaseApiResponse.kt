@@ -1,8 +1,6 @@
-package com.mkdev.data.utils
+package com.mkdev.data.datasource.remote.model.response.base
 
 import com.google.gson.annotations.SerializedName
-import com.mkdev.data.datasource.remote.model.response.base.MetaResponse
-
 
 data class BaseApiResponse<T>(
     @SerializedName("data")

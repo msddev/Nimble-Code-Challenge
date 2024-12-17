@@ -5,11 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-object ThankYouNavigation {
+private object ThankYouNavigation {
     const val ROUTE = "thank_you"
 }
 
-fun NavGraphBuilder.thankYouRoute(
+internal fun NavGraphBuilder.thankYouRoute(
     onNavigateUp: () -> Unit,
 ) {
     composable(
@@ -19,6 +19,6 @@ fun NavGraphBuilder.thankYouRoute(
     }
 }
 
-fun NavHostController.navigateToThankYouRoute(navOptions: NavOptions? = null) {
+internal fun NavHostController.navigateToThankYouRoute(navOptions: NavOptions? = null) {
     navigate(route = ThankYouNavigation.ROUTE, navOptions = navOptions)
 }

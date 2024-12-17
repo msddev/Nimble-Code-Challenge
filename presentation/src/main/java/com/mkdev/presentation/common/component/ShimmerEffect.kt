@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun ShimmerEffect(
+internal fun ShimmerEffect(
     modifier: Modifier,
     widthOfShadowBrush: Int = 500,
     angleOfAxisY: Float = 270f,

@@ -23,7 +23,7 @@ import com.mkdev.presentation.common.component.ShimmerEffect
 import com.mkdev.presentation.theme.Dimens
 
 @Composable
-fun ShimmerLoadingView(
+internal fun ShimmerLoadingView(
     modifier: Modifier,
 ) {
     Column(

@@ -21,12 +21,12 @@ internal class SignInViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _signInState = MutableStateFlow<SignInUiState>(SignInUiState.Idle)
-    val signInState = _signInState.asStateFlow()
+    internal val signInState = _signInState.asStateFlow()
 
     private val _userSignInState = MutableStateFlow<Boolean>(false)
-    val userSignInState = _userSignInState.asStateFlow()
+    internal val userSignInState = _userSignInState.asStateFlow()
 
-    fun signIn(
+    internal fun signIn(
         email: String,
         password: String,
     ) {
@@ -53,7 +53,7 @@ internal class SignInViewModel @Inject constructor(
         }
     }
 
-    fun isUserSignIn() {
+    internal fun isUserSignIn() {
         viewModelScope.launch {
             isUserSignedInUseCase().onEach { result ->
                 _userSignInState.value = result
