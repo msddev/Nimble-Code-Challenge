@@ -4,11 +4,13 @@
     <string name="password_text">Password</string>
     <string name="forgot_text">Forgot?</string>
     <string name="log_in_text">Log in</string>
-    <string name="email_empty_error">Email is not valid.</string>
+    <string name="reset_text">Reset</string>
+    <string name="email_empty_error">Email address is not valid.</string>
     <string name="password_empty_error">Password is not valid.</string>
     <string name="thanks_for_taking_the_survey">Thanks for taking the survey.</string>
     <string name="oops_something_went_wrong">Oops! something went wrong</string>
     <string name="take_this_survey">Take This Survey</string>
     <string name="today">Today</string>
     <string name="retry">Retry</string>
+    <string name="enter_your_email">Enter your email to receive instructions for resetting your password.</string>
 </resources>

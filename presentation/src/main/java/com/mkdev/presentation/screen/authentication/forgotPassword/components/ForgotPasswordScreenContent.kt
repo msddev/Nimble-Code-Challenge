@@ -1,7 +1,6 @@
-package com.mkdev.presentation.screen.authentication.signin.components
+package com.mkdev.presentation.screen.authentication.forgotPassword.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,10 +8,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,26 +25,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import com.mkdev.presentation.R
 import com.mkdev.presentation.common.component.BackgroundView
 import com.mkdev.presentation.common.component.ButtonView
 import com.mkdev.presentation.common.component.TextFieldView
+import com.mkdev.presentation.common.component.TopAppBarBackButton
 import com.mkdev.presentation.common.utils.isValidEmail
 import com.mkdev.presentation.model.local.TextFieldErrorModel
 import com.mkdev.presentation.theme.Dimens
 
 @Composable
-internal fun SignInScreenContent(
+internal fun ForgotPasswordScreenContent(
     modifier: Modifier,
-    onForgotPasswordClick: () -> Unit = {},
-    onLoginClick: (email: String, password: String) -> Unit,
+    onResetClick: (email: String) -> Unit = {},
+    onBackClick: () -> Unit,
 ) {
     val emailState = remember { mutableStateOf("msd.khoshkam@gmail.com") }
-    val passwordState = remember { mutableStateOf("12345678") }
 
     val emailError = remember { mutableStateOf(TextFieldErrorModel()) }
-    val passwordError = remember { mutableStateOf(TextFieldErrorModel()) }
 
     val keyboardController = LocalSoftwareKeyboardController.current
     keyboardController?.hide()
@@ -53,24 +51,47 @@ internal fun SignInScreenContent(
     BackgroundView(modifier = modifier)
 
     Column(modifier = modifier) {
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .wrapContentHeight()
+                .statusBarsPadding()
+                .padding(horizontal = Dimens.PaddingSmall)
+        ) {
+            TopAppBarBackButton(onClick = onBackClick)
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Dimens.PaddingStandard)
+                .weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Image(
                 modifier = Modifier
-                    .wrapContentSize()
-                    .align(Alignment.Center),
+                    .wrapContentSize(),
                 painter = painterResource(R.drawable.img_nimble_logo),
                 contentDescription = null,
+            )
+
+            Spacer(modifier = Modifier.height(Dimens.PaddingLarge))
+
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                text = stringResource(R.string.enter_your_email),
+                color = Color.White.copy(alpha = 0.7f),
+                style = MaterialTheme.typography.bodyLarge
             )
         }
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1.5f)
+                .weight(2.2f)
         )
     }
 
@@ -94,103 +115,44 @@ internal fun SignInScreenContent(
 
         Spacer(modifier = Modifier.height(Dimens.PaddingStandard))
 
-        TextFieldView(
-            modifier = Modifier.fillMaxWidth(),
-            textState = passwordState,
-            visualTransformation = PasswordVisualTransformation(mask = '●'),
-            hint = stringResource(R.string.password_text),
-            isError = passwordError.value.isError,
-            errorResId = passwordError.value.errorText,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
-            ),
-            trailingIcon = {
-                Text(
-                    text = stringResource(R.string.forgot_text),
-                    modifier = Modifier
-                        .padding(horizontal = Dimens.PaddingStandard)
-                        .clickable {
-                            onForgotPasswordClick()
-                        },
-                    color = Color.White,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            },
-            onKeyboardDoneActionInvoked = {
-                keyboardController?.hide()
-
-                validateAndLogin(
-                    email = emailState.value,
-                    password = passwordState.value,
-                    onError = { emailModel, passwordModel ->
-                        emailError.value = emailError.value.copy(
-                            isError = emailModel.isError,
-                            errorText = emailModel.errorText,
-                        )
-                        passwordError.value = passwordError.value.copy(
-                            isError = passwordModel.isError,
-                            errorText = passwordModel.errorText,
-                        )
-                    },
-                    onLoginClick = onLoginClick,
-                )
-            }
-        )
-
-        Spacer(modifier = Modifier.height(Dimens.PaddingStandard))
-
-
         ButtonView(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(Dimens.ButtonHeightMedium),
-            text = stringResource(R.string.log_in_text),
+            text = stringResource(R.string.reset_text),
             onClick = {
                 keyboardController?.hide()
 
-                validateAndLogin(
+                validateEmailAndResetPassword(
                     email = emailState.value,
-                    password = passwordState.value,
-                    onError = { emailModel, passwordModel ->
+                    onError = { emailModel ->
                         emailError.value = emailError.value.copy(
                             isError = emailModel.isError,
                             errorText = emailModel.errorText,
                         )
-                        passwordError.value = passwordError.value.copy(
-                            isError = passwordModel.isError,
-                            errorText = passwordModel.errorText,
-                        )
                     },
-                    onLoginClick = onLoginClick,
+                    onResetClick = onResetClick,
                 )
             },
         )
     }
 }
 
-private fun validateAndLogin(
+private fun validateEmailAndResetPassword(
     email: String,
-    password: String,
-    onError: (TextFieldErrorModel, TextFieldErrorModel) -> Unit,
-    onLoginClick: (String, String) -> Unit,
+    onError: (TextFieldErrorModel) -> Unit,
+    onResetClick: (email: String) -> Unit,
 ) {
     val isEmailValid = email.isNotBlank() && email.isValidEmail()
-    val isPasswordValid = password.isNotBlank()
 
     onError(
         TextFieldErrorModel(
             isError = !isEmailValid,
             errorText = if (!isEmailValid) R.string.email_empty_error else null
         ),
-
-        TextFieldErrorModel(
-            isError = !isPasswordValid,
-            errorText = if (!isPasswordValid) R.string.password_empty_error else null
-        ),
     )
 
-    if (isEmailValid && isPasswordValid) {
-        onLoginClick(email, password)
+    if (isEmailValid) {
+        onResetClick(email)
     }
 }

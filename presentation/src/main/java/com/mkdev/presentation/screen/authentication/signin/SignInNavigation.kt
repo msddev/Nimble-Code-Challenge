@@ -11,11 +11,15 @@ object SignInNavigation {
 
 fun NavGraphBuilder.signInRoute(
     onNavigateToHome: () -> Unit,
+    onNavigateToForgotPassword: () -> Unit,
 ) {
     composable(
         route = SignInNavigation.ROUTE,
     ) {
-        SignInScreen(onNavigateToHome = onNavigateToHome)
+        SignInScreen(
+            onNavigateToHome = onNavigateToHome,
+            onNavigateToForgotPassword = onNavigateToForgotPassword
+        )
     }
 }
 
