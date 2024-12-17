@@ -69,7 +69,7 @@ dependencies {
     // Glide
     implementation(libs.glide.compose)
 
-    // Paging compose
+    // Paging Compose
     implementation(libs.paging.compose)
 
     testImplementation(libs.junit)
