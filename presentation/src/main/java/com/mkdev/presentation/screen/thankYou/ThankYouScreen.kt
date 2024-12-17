@@ -1,6 +1,5 @@
 package com.mkdev.presentation.screen.thankYou
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -24,6 +23,4 @@ internal fun ThankYouScreen(
         delay(5000)
         onNavigateUp()
     }
-
-    BackHandler {}
 }
