@@ -14,4 +14,8 @@ interface AuthRepository {
     fun signOut(): Flow<Resource<Unit>>
 
     fun isUserSignedIn(): Flow<Boolean>
+
+    fun resetPassword(
+        email: String,
+    ): Flow<Resource<String>>
 }

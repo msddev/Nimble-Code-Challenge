@@ -32,7 +32,7 @@ internal fun SplashScreenContent(
     var showLogo by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = Unit) {
-        delay(1000)
+        delay(500)
         showLogo = true
         delay(2000)
         showLogo = false

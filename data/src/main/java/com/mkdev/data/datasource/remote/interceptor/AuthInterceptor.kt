@@ -53,7 +53,7 @@ class AuthInterceptor @Inject constructor(
                     else -> {
                         val refreshTokenResponse =
                             authApi.get().refreshToken(
-                                RefreshTokenRequest(
+                                requestBody = RefreshTokenRequest(
                                     grantType = "refresh_token",
                                     refreshToken = user.refreshToken,
                                     clientId = BuildConfig.CLIENT_ID,

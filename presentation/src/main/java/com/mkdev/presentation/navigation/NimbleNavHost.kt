@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.mkdev.presentation.screen.authentication.resetPassword.resetPasswordRoute
+import com.mkdev.presentation.screen.authentication.resetPassword.navigateToResetPasswordRoute
 import com.mkdev.presentation.screen.authentication.signin.navigateToSignInRoute
 import com.mkdev.presentation.screen.authentication.signin.signInRoute
 import com.mkdev.presentation.screen.home.homeRoute
@@ -27,7 +29,11 @@ fun NimbleNavHost(
             onNavigateToSignIn = navController::navigateToSignInRoute,
             onNavigateToHome = navController::navigateToHomeRoute,
         )
-        signInRoute(onNavigateToHome = navController::navigateToHomeRoute)
+        signInRoute(
+            onNavigateToHome = navController::navigateToHomeRoute,
+            onNavigateToForgotPassword = navController::navigateToResetPasswordRoute,
+        )
+        resetPasswordRoute(onNavigateUp = navController::navigateUp)
         homeRoute(
             onNavigateToThankYou = navController::navigateToThankYouRoute,
         )

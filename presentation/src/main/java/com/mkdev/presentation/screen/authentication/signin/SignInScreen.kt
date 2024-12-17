@@ -19,6 +19,7 @@ import com.mkdev.presentation.viewmodel.SignInViewModel
 internal fun SignInScreen(
     signInViewModel: SignInViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
+    onNavigateToForgotPassword: () -> Unit,
 ) {
     val uiState = signInViewModel.signInState.collectAsStateWithLifecycle().value
 
@@ -26,7 +27,7 @@ internal fun SignInScreen(
         modifier = Modifier
             .fillMaxSize()
             .imePadding(),
-        onForgotPasswordClick = {},
+        onForgotPasswordClick = onNavigateToForgotPassword,
         onLoginClick = { email: String, password: String ->
             signInViewModel.signIn(email = email, password = password)
         }
