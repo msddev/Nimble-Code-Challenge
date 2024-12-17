@@ -1,9 +1,9 @@
 package com.mkdev.data.repository
 
 import com.mkdev.data.BuildConfig
-import com.mkdev.data.datasource.local.dataStore.UserLocalSource
+import com.mkdev.data.datasource.local.datastore.UserLocalSource
+import com.mkdev.data.datasource.local.mapper.SignInMapper
 import com.mkdev.data.datasource.remote.api.AuthApi
-import com.mkdev.data.datasource.remote.mapper.toUserLocal
 import com.mkdev.data.datasource.remote.model.request.singIn.SignInRequest
 import com.mkdev.data.utils.ApiErrorHandler
 import com.mkdev.domain.repository.AuthRepository
@@ -18,6 +18,7 @@ class AuthRepositoryImpl(
     private val userLocalSource: UserLocalSource,
     private val authApi: AuthApi,
     private val apiErrorHandler: ApiErrorHandler,
+    private val signInMapper: SignInMapper,
 ) : AuthRepository {
 
     override fun signIn(
@@ -40,7 +41,7 @@ class AuthRepositoryImpl(
             )
         }.onSuccess { result ->
             if (result.isSuccessful) {
-                userLocalSource.update { result.body()?.data?.toUserLocal() }
+                userLocalSource.update { signInMapper.mapToUserLocal(result.body()?.data) }
                 emit(Resource.Success(Unit))
             } else {
                 val apiException = apiErrorHandler.handleError(HttpException(result))

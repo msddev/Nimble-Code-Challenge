@@ -67,6 +67,12 @@ dependencies {
     implementation(libs.protobuf.javalite)
     implementation(libs.tink.android)
 
+    // Room database
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
+    implementation(libs.room.ktx)
+    implementation(libs.room.paging)
+
     // Unit Test
     testImplementation(libs.junit)
     testImplementation(libs.mockito)

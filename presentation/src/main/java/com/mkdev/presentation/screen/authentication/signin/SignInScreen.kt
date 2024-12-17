@@ -11,7 +11,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mkdev.presentation.R
 import com.mkdev.presentation.common.component.AlertType
 import com.mkdev.presentation.common.component.AlertView
-import com.mkdev.presentation.common.component.loading.LoadingView
+import com.mkdev.presentation.common.component.LoadingView
 import com.mkdev.presentation.screen.authentication.signin.components.SignInScreenContent
 import com.mkdev.presentation.viewmodel.SignInViewModel
 

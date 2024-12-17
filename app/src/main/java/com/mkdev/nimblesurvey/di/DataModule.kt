@@ -9,10 +9,12 @@ import com.google.gson.Gson
 import com.mkdev.data.datasource.local.UserLocal
 import com.mkdev.data.datasource.local.crypto.Crypto
 import com.mkdev.data.datasource.local.crypto.CryptoImpl
-import com.mkdev.data.datasource.local.dataStore.UserLocalSerializer
-import com.mkdev.data.datasource.local.dataStore.UserLocalSource
-import com.mkdev.data.datasource.local.dataStore.UserLocalSourceImpl
+import com.mkdev.data.datasource.local.database.room.NimbleRoomDatabase
+import com.mkdev.data.datasource.local.datastore.UserLocalSerializer
+import com.mkdev.data.datasource.local.datastore.UserLocalSource
+import com.mkdev.data.datasource.local.datastore.UserLocalSourceImpl
 import com.mkdev.data.datasource.remote.api.AuthApi
+import com.mkdev.data.datasource.remote.api.SurveyApi
 import com.mkdev.data.datasource.remote.interceptor.AuthInterceptor
 import com.mkdev.data.utils.ApiErrorHandler
 import com.mkdev.nimblesurvey.BuildConfig
@@ -124,5 +126,26 @@ abstract class DataModule {
         fun provideAuthApiService(
             retrofit: Retrofit,
         ): AuthApi = retrofit.create(AuthApi::class.java)
+
+        @Singleton
+        @Provides
+        fun provideSurveyApiService(
+            retrofit: Retrofit,
+        ): SurveyApi = retrofit.create(SurveyApi::class.java)
+
+        @Singleton
+        @Provides
+        fun provideDatabase(@ApplicationContext context: Context) =
+            NimbleRoomDatabase.getDatabase(context)
+
+        @Singleton
+        @Provides
+        fun provideSurveyDao(database: NimbleRoomDatabase) =
+            database.surveyDao()
+
+        @Singleton
+        @Provides
+        fun provideSurveyRemoteKeyDao(database: NimbleRoomDatabase) =
+            database.surveyRemoteKeyDao()
     }
 }

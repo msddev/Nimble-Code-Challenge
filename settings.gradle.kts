@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Nimble Survey"
+rootProject.name = "Nimble"
 include(":app")
 include(":data")
 include(":domain")
