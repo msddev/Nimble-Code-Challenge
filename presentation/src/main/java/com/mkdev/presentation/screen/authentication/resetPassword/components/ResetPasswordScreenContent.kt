@@ -41,7 +41,7 @@ internal fun ResetPasswordScreenContent(
     onResetClick: (email: String) -> Unit = {},
     onBackClick: () -> Unit,
 ) {
-    val emailState = remember { mutableStateOf("msd.khoshkam@gmail.com") }
+    val emailState = remember { mutableStateOf("") }
 
     val emailError = remember { mutableStateOf(TextFieldErrorModel()) }
 

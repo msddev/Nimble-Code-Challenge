@@ -39,8 +39,8 @@ internal fun SignInScreenContent(
     onForgotPasswordClick: () -> Unit = {},
     onLoginClick: (email: String, password: String) -> Unit,
 ) {
-    val emailState = remember { mutableStateOf("msd.khoshkam@gmail.com") }
-    val passwordState = remember { mutableStateOf("12345678") }
+    val emailState = remember { mutableStateOf("") }
+    val passwordState = remember { mutableStateOf("") }
 
     val emailError = remember { mutableStateOf(TextFieldErrorModel()) }
     val passwordError = remember { mutableStateOf(TextFieldErrorModel()) }
