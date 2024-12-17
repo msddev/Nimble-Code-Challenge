@@ -1,6 +1,7 @@
 package com.mkdev.presentation.screen.home.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import com.mkdev.domain.entity.survey.SurveyModel
 import com.mkdev.presentation.R
 import com.mkdev.presentation.common.component.ErrorView
 import com.mkdev.presentation.common.utils.pagerFadeTransition
+import com.mkdev.presentation.theme.CommonColors
 import com.mkdev.presentation.theme.Dimens
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -58,14 +60,14 @@ internal fun HomeScreenContent(
             surveysPaging.loadState.refresh is LoadState.Loading
         ) {
             ShimmerLoadingView(
-                modifier = modifier
+                modifier = modifier.background(CommonColors.ScreenBackColor)
             )
         } else if (
             surveysPaging.itemCount == 0 &&
             surveysPaging.loadState.refresh is LoadState.Error
         ) {
             ErrorView(
-                modifier = modifier,
+                modifier = modifier.background(CommonColors.ScreenBackColor),
                 text = stringResource(R.string.oops_something_went_wrong),
                 actionButtonText = stringResource(R.string.retry),
                 onAction = onRetryClick

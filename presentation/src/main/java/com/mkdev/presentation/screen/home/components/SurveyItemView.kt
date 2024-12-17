@@ -32,6 +32,7 @@ import com.mkdev.domain.entity.survey.SurveyModel
 import com.mkdev.presentation.R
 import com.mkdev.presentation.common.component.GlideImageLoader
 import com.mkdev.presentation.common.utils.pagerFadeTransition
+import com.mkdev.presentation.theme.CommonColors
 import com.mkdev.presentation.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,7 +46,7 @@ internal fun SurveyItemView(
 ) {
     Box {
         GlideImageLoader(
-            modifier = modifier,
+            modifier = modifier.background(CommonColors.ScreenBackColor),
             imageUrl = survey.coverImageUrl,
             contentScale = ContentScale.Crop,
         )
