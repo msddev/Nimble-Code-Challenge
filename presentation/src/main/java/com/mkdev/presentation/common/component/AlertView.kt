@@ -32,7 +32,7 @@ import com.mkdev.presentation.theme.CommonColors
 import com.mkdev.presentation.theme.Dimens
 import kotlinx.coroutines.delay
 
-enum class AlertType {
+internal enum class AlertType {
     SUCCESS, ERROR
 }
 

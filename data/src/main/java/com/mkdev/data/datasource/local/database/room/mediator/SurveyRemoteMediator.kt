@@ -8,14 +8,14 @@ import com.mkdev.data.datasource.local.database.room.dao.SurveyDao
 import com.mkdev.data.datasource.local.database.room.dao.SurveyRemoteKeyDao
 import com.mkdev.data.datasource.local.database.room.entity.SurveyEntity
 import com.mkdev.data.datasource.local.database.room.entity.SurveyRemoteKeyEntity
-import com.mkdev.data.datasource.remote.api.SurveyApi
 import com.mkdev.data.datasource.local.mapper.SurveyEntityMapper
+import com.mkdev.data.datasource.remote.api.SurveyApi
 import com.mkdev.data.utils.RemoteApiPaging
 import retrofit2.HttpException
 import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
-class SurveyRemoteMediator(
+internal class SurveyRemoteMediator(
     private val surveyApi: SurveyApi,
     private val surveyDao: SurveyDao,
     private val surveyRemoteKeyDao: SurveyRemoteKeyDao,

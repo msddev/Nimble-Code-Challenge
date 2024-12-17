@@ -20,7 +20,7 @@ import com.mkdev.presentation.R
 import com.mkdev.presentation.theme.Dimens
 
 @Composable
-fun ErrorView(
+internal fun ErrorView(
     modifier: Modifier = Modifier,
     text: String,
     actionButtonText: String = stringResource(R.string.retry),

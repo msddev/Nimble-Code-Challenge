@@ -8,7 +8,7 @@ import androidx.compose.ui.res.painterResource
 import com.mkdev.presentation.R
 
 @Composable
-fun TopAppBarBackButton(onClick: () -> Unit) {
+internal fun TopAppBarBackButton(onClick: () -> Unit) {
     IconButton(
         onClick = {
             onClick.invoke()

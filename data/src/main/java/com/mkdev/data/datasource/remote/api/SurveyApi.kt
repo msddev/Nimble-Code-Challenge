@@ -1,7 +1,7 @@
 package com.mkdev.data.datasource.remote.api
 
 import com.mkdev.data.datasource.remote.model.response.survey.SurveyResponse
-import com.mkdev.data.utils.BaseApiResponse
+import com.mkdev.data.datasource.remote.model.response.base.BaseApiResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

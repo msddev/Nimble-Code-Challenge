@@ -5,11 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-object ResetPasswordNavigation {
+private object ResetPasswordNavigation {
     const val ROUTE = "reset_password"
 }
 
-fun NavGraphBuilder.resetPasswordRoute(
+internal fun NavGraphBuilder.resetPasswordRoute(
     onNavigateUp: () -> Unit,
 ) {
     composable(
@@ -19,6 +19,6 @@ fun NavGraphBuilder.resetPasswordRoute(
     }
 }
 
-fun NavHostController.navigateToResetPasswordRoute(navOptions: NavOptions? = null) {
+internal fun NavHostController.navigateToResetPasswordRoute(navOptions: NavOptions? = null) {
     navigate(route = ResetPasswordNavigation.ROUTE, navOptions = navOptions)
 }

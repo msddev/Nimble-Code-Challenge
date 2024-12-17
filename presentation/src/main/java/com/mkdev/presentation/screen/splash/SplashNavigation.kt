@@ -7,7 +7,7 @@ object SplashNavigation {
     const val ROUTE = "splash"
 }
 
-fun NavGraphBuilder.splashRoute(
+internal fun NavGraphBuilder.splashRoute(
     onNavigateToSignIn: () -> Unit,
     onNavigateToHome: () -> Unit,
 ) {

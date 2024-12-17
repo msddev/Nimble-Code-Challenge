@@ -5,11 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-object SignInNavigation {
+private object SignInNavigation {
     const val ROUTE = "sign_in"
 }
 
-fun NavGraphBuilder.signInRoute(
+internal fun NavGraphBuilder.signInRoute(
     onNavigateToHome: () -> Unit,
     onNavigateToForgotPassword: () -> Unit,
 ) {
@@ -23,6 +23,6 @@ fun NavGraphBuilder.signInRoute(
     }
 }
 
-fun NavHostController.navigateToSignInRoute(navOptions: NavOptions? = null) {
+internal fun NavHostController.navigateToSignInRoute(navOptions: NavOptions? = null) {
     navigate(route = SignInNavigation.ROUTE, navOptions = navOptions)
 }

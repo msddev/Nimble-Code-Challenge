@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import com.mkdev.presentation.theme.Dimens
 
 @Composable
-fun LoadingView(
+internal fun LoadingView(
     modifier: Modifier,
 ) {
     Column(
