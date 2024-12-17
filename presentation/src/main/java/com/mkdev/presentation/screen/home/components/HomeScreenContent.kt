@@ -1,7 +1,6 @@
 package com.mkdev.presentation.screen.home.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,8 +34,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.mkdev.domain.entity.survey.SurveyModel
 import com.mkdev.presentation.R
+import com.mkdev.presentation.common.component.ErrorView
 import com.mkdev.presentation.common.utils.pagerFadeTransition
-import com.mkdev.presentation.theme.CommonColors
 import com.mkdev.presentation.theme.Dimens
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -47,6 +46,7 @@ internal fun HomeScreenContent(
     modifier: Modifier,
     surveysPaging: LazyPagingItems<SurveyModel>,
     onSurveyClick: () -> Unit,
+    onRetryClick: () -> Unit,
 ) {
     val pagerState = rememberPagerState(pageCount = {
         surveysPaging.itemCount
@@ -58,7 +58,17 @@ internal fun HomeScreenContent(
             surveysPaging.loadState.refresh is LoadState.Loading
         ) {
             ShimmerLoadingView(
-                modifier = modifier.background(CommonColors.ScreenBackColor)
+                modifier = modifier
+            )
+        } else if (
+            surveysPaging.itemCount == 0 &&
+            surveysPaging.loadState.refresh is LoadState.Error
+        ) {
+            ErrorView(
+                modifier = modifier,
+                text = stringResource(R.string.oops_something_went_wrong),
+                actionButtonText = stringResource(R.string.retry),
+                onAction = onRetryClick
             )
         } else {
             HorizontalPager(

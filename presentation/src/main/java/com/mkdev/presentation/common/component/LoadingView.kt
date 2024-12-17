@@ -1,4 +1,4 @@
-package com.mkdev.presentation.common.component.loading
+package com.mkdev.presentation.common.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
