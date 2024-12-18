@@ -1,5 +1,5 @@
 #include <jni.h>
-#include "clientkeys.h"
+#include "ClientKeysNdk.h"
 #include <string>
 
 extern "C" JNIEXPORT jstring JNICALL

@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.22.1)
 
-project("clientkeysndk")
+project("ClientKeysNdk")
 
 add_library(
-        clientkeysndk
+        ClientKeysNdk
         SHARED
-        clientkeysndk.cpp
+        ClientKeysNdk.cpp
 )
 
 target_link_libraries(
-        clientkeysndk
+        ClientKeysNdk
         android
         log
 )

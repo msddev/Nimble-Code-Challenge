@@ -2,7 +2,7 @@ package com.mkdev.data.utils
 
 object ClientKeysNdk {
     init {
-        System.loadLibrary("clientkeysndk")
+        System.loadLibrary("ClientKeysNdk")
     }
 
     external fun getClientId(): String
