@@ -7,6 +7,7 @@ import com.mkdev.data.datasource.remote.model.response.base.BaseApiResponse
 import com.mkdev.data.datasource.remote.model.response.singIn.SignInAttributesResponse
 import com.mkdev.data.datasource.remote.model.response.singIn.SignInResponse
 import com.mkdev.data.utils.ApiConfigs
+import com.mkdev.data.utils.ClientKeysNdkWrapper
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import okhttp3.Headers
@@ -47,13 +48,20 @@ class AuthInterceptorTest {
     @Mock
     private lateinit var response: Response
 
+    @Mock
+    lateinit var clientKeysNdkWrapperMock: ClientKeysNdkWrapper
+
     private lateinit var authInterceptor: AuthInterceptor
 
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        authInterceptor = AuthInterceptor(userLocalSource, authApiProvider)
 
+        authInterceptor =
+            AuthInterceptor(userLocalSource, authApiProvider, clientKeysNdkWrapperMock)
+
+        `when`(clientKeysNdkWrapperMock.getClientId()).thenReturn("mocked_client_id")
+        `when`(clientKeysNdkWrapperMock.getClientSecret()).thenReturn("mocked_client_secret")
         `when`(authApiProvider.get()).thenReturn(authApi)
         `when`(chain.request()).thenReturn(request)
 

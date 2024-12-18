@@ -11,6 +11,7 @@ import com.mkdev.data.datasource.remote.mapper.SurveyDomainMapper
 import com.mkdev.data.repository.AuthRepositoryImpl
 import com.mkdev.data.repository.SurveyRepositoryImpl
 import com.mkdev.data.utils.ApiErrorHandler
+import com.mkdev.data.utils.ClientKeysNdkWrapper
 import com.mkdev.domain.repository.AuthRepository
 import com.mkdev.domain.repository.SurveyRepository
 import com.mkdev.domain.usecase.GetSurveysUseCase
@@ -54,12 +55,14 @@ class DomainModule {
         authApi: AuthApi,
         apiErrorHandler: ApiErrorHandler,
         signInMapper: SignInMapper,
+        clientKeysNdkWrapper: ClientKeysNdkWrapper
     ): AuthRepository =
         AuthRepositoryImpl(
             userLocalSource = userLocalSource,
             authApi = authApi,
             apiErrorHandler = apiErrorHandler,
             signInMapper = signInMapper,
+            clientKeysNdkWrapper = clientKeysNdkWrapper
         )
 
     @Provides

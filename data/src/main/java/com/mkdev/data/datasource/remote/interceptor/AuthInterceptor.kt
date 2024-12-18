@@ -4,7 +4,7 @@ import com.mkdev.data.datasource.local.datastore.UserLocalSource
 import com.mkdev.data.datasource.remote.api.AuthApi
 import com.mkdev.data.datasource.remote.model.request.refreshToken.RefreshTokenRequest
 import com.mkdev.data.utils.ApiConfigs
-import com.mkdev.data.utils.ClientKeysNdk
+import com.mkdev.data.utils.ClientKeysNdkWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -21,6 +21,7 @@ import javax.inject.Provider
 class AuthInterceptor @Inject constructor(
     private val userLocalSource: UserLocalSource,
     private val authApi: Provider<AuthApi>,
+    private val clientKeysNdkWrapper: ClientKeysNdkWrapper
 ) : Interceptor {
     private val mutex = Mutex()
 
@@ -55,8 +56,8 @@ class AuthInterceptor @Inject constructor(
                                 requestBody = RefreshTokenRequest(
                                     grantType = "refresh_token",
                                     refreshToken = user.refreshToken,
-                                    clientId = ClientKeysNdk.getClientId(),
-                                    clientSecret = ClientKeysNdk.getClientSecret()
+                                    clientId = clientKeysNdkWrapper.getClientId(),
+                                    clientSecret = clientKeysNdkWrapper.getClientSecret()
                                 )
                             )
 

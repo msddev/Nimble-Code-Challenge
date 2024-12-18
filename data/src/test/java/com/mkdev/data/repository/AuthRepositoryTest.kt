@@ -14,6 +14,7 @@ import com.mkdev.data.factory.SignInResponseFactory
 import com.mkdev.data.factory.UserLocalFactory
 import com.mkdev.data.utils.ApiErrorHandler
 import com.mkdev.data.utils.ApiException.HttpError
+import com.mkdev.data.utils.ClientKeysNdkWrapper
 import com.mkdev.domain.utils.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -53,10 +54,19 @@ class AuthRepositoryTest {
 
     private lateinit var authRepository: AuthRepositoryImpl
 
+    @Mock
+    lateinit var clientKeysNdkWrapperMock: ClientKeysNdkWrapper
+
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        authRepository = AuthRepositoryImpl(userLocalSource, authApi, apiErrorHandler, signInMapper)
+        authRepository = AuthRepositoryImpl(
+            userLocalSource,
+            authApi,
+            apiErrorHandler,
+            signInMapper,
+            clientKeysNdkWrapperMock
+        )
 
         testDispatcher = StandardTestDispatcher()
     }
@@ -74,7 +84,8 @@ class AuthRepositoryTest {
                 metaResponse
             )
         )
-
+        `when`(clientKeysNdkWrapperMock.getClientId()).thenReturn("mocked_client_id")
+        `when`(clientKeysNdkWrapperMock.getClientSecret()).thenReturn("mocked_client_secret")
         `when`(authApi.signIn(anyOrNull())).thenReturn(apiResponse)
         `when`(signInMapper.mapToUserLocal(signInResponse)).thenReturn(userLocal)
 
@@ -149,6 +160,8 @@ class AuthRepositoryTest {
             )
         )
 
+        `when`(clientKeysNdkWrapperMock.getClientId()).thenReturn("mocked_client_id")
+        `when`(clientKeysNdkWrapperMock.getClientSecret()).thenReturn("mocked_client_secret")
         `when`(authApi.resetPassword(anyOrNull())).thenReturn(apiResponse)
 
         // When-Then

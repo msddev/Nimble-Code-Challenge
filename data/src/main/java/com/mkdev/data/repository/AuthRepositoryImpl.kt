@@ -7,7 +7,7 @@ import com.mkdev.data.datasource.remote.model.request.resetPassword.ResetPasswor
 import com.mkdev.data.datasource.remote.model.request.resetPassword.UserRequest
 import com.mkdev.data.datasource.remote.model.request.singIn.SignInRequest
 import com.mkdev.data.utils.ApiErrorHandler
-import com.mkdev.data.utils.ClientKeysNdk
+import com.mkdev.data.utils.ClientKeysNdkWrapper
 import com.mkdev.domain.repository.AuthRepository
 import com.mkdev.domain.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +21,7 @@ class AuthRepositoryImpl(
     private val authApi: AuthApi,
     private val apiErrorHandler: ApiErrorHandler,
     private val signInMapper: SignInMapper,
+    private val clientKeysNdkWrapper: ClientKeysNdkWrapper
 ) : AuthRepository {
 
     override fun signIn(
@@ -37,8 +38,8 @@ class AuthRepositoryImpl(
                     grantType = grantType,
                     email = email,
                     password = password,
-                    clientId = ClientKeysNdk.getClientId(),
-                    clientSecret = ClientKeysNdk.getClientSecret()
+                    clientId = clientKeysNdkWrapper.getClientId(),
+                    clientSecret = clientKeysNdkWrapper.getClientSecret()
                 )
             )
         }.onSuccess { result ->
@@ -73,8 +74,8 @@ class AuthRepositoryImpl(
             authApi.resetPassword(
                 requestBody = ResetPasswordRequest(
                     user = UserRequest(email = email),
-                    clientId = ClientKeysNdk.getClientId(),
-                    clientSecret = ClientKeysNdk.getClientSecret()
+                    clientId = clientKeysNdkWrapper.getClientId(),
+                    clientSecret = clientKeysNdkWrapper.getClientSecret()
                 )
             )
         }.onSuccess { result ->
