@@ -8,8 +8,10 @@ This project implements a survey application using the MVVM (Model-View-ViewMode
 |---|---|
 | <img src="screenshots/splash_screen.png" width="400"> | <img src="screenshots/signin_screen.png" width="400"> |
 | Reset Password Screen | Survey Loading Screen |
+|---|---|
 | <img src="screenshots/reset_password_screen.png" width="400"> | <img src="screenshots/survey_loading_screen.png" width="400"> |
 | Survey Screen | Thank You Screen |
+|---|---|
 | <img src="screenshots/survey_screen.png" width="400"> | <img src="screenshots/thank_you_screen.png" width="400"> |
 
 ## Project Requirements
