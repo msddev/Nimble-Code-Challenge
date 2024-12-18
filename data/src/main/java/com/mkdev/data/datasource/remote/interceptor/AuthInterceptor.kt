@@ -1,10 +1,10 @@
 package com.mkdev.data.datasource.remote.interceptor
 
-import com.mkdev.data.BuildConfig
 import com.mkdev.data.datasource.local.datastore.UserLocalSource
 import com.mkdev.data.datasource.remote.api.AuthApi
 import com.mkdev.data.datasource.remote.model.request.refreshToken.RefreshTokenRequest
 import com.mkdev.data.utils.ApiConfigs
+import com.mkdev.data.utils.ClientKeysNdk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -55,8 +55,8 @@ class AuthInterceptor @Inject constructor(
                                 requestBody = RefreshTokenRequest(
                                     grantType = "refresh_token",
                                     refreshToken = user.refreshToken,
-                                    clientId = BuildConfig.CLIENT_ID,
-                                    clientSecret = BuildConfig.CLIENT_SECRET
+                                    clientId = ClientKeysNdk.getClientId(),
+                                    clientSecret = ClientKeysNdk.getClientSecret()
                                 )
                             )
 

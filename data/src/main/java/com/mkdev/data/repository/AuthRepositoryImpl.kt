@@ -1,6 +1,5 @@
 package com.mkdev.data.repository
 
-import com.mkdev.data.BuildConfig
 import com.mkdev.data.datasource.local.datastore.UserLocalSource
 import com.mkdev.data.datasource.local.mapper.SignInMapper
 import com.mkdev.data.datasource.remote.api.AuthApi
@@ -8,6 +7,7 @@ import com.mkdev.data.datasource.remote.model.request.resetPassword.ResetPasswor
 import com.mkdev.data.datasource.remote.model.request.resetPassword.UserRequest
 import com.mkdev.data.datasource.remote.model.request.singIn.SignInRequest
 import com.mkdev.data.utils.ApiErrorHandler
+import com.mkdev.data.utils.ClientKeysNdk
 import com.mkdev.domain.repository.AuthRepository
 import com.mkdev.domain.utils.Resource
 import kotlinx.coroutines.flow.Flow
@@ -37,8 +37,8 @@ class AuthRepositoryImpl(
                     grantType = grantType,
                     email = email,
                     password = password,
-                    clientId = BuildConfig.CLIENT_ID,
-                    clientSecret = BuildConfig.CLIENT_SECRET
+                    clientId = ClientKeysNdk.getClientId(),
+                    clientSecret = ClientKeysNdk.getClientSecret()
                 )
             )
         }.onSuccess { result ->
@@ -73,8 +73,8 @@ class AuthRepositoryImpl(
             authApi.resetPassword(
                 requestBody = ResetPasswordRequest(
                     user = UserRequest(email = email),
-                    clientId = BuildConfig.CLIENT_ID,
-                    clientSecret = BuildConfig.CLIENT_SECRET
+                    clientId = ClientKeysNdk.getClientId(),
+                    clientSecret = ClientKeysNdk.getClientSecret()
                 )
             )
         }.onSuccess { result ->
