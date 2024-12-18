@@ -1,4 +1,4 @@
-package com.mkdev.data.datasource.local.database.room.mediator
+package com.mkdev.data.datasource.mediator
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -11,7 +11,6 @@ import com.mkdev.data.datasource.local.database.room.dao.SurveyDao
 import com.mkdev.data.datasource.local.database.room.dao.SurveyRemoteKeyDao
 import com.mkdev.data.datasource.local.database.room.entity.SurveyEntity
 import com.mkdev.data.datasource.local.mapper.SurveyEntityMapper
-import com.mkdev.data.datasource.mediator.SurveyRemoteMediator
 import com.mkdev.data.datasource.remote.api.SurveyApi
 import com.mkdev.data.datasource.remote.model.response.base.BaseApiResponse
 import com.mkdev.data.factory.SurveyEntityFactory
