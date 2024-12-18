@@ -85,6 +85,8 @@ dependencies {
     testImplementation(libs.test.rules)
     androidTestImplementation(libs.room.testing)
     testImplementation(libs.androidx.junit)
+    testImplementation(libs.turbine)
+    testImplementation(libs.truth)
 }
 
 protobuf {
