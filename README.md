@@ -136,6 +136,26 @@ The use of Proto DataStore with Tink encryption and Android Jetpack Security pro
 
 This comprehensive overview of the Survey App's architecture and implementation should
 
+
+## Security Measures
+
+This project employs several security measures to protect sensitive data:
+
+* **Native Development Kit (NDK) Integration:**
+  * Sensitive data like ClientId and ClientSecret are stored and processed within the NDK module.
+  * This approach provides an additional layer of security by moving critical operations to native code, making it more difficult for attackers to reverse engineer and extract sensitive information.
+
+* **Secure Storage of Client Keys:**
+  * ClientId and ClientSecret are securely stored in the `ClientKeysNdk` file within the NDK module.
+  * This file is not directly accessible from Java/Kotlin code, further enhancing the protection of these sensitive credentials.
+
+* **Safe Key Usage:**
+  * The application accesses and uses the ClientId and ClientSecret only when necessary within the NDK module.
+  * Access control mechanisms are implemented to ensure that these keys are not exposed or misused.
+
+This section provides a clear overview of the security measures implemented in the project, enhancing its transparency and demonstrating a commitment to security best practices.
+
+
 ## Further Considerations
 
 This project demonstrates a robust and well-structured approach to building Android applications using modern technologies and best practices. Key aspects to highlight include:
