@@ -29,6 +29,12 @@ This project implements a survey application using the MVVM (Model-View-ViewMode
 
 *   `jdk`: 17
 
+This project utilizes Gradle JDK 17 for its build process, ensuring compatibility and leveraging the latest language features.
+
+[Image of Gradle settings showing JDK 17](screenshots/android_studio_jdk_version.png)
+
+**Reviewer Note:** Please ensure your Android Studio is configured to use JDK 17 for this project to avoid potential build issues. You can check and modify your JDK settings in Android Studio.
+
 
 ## Architecture
 
