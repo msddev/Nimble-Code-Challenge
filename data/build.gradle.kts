@@ -76,8 +76,17 @@ dependencies {
     // Unit Test
     testImplementation(libs.junit)
     testImplementation(libs.mockito)
-    androidTestImplementation(libs.androidx.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.test.rules)
+    androidTestImplementation(libs.room.testing)
+    testImplementation(libs.androidx.junit)
+    testImplementation(libs.turbine)
+    testImplementation(libs.truth)
 }
 
 protobuf {

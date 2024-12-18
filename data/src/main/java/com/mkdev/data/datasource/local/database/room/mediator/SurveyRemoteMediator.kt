@@ -56,7 +56,7 @@ internal class SurveyRemoteMediator(
                 pageSize = RemoteApiPaging.PAGE_SIZE
             )
             val surveys = response.body()?.data
-            val endOfPaginationReached = response.isSuccessful.not() && response.code() == 404
+            val endOfPaginationReached = surveys.isNullOrEmpty()
 
             if (loadType == LoadType.REFRESH) {
                 surveyRemoteKeyDao.clearRemoteKeys()
@@ -78,11 +78,13 @@ internal class SurveyRemoteMediator(
             }
 
 
-            return MediatorResult.Success(endOfPaginationReached = false)
+            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
 
         } catch (exception: IOException) {
             return MediatorResult.Error(exception)
         } catch (exception: HttpException) {
+            return MediatorResult.Error(exception)
+        } catch (exception: Exception) {
             return MediatorResult.Error(exception)
         }
     }
