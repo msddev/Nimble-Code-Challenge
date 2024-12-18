@@ -35,6 +35,12 @@ This project utilizes Gradle JDK 17 for its build process, ensuring compatibilit
 
 **Reviewer Note:** Please ensure your Android Studio is configured to use JDK 17 for this project to avoid potential build issues. You can check and modify your JDK settings in Android Studio.
 
+**NDK:**
+
+This project also requires the use of the NDK. The NDK is a set of tools that allows you to develop native code for Android applications.
+
+**Reviewer Note:** Please ensure that you have the NDK installed and configured correctly. You can check and modify your NDK settings in Android Studio.
+
 
 ## Architecture
 
