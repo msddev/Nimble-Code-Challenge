@@ -2,7 +2,7 @@
 
 This project implements a survey application using the MVVM (Model-View-ViewModel) architecture. Users can view and interact with a list of surveys, including functionalities like user authentication, offline data access, and paginated survey loading.
 
-### Screenshots
+## Screenshots
 
 | Splash Screen | Sign In Screen |
 |---|---|
@@ -30,7 +30,7 @@ This project implements a survey application using the MVVM (Model-View-ViewMode
 *   `jdk`: 17
 
 
-### Architecture
+## Architecture
 
 The app adheres to a modular MVVM structure, separating concerns into distinct layers:
 
@@ -40,7 +40,7 @@ The app adheres to a modular MVVM structure, separating concerns into distinct l
 - **Presentation Module:** Manages the UI and user interactions (Jetpack Compose).
 
 
-### Technologies
+## Technologies
 
 * **Language:** Kotlin
 * **Architecture:** MVVM (Model-View-ViewModel)
@@ -55,7 +55,7 @@ The app adheres to a modular MVVM structure, separating concerns into distinct l
 * **Testing:** Unit Tests (covering data, domain, and presentation layers)
 
 
-### Modules
+## Modules
 
 **1. App Module**
 
@@ -106,7 +106,7 @@ Manages UI and user interactions, containing:
 * Compose Navigation
 
 
-### Screens
+## Screens
 
 * **Splash Screen:** Displays the Nimble logo with a fade animation (3.5 seconds) before navigating onwards.
 * **Sign In Screen:** Allows users to log in with email and password. Includes email validation and error handling. Navigates to the Home screen upon successful login.
@@ -115,12 +115,12 @@ Manages UI and user interactions, containing:
 * **Thank You Screen:** A simple screen displayed after tapping the "Survey" button, automatically navigating back to the Home screen after 5 seconds.
 
 
-### Testing
+## Testing
 
 Unit tests cover the data, domain, and presentation layers, ensuring code quality and reliability.
 
 
-### Data Storage Security
+## Data Storage Security
 
 The use of Proto DataStore with Tink encryption and Android Jetpack Security provides robust security for sensitive data like access and refresh tokens. This combination addresses key security concerns:
 
@@ -130,7 +130,7 @@ The use of Proto DataStore with Tink encryption and Android Jetpack Security pro
 
 This comprehensive overview of the Survey App's architecture and implementation should
 
-### Further Considerations
+## Further Considerations
 
 This project demonstrates a robust and well-structured approach to building Android applications using modern technologies and best practices. Key aspects to highlight include:
 
