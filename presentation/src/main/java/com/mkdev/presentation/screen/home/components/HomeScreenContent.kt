@@ -33,7 +33,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import com.mkdev.domain.entity.survey.SurveyModel
+import com.mkdev.domain.model.survey.SurveyModel
 import com.mkdev.presentation.R
 import com.mkdev.presentation.common.component.ErrorView
 import com.mkdev.presentation.common.utils.pagerFadeTransition

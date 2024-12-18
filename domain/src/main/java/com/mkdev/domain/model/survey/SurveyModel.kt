@@ -1,4 +1,4 @@
-package com.mkdev.domain.entity.survey
+package com.mkdev.domain.model.survey
 
 data class SurveyModel(
     val id: String,

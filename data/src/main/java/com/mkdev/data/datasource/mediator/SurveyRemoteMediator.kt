@@ -1,4 +1,4 @@
-package com.mkdev.data.datasource.local.database.room.mediator
+package com.mkdev.data.datasource.mediator
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -13,6 +13,7 @@ import com.mkdev.data.datasource.remote.api.SurveyApi
 import com.mkdev.data.utils.RemoteApiPaging
 import retrofit2.HttpException
 import java.io.IOException
+import java.lang.RuntimeException
 
 @OptIn(ExperimentalPagingApi::class)
 internal class SurveyRemoteMediator(
@@ -21,6 +22,7 @@ internal class SurveyRemoteMediator(
     private val surveyRemoteKeyDao: SurveyRemoteKeyDao,
     private val surveyEntityMapper: SurveyEntityMapper,
 ) : RemoteMediator<Int, SurveyEntity>() {
+
     override suspend fun initialize(): InitializeAction {
         return InitializeAction.LAUNCH_INITIAL_REFRESH
     }
@@ -51,65 +53,67 @@ internal class SurveyRemoteMediator(
         }
 
         try {
-            val response = surveyApi.getSurveys(
-                page = page,
-                pageSize = RemoteApiPaging.PAGE_SIZE
-            )
+            // Check if local data is available for REFRESH
+            if (loadType == LoadType.REFRESH) {
+                val localSurveys = surveyDao.getSurveysCount()
+                if (localSurveys > 0) {
+                    return MediatorResult.Success(endOfPaginationReached = false)
+                }
+            }
+
+            val response = surveyApi.getSurveys(page = page, pageSize = RemoteApiPaging.PAGE_SIZE)
             val surveys = response.body()?.data
             val endOfPaginationReached = surveys.isNullOrEmpty()
 
+            // Clear local data for REFRESH
             if (loadType == LoadType.REFRESH) {
-                surveyRemoteKeyDao.clearRemoteKeys()
                 surveyDao.clearAll()
-            }
-            val prevPage = if (page == RemoteApiPaging.FIRST_PAGE) null else page - 1
-            val nextPage = if (endOfPaginationReached) null else page + 1
-            surveys?.map {
-                SurveyRemoteKeyEntity(surveyId = it.id, prevPage = prevPage, nextPage = nextPage)
-            }?.also { keys ->
-                surveyRemoteKeyDao.insertAll(keys)
+                surveyRemoteKeyDao.clearRemoteKeys()
             }
 
+            val prevKey = if (page == RemoteApiPaging.FIRST_PAGE) null else page - 1
+            val nextKey = if (endOfPaginationReached) null else page + 1
 
-            surveys?.map { surveyDto ->
+            val surveyEntities = surveys?.map { surveyDto ->
                 surveyEntityMapper.mapToSurveyEntity(surveyDto)
-            }?.also { surveyEntities ->
-                surveyDao.insertAll(surveyEntities)
             }
 
+            // Insert new surveys and remote keys
+            surveyEntities?.let { surveyDao.insertAll(it) }
+            surveys?.map {
+                SurveyRemoteKeyEntity(surveyId = it.id, prevPage = prevKey, nextPage = nextKey)
+            }?.let { surveyRemoteKeyDao.insertAll(it) }
 
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
-
-        } catch (exception: IOException) {
-            return MediatorResult.Error(exception)
-        } catch (exception: HttpException) {
-            return MediatorResult.Error(exception)
-        } catch (exception: Exception) {
-            return MediatorResult.Error(exception)
+        } catch (e: IOException) {
+            // Return success if local data is available for REFRESH and network fails
+            return if (loadType == LoadType.REFRESH && surveyDao.getSurveysCount() > 0) {
+                MediatorResult.Success(endOfPaginationReached = false)
+            } else {
+                MediatorResult.Error(e)
+            }
+        } catch (e: HttpException) {
+            return MediatorResult.Error(e)
+        } catch (e: RuntimeException) {
+            return MediatorResult.Error(e)
         }
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, SurveyEntity>): SurveyRemoteKeyEntity? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { repo ->
-                surveyRemoteKeyDao.remoteKeysId(repo.id)
-            }
+            ?.let { surveyRemoteKeyDao.remoteKeysId(it.id) }
     }
 
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, SurveyEntity>): SurveyRemoteKeyEntity? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { item ->
-                surveyRemoteKeyDao.remoteKeysId(item.id)
-            }
+            ?.let { surveyRemoteKeyDao.remoteKeysId(it.id) }
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(
         state: PagingState<Int, SurveyEntity>
     ): SurveyRemoteKeyEntity? {
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { id ->
-                surveyRemoteKeyDao.remoteKeysId(id)
-            }
+            state.closestItemToPosition(position)?.id?.let { surveyRemoteKeyDao.remoteKeysId(it) }
         }
     }
 }

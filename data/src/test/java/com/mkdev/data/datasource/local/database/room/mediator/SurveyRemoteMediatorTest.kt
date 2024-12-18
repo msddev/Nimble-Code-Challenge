@@ -11,6 +11,7 @@ import com.mkdev.data.datasource.local.database.room.dao.SurveyDao
 import com.mkdev.data.datasource.local.database.room.dao.SurveyRemoteKeyDao
 import com.mkdev.data.datasource.local.database.room.entity.SurveyEntity
 import com.mkdev.data.datasource.local.mapper.SurveyEntityMapper
+import com.mkdev.data.datasource.mediator.SurveyRemoteMediator
 import com.mkdev.data.datasource.remote.api.SurveyApi
 import com.mkdev.data.datasource.remote.model.response.base.BaseApiResponse
 import com.mkdev.data.factory.SurveyEntityFactory
@@ -71,6 +72,7 @@ class SurveyRemoteMediatorTest {
             )
             `when`(surveyApi.getSurveys(RemoteApiPaging.FIRST_PAGE, RemoteApiPaging.PAGE_SIZE))
                 .thenReturn(Response.success(BaseApiResponse(listOf(surveyResponse), null)))
+            `when`(surveyDao.getSurveysCount()).thenReturn(0)
             `when`(surveyEntityMapper.mapToSurveyEntity(surveyResponse)).thenReturn(surveyEntity)
 
             // When
@@ -93,6 +95,7 @@ class SurveyRemoteMediatorTest {
             )
             `when`(surveyApi.getSurveys(RemoteApiPaging.FIRST_PAGE, RemoteApiPaging.PAGE_SIZE))
                 .thenReturn(Response.success(BaseApiResponse(null, null)))
+            `when`(surveyDao.getSurveysCount()).thenReturn(0)
 
             // When
             val result = surveyRemoteMediator.load(LoadType.REFRESH, pagingState)
@@ -113,6 +116,7 @@ class SurveyRemoteMediatorTest {
         )
         `when`(surveyApi.getSurveys(RemoteApiPaging.FIRST_PAGE, RemoteApiPaging.PAGE_SIZE))
             .thenThrow(RuntimeException())
+        `when`(surveyDao.getSurveysCount()).thenReturn(0)
 
         // When
         val result = surveyRemoteMediator.load(LoadType.REFRESH, pagingState)

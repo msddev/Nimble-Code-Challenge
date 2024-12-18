@@ -33,7 +33,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import com.mkdev.domain.entity.survey.SurveyModel
+import com.mkdev.domain.model.survey.SurveyModel
 import com.mkdev.presentation.R
 import com.mkdev.presentation.common.component.GlideImageLoader
 import com.mkdev.presentation.common.utils.pagerFadeTransition

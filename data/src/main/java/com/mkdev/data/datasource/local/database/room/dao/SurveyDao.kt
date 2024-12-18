@@ -20,4 +20,7 @@ interface SurveyDao {
 
     @Query("DELETE FROM survey_table")
     suspend fun clearAll()
+
+    @Query("SELECT COUNT(*) FROM survey_table")
+    suspend fun getSurveysCount(): Int
 }

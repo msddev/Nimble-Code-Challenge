@@ -7,12 +7,12 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.mkdev.data.datasource.local.database.room.dao.SurveyDao
 import com.mkdev.data.datasource.local.database.room.dao.SurveyRemoteKeyDao
-import com.mkdev.data.datasource.local.database.room.mediator.SurveyRemoteMediator
 import com.mkdev.data.datasource.local.mapper.SurveyEntityMapper
+import com.mkdev.data.datasource.mediator.SurveyRemoteMediator
 import com.mkdev.data.datasource.remote.api.SurveyApi
 import com.mkdev.data.datasource.remote.mapper.SurveyDomainMapper
 import com.mkdev.data.utils.RemoteApiPaging
-import com.mkdev.domain.entity.survey.SurveyModel
+import com.mkdev.domain.model.survey.SurveyModel
 import com.mkdev.domain.repository.SurveyRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -28,7 +28,6 @@ class SurveyRepositoryImpl @Inject constructor(
 ) : SurveyRepository {
 
     override fun getSurveys(): Flow<PagingData<SurveyModel>> {
-
         val pagingSourceFactory = { surveyDao.getByPaging() }
 
         return Pager(

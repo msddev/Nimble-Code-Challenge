@@ -2,7 +2,7 @@ package com.mkdev.data.datasource.remote.mapper
 
 import com.mkdev.data.datasource.local.database.room.entity.SurveyEntity
 import com.mkdev.data.datasource.remote.model.response.survey.SurveyResponse
-import com.mkdev.domain.entity.survey.SurveyModel
+import com.mkdev.domain.model.survey.SurveyModel
 import javax.inject.Inject
 
 class SurveyDomainMapper @Inject constructor() {
