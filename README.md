@@ -49,7 +49,7 @@ The app adheres to a modular MVVM structure, separating concerns into distinct l
 * **UI:** Jetpack Compose
 * **Navigation:** Compose Navigation
 * **Local Database:** Room
-* **Data Storage:** Proto DataStore (with Tink encryption and Android Jetpack Security Key Management)
+* **Data Storage:** Proto DataStore (with [Tink](https://github.com/tink-crypto/tink) encryption and Android Jetpack Security Key Management)
 * **Networking:** Retrofit and OkHttp
 * **Paging:** Room Paging Library and Compose Paging
 * **Testing:** Unit Tests (covering data, domain, and presentation layers)
