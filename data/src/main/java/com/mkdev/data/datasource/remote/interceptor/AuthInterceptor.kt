@@ -18,7 +18,6 @@ import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
 import javax.inject.Inject
 import javax.inject.Provider
 
-
 class AuthInterceptor @Inject constructor(
     private val userLocalSource: UserLocalSource,
     private val authApi: Provider<AuthApi>,
@@ -100,16 +99,16 @@ class AuthInterceptor @Inject constructor(
             response
         }
     }
+}
 
-    private fun Interceptor.Chain.proceedWithToken(request: Request, token: String?): Response {
-        return request.newBuilder()
-            .apply {
-                if (token !== null) {
-                    addHeader("Authorization", "Bearer $token")
-                }
+internal fun Interceptor.Chain.proceedWithToken(request: Request, token: String?): Response {
+    return request.newBuilder()
+        .apply {
+            if (token !== null) {
+                addHeader("Authorization", "Bearer $token")
             }
-            .removeHeader(ApiConfigs.CUSTOM_HEADER)
-            .build()
-            .let(::proceed)
-    }
+        }
+        .removeHeader(ApiConfigs.CUSTOM_HEADER)
+        .build()
+        .let(::proceed)
 }
