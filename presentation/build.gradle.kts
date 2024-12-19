@@ -72,6 +72,9 @@ dependencies {
     // Paging Compose
     implementation(libs.paging.compose)
 
+    // Lottie Compose
+    implementation(libs.lottie.compose)
+
     // Unit Test
     testImplementation(libs.junit)
     testImplementation(libs.mockito)
