@@ -4,8 +4,6 @@ import com.google.crypto.tink.integration.android.AndroidKeystoreKmsClient
 import kotlin.time.Duration.Companion.seconds
 
 object ApiConfigs {
-    const val BASE_URL: String = "https://survey-api.nimblehq.co/api/v1/"
-
     //10 MB cache
     const val CACHE_SIZE = (10 * 1024 * 1024).toLong()
 

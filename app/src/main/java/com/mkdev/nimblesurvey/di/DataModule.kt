@@ -115,7 +115,7 @@ abstract class DataModule {
             converterFactory: Converter.Factory,
         ): Retrofit =
             Retrofit.Builder()
-                .baseUrl(ApiConfigs.BASE_URL)
+                .baseUrl(BuildConfig.API_URL)
                 .addConverterFactory(converterFactory)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)

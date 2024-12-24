@@ -1,6 +1,5 @@
 
 import org.gradle.internal.extensions.stdlib.capitalized
-import org.gradle.kotlin.dsl.getByName
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -49,6 +48,13 @@ android {
             path = file("src/main/cpp/CMakeLists.txt")
             version = "3.22.1"
         }
+    }
+
+    flavorDimensions += "environment"
+    productFlavors {
+        register("development")
+        register("staging")
+        register("production")
     }
 }
 
