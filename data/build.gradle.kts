@@ -40,6 +40,13 @@ android {
             version = "3.22.1"
         }
     }
+
+    flavorDimensions += "environment"
+    productFlavors {
+        register("development")
+        /*register("staging")
+        register("production")*/
+    }
 }
 
 dependencies {
