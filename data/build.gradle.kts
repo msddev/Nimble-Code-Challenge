@@ -44,8 +44,8 @@ android {
     flavorDimensions += "environment"
     productFlavors {
         register("development")
-        /*register("staging")
-        register("production")*/
+        register("staging")
+        register("production")
     }
 }
 
