@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class SignInViewModel @Inject constructor(
+class SignInViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
     private val isUserSignedInUseCase: IsUserSignedInUseCase
 ) : ViewModel() {

@@ -61,7 +61,7 @@ internal fun SignInScreenContent(
                     .wrapContentSize()
                     .align(Alignment.Center),
                 painter = painterResource(R.drawable.img_nimble_logo),
-                contentDescription = null,
+                contentDescription = "Nimble Logo",
             )
         }
 
