@@ -5,11 +5,11 @@ import javax.inject.Inject
 
 class ClientKeysNdkWrapper @Inject constructor() {
     fun getClientId(): String {
-        return ClientKeysNdk.getClientId(BuildConfig.FLAVOR)
+        return ClientKeysNdk.getClientId(BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE)
     }
 
     fun getClientSecret(): String {
-        return ClientKeysNdk.getClientSecret(BuildConfig.FLAVOR)
+        return ClientKeysNdk.getClientSecret(BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE)
     }
 }
 
@@ -18,6 +18,6 @@ private object ClientKeysNdk {
         System.loadLibrary("ClientKeysNdk")
     }
 
-    external fun getClientId(flavor: String): String
-    external fun getClientSecret(flavor: String): String
+    external fun getClientId(flavor: String, buildType: String): String
+    external fun getClientSecret(flavor: String, buildType: String): String
 }
