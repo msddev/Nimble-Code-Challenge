@@ -1,6 +1,5 @@
 package com.mkdev.presentation.screen.authentication.signin
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.runtime.Composable
@@ -32,8 +31,6 @@ internal fun SignInScreen(
             signInViewModel.signIn(email = email, password = password)
         }
     )
-
-    BackHandler {}
 
     when (uiState) {
         SignInUiState.Idle -> {}
