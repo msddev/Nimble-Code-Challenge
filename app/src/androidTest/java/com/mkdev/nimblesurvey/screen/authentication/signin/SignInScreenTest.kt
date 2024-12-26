@@ -14,12 +14,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mkdev.nimblesurvey.MainActivity
 import com.mkdev.presentation.R
 import com.mkdev.presentation.navigation.NimbleNavHost
+import com.mkdev.presentation.screen.authentication.resetPassword.ResetPasswordNavigation
 import com.mkdev.presentation.screen.authentication.signin.SignInNavigation
+import com.mkdev.presentation.screen.home.HomeNavigation
 import com.mkdev.presentation.theme.NimbleSurveyTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -32,8 +34,6 @@ class SignInScreenTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
-    private lateinit var testDispatcher: TestDispatcher
-
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
@@ -42,8 +42,6 @@ class SignInScreenTest {
     @Before
     fun setUp() {
         hiltRule.inject()
-
-        testDispatcher = StandardTestDispatcher()
 
         composeTestRule.activity.setContent {
             NimbleSurveyTheme {
@@ -68,10 +66,18 @@ class SignInScreenTest {
     }
 
     @Test
-    fun signInScreen_validInput_navigatesToHome() {
+    fun signInScreen_validInput_navigatesToHome() = runTest {
         composeTestRule.onNodeWithText("Email").performTextInput("msd.khoshkam@gmail.com")
         composeTestRule.onNodeWithText("Password").performTextInput("12345678")
         composeTestRule.onNodeWithText("Log in").performClick()
+
+        // Wait for navigation to complete (adjust timeout as needed)
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            navController.currentDestination?.route == HomeNavigation.ROUTE
+        }
+
+        // Assert that navigation was successful
+        Assert.assertEquals(HomeNavigation.ROUTE, navController.currentDestination?.route)
     }
 
     @Test
@@ -88,5 +94,13 @@ class SignInScreenTest {
     @Test
     fun signInScreen_forgotPasswordClick_navigatesToForgotPassword() {
         composeTestRule.onNodeWithText("Forgot?").performClick()
+
+        // Wait for navigation to complete (adjust timeout as needed)
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            navController.currentDestination?.route == ResetPasswordNavigation.ROUTE
+        }
+
+        // Assert that navigation was successful
+        Assert.assertEquals(ResetPasswordNavigation.ROUTE, navController.currentDestination?.route)
     }
 }
