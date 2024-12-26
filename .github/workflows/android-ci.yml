@@ -9,17 +9,27 @@ on:
       - master
 
 jobs:
-  lint:
+  android-lint:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v4
 
-      - name: Upload html test report
-        uses: actions/upload-artifact@v4
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
         with:
-          name: lint.html
-          path: presentation/build/reports/lint-results-debug.html
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Run Lint
+        run: ./gradlew lint
+        continue-on-error: false
+
+#      - name: Check and report lint results
+#        uses: hidakatsuya/action-report-android-lint@v1.2.0
+#        with:
+#          name: lint.html
+#          path: presentation/build/reports/lint-results-debug.html
 
 #  unit-test:
 #    needs: [lint]
