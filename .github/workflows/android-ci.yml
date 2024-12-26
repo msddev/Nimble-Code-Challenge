@@ -26,27 +26,12 @@ jobs:
 
   unit-test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        flavor: [development, staging, production]
-        buildType: [debug, release]
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
 
-      - name: Set capitalized flavor and build type
-        run: |
-          echo "CAPITALIZED_FLAVOR=$(echo ${{ matrix.flavor }} | tr '[:lower:]' '[:upper:]')" >> $GITHUB_ENV
-          echo "CAPITALIZED_BUILD_TYPE=$(echo ${{ matrix.buildType }} | tr '[:lower:]' '[:upper:]')" >> $GITHUB_ENV
-
-      - name: Run unit tests for ${{ matrix.flavor }} ${{ matrix.buildType }}
-        run: ./gradlew test$CAPITALIZED_FLAVOR$CAPITALIZED_BUILD_TYPEUnitTest
-
-      - name: Upload test report for ${{ matrix.flavor }} ${{ matrix.buildType }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: unit-test-report-${{ matrix.flavor }}-${{ matrix.buildType }}
-          path: app/build/reports/tests/test$CAPITALIZED_FLAVOR$CAPITALIZED_BUILD_TYPEUnitTest/
+      - name: Run tests
+        run: ./gradlew test
 
 #  unit-test:
 #    needs: [lint]
