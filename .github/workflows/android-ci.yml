@@ -12,11 +12,11 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the code
-        uses: actions/checkout@v4
+      - name: Lint
+        uses: ./gradlew lint
 
-      - name: Upload html test report
-        uses: actions/upload-artifact@v4
+      - name: Check and report lint results
+        uses: hidakatsuya/action-report-android-lint@v1.2.0
         with:
           name: lint.html
           path: presentation/build/reports/lint-results-debug.html
