@@ -18,6 +18,8 @@ import com.mkdev.presentation.screen.authentication.signin.SignInNavigation
 import com.mkdev.presentation.theme.NimbleSurveyTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestDispatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,6 +32,8 @@ class SignInScreenTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 
+    private lateinit var testDispatcher: TestDispatcher
+
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
@@ -38,6 +42,9 @@ class SignInScreenTest {
     @Before
     fun setUp() {
         hiltRule.inject()
+
+        testDispatcher = StandardTestDispatcher()
+
         composeTestRule.activity.setContent {
             NimbleSurveyTheme {
                 navController = TestNavHostController(LocalContext.current).apply {
