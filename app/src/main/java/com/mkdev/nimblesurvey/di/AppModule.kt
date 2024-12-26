@@ -5,7 +5,7 @@ import com.google.crypto.tink.Aead
 import com.google.crypto.tink.KeyTemplates
 import com.google.crypto.tink.aead.AeadConfig
 import com.google.crypto.tink.integration.android.AndroidKeysetManager
-import com.mkdev.nimblesurvey.utils.DataConfigs
+import com.mkdev.data.utils.DataConfigs
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

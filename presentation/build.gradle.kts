@@ -10,6 +10,10 @@ android {
     namespace = libs.plugins.presentation.namespace.get().toString()
     compileSdk = libs.versions.compileSdk.get().toInt()
 
+    defaultConfig {
+        minSdk = libs.versions.minSdk.get().toInt()
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -68,10 +72,21 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockk)
-    androidTestImplementation(libs.androidx.espresso.core)
     testImplementation(libs.test.rules)
-    androidTestImplementation(libs.room.testing)
     testImplementation(libs.androidx.junit)
     testImplementation(libs.turbine)
     testImplementation(libs.truth)
+
+    // UI Test
+    androidTestImplementation(libs.room.testing)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.test.runner)
+    androidTestImplementation(libs.test.rules)
+    androidTestImplementation(libs.androidx.junit)
+
+    // Needed for createAndroidComposeRule
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

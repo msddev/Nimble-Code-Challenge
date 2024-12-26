@@ -2,14 +2,13 @@ package com.mkdev.nimblesurvey.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.Serializer
-import androidx.datastore.dataStoreFile
 import com.google.gson.Gson
 import com.mkdev.data.datasource.local.UserLocal
 import com.mkdev.data.datasource.local.crypto.Crypto
 import com.mkdev.data.datasource.local.crypto.CryptoImpl
 import com.mkdev.data.datasource.local.database.room.NimbleRoomDatabase
+import com.mkdev.data.datasource.local.datastore.DataStoreHolder
 import com.mkdev.data.datasource.local.datastore.UserLocalSerializer
 import com.mkdev.data.datasource.local.datastore.UserLocalSource
 import com.mkdev.data.datasource.local.datastore.UserLocalSourceImpl
@@ -19,7 +18,6 @@ import com.mkdev.data.datasource.remote.interceptor.AuthInterceptor
 import com.mkdev.data.utils.ApiErrorHandler
 import com.mkdev.nimblesurvey.BuildConfig
 import com.mkdev.nimblesurvey.utils.ApiConfigs
-import com.mkdev.nimblesurvey.utils.DataConfigs
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -71,10 +69,9 @@ abstract class DataModule {
         fun provideDataStore(
             @ApplicationContext applicationContext: Context,
             serializer: Serializer<UserLocal>
-        ): DataStore<UserLocal> = DataStoreFactory.create(
-            serializer = serializer,
-            produceFile = { applicationContext.dataStoreFile(DataConfigs.DATA_STORE_FINE_NAME) },
-        )
+        ): DataStore<UserLocal> {
+            return DataStoreHolder.getInstance(applicationContext, serializer)
+        }
 
         @Provides
         @Singleton

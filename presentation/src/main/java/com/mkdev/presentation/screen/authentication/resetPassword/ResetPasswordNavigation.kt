@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-private object ResetPasswordNavigation {
+object ResetPasswordNavigation {
     const val ROUTE = "reset_password"
 }
 

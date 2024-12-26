@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-internal object SignInNavigation {
+object SignInNavigation {
     const val ROUTE = "sign_in"
 }
 

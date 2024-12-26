@@ -15,7 +15,7 @@ import com.mkdev.presentation.screen.authentication.signin.components.SignInScre
 import com.mkdev.presentation.viewmodel.SignInViewModel
 
 @Composable
-internal fun SignInScreen(
+fun SignInScreen(
     signInViewModel: SignInViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
     onNavigateToForgotPassword: () -> Unit,

@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 
-private object HomeNavigation {
+object HomeNavigation {
     const val ROUTE = "home"
 }
 
