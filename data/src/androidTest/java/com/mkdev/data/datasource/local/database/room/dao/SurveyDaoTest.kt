@@ -1,6 +1,6 @@
 package com.mkdev.data.datasource.local.database.room.dao
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import android.content.Context
 import androidx.paging.PagingSource
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
@@ -8,9 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mkdev.data.datasource.local.database.room.NimbleRoomDatabase
 import com.mkdev.data.datasource.local.database.room.entity.SurveyEntity
 import com.mkdev.data.factory.SurveyEntityFactory
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestDispatcher
+import com.mkdev.data.utils.TestDispatcherRule
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -19,26 +17,23 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class SurveyDaoTest {
 
-    @get:Rule
-    var instantExecutorRule = InstantTaskExecutorRule()
+    @get: Rule
+    val dispatcherRule = TestDispatcherRule()
 
     private lateinit var database: NimbleRoomDatabase
     private lateinit var surveyDao: SurveyDao
-    private lateinit var testDispatcher:TestDispatcher
 
     @Before
     fun setUp() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
+            context,
             NimbleRoomDatabase::class.java
-        ).allowMainThreadQueries().build()
+        ).build()
         surveyDao = database.surveyDao()
-
-        testDispatcher = StandardTestDispatcher()
     }
 
     @After
@@ -47,7 +42,7 @@ class SurveyDaoTest {
     }
 
     @Test
-    fun `insertAll should insert surveys into database`() = runTest(testDispatcher) {
+    fun insertAll_should_insert_surveys_into_database() = runTest {
         // Given
         val surveys = SurveyEntityFactory.createSurveyEntityList(count = 2)
 
@@ -63,7 +58,7 @@ class SurveyDaoTest {
     }
 
     @Test
-    fun `getByPaging should return paging source of surveys`() = runTest(testDispatcher) {
+    fun getByPaging_should_return_paging_source_of_surveys() = runTest {
         // Given
         val surveys = SurveyEntityFactory.createSurveyEntityList(count = 2)
         surveyDao.insertAll(surveys)
@@ -83,7 +78,7 @@ class SurveyDaoTest {
     }
 
     @Test
-    fun `getById should return survey by id`() = runTest(testDispatcher) {
+    fun getById_should_return_survey_by_id() = runTest {
         // Given
         val survey = SurveyEntityFactory.createSurveyEntity()
         surveyDao.insertAll(listOf(survey))
@@ -96,7 +91,7 @@ class SurveyDaoTest {
     }
 
     @Test
-    fun `getById should return null when survey not found`() = runTest(testDispatcher) {
+    fun getById_should_return_null_when_survey_not_found() = runTest {
         // Given
         val nonexistentId = "nonexistent_id"
 
@@ -108,7 +103,7 @@ class SurveyDaoTest {
     }
 
     @Test
-    fun `clearAll should clear all surveys from database`() = runTest(testDispatcher) {
+    fun clearAll_should_clear_all_surveys_from_database() = runTest {
         // Given
         val surveys = SurveyEntityFactory.createSurveyEntityList(count = 2)
         surveyDao.insertAll(surveys)

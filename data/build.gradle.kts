@@ -83,12 +83,20 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockk)
-    androidTestImplementation(libs.androidx.espresso.core)
     testImplementation(libs.test.rules)
-    androidTestImplementation(libs.room.testing)
     testImplementation(libs.androidx.junit)
     testImplementation(libs.turbine)
     testImplementation(libs.truth)
+
+    // UI Test
+    androidTestImplementation(libs.room.testing)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.test.runner)
+    androidTestImplementation(libs.test.rules)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.turbine)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
 }
 
 protobuf {

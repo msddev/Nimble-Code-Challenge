@@ -1,21 +1,27 @@
-package com.mkdev.data.datasource.local.database.room.dao
+package com.mkdev.data.datasource.local.database.room.dao//package com.mkdev.data.datasource.local.database.room.dao
 
+import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mkdev.data.datasource.local.database.room.NimbleRoomDatabase
 import com.mkdev.data.datasource.local.database.room.entity.SurveyRemoteKeyEntity
 import com.mkdev.data.factory.SurveyRemoteKeyEntityFactory
+import com.mkdev.data.utils.TestDispatcherRule
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SurveyRemoteKeyDaoTest {
+
+    @get: Rule
+    val dispatcherRule = TestDispatcherRule()
 
     private lateinit var database: NimbleRoomDatabase
     private lateinit var surveyRemoteKeyDao: SurveyRemoteKeyDao
@@ -23,10 +29,11 @@ class SurveyRemoteKeyDaoTest {
 
     @Before
     fun setUp() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
+            context,
             NimbleRoomDatabase::class.java
-        ).allowMainThreadQueries().build()
+        ).build()
         surveyRemoteKeyDao = database.surveyRemoteKeyDao()
     }
 
@@ -36,7 +43,7 @@ class SurveyRemoteKeyDaoTest {
     }
 
     @Test
-    fun `insertAll should insert remote keys into database`() = runTest(testDispatcher) {
+    fun insertAll_should_insert_remote_keys_into_database() = runTest {
         // Given
         val remoteKeys = SurveyRemoteKeyEntityFactory.createSurveyRemoteKeyEntityList(count = 2)
 
@@ -49,7 +56,7 @@ class SurveyRemoteKeyDaoTest {
     }
 
     @Test
-    fun `insert should insert a single remote key into database`() = runTest(testDispatcher) {
+    fun insert_should_insert_a_single_remote_key_into_database() = runTest(testDispatcher) {
         // Given
         val remoteKey = SurveyRemoteKeyEntityFactory.createSurveyRemoteKeyEntity()
 
@@ -62,7 +69,7 @@ class SurveyRemoteKeyDaoTest {
     }
 
     @Test
-    fun `insertOrReplace should insert or replace a remote key`() = runTest(testDispatcher) {
+    fun insertOrReplace_should_insert_or_replace_a_remote_key() = runTest(testDispatcher) {
         // Given
         val remoteKey1 = SurveyRemoteKeyEntityFactory.createSurveyRemoteKeyEntity()
         val remoteKey2 = remoteKey1.copy(nextPage = 3) // Updated nextPage
@@ -77,7 +84,7 @@ class SurveyRemoteKeyDaoTest {
     }
 
     @Test
-    fun `remoteKeysId should return remote key by id`() = runTest(testDispatcher) {
+    fun remoteKeysId_should_return_remote_key_by_id() = runTest(testDispatcher) {
         // Given
         val remoteKey = SurveyRemoteKeyEntityFactory.createSurveyRemoteKeyEntity()
         surveyRemoteKeyDao.insert(remoteKey)
@@ -90,7 +97,7 @@ class SurveyRemoteKeyDaoTest {
     }
 
     @Test
-    fun `remoteKeysId should return null when remote key not found`() = runTest(testDispatcher) {
+    fun remoteKeysId_should_return_null_when_remote_key_not_found() = runTest(testDispatcher) {
         // Given
         val nonexistentId = "nonexistent_id"
 
@@ -102,7 +109,7 @@ class SurveyRemoteKeyDaoTest {
     }
 
     @Test
-    fun `clearRemoteKeys should clear all remote keys from database`() = runTest(testDispatcher) {
+    fun clearRemoteKeys_should_clear_all_remote_keys_from_database() = runTest(testDispatcher) {
         // Given
         val remoteKeys = SurveyRemoteKeyEntityFactory.createSurveyRemoteKeyEntityList(count = 2)
         surveyRemoteKeyDao.insertAll(remoteKeys)

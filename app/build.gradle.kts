@@ -117,10 +117,10 @@ dependencies {
 
     // Unit Test
     testImplementation(libs.junit)
-    testImplementation(libs.mockito)
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockk)
     testImplementation(libs.test.rules)
