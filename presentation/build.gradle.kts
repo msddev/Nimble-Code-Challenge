@@ -26,6 +26,13 @@ android {
         compose = true
         buildConfig = true
     }
+
+    flavorDimensions += "environment"
+    productFlavors {
+        register("development")
+        register("staging")
+        register("production")
+    }
 }
 
 dependencies {

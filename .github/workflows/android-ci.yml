@@ -24,6 +24,25 @@ jobs:
           name: lint-report
           path: presentation/build/reports/lint-results-debug.html
 
+  unit-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flavor: [development, staging, production]
+        buildType: [debug, release]
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Run unit tests for ${{ matrix.flavor }} ${{ matrix.buildType }}
+        run: ./gradlew test${{ matrix.flavor.capitalize() }}${{ matrix.buildType.capitalize() }}UnitTest
+
+      - name: Upload test report for ${{ matrix.flavor }} ${{ matrix.buildType }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-report-${{ matrix.flavor }}-${{ matrix.buildType }}
+          path: app/build/reports/tests/test${{ matrix.flavor.capitalize() }}${{ matrix.buildType.capitalize() }}UnitTest/
+
 #  unit-test:
 #    needs: [lint]
 #    runs-on: ubuntu-latest
