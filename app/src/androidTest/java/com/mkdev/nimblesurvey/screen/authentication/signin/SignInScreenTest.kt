@@ -70,7 +70,6 @@ class SignInScreenTest {
         composeTestRule.onNodeWithText("Password").performTextInput("12345678")
         composeTestRule.onNodeWithText("Log in").performClick()
 
-        // Wait for navigation to complete (adjust timeout as needed)
         composeTestRule.waitUntil(timeoutMillis = 2000) {
             navController.currentDestination?.route == HomeNavigation.ROUTE
         }
@@ -94,7 +93,6 @@ class SignInScreenTest {
     fun signInScreen_forgotPasswordClick_navigatesToForgotPassword() {
         composeTestRule.onNodeWithText("Forgot?").performClick()
 
-        // Wait for navigation to complete (adjust timeout as needed)
         composeTestRule.waitUntil(timeoutMillis = 2000) {
             navController.currentDestination?.route == ResetPasswordNavigation.ROUTE
         }
