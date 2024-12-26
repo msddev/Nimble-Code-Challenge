@@ -20,7 +20,6 @@ import com.mkdev.presentation.screen.home.HomeNavigation
 import com.mkdev.presentation.theme.NimbleSurveyTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -66,13 +65,13 @@ class SignInScreenTest {
     }
 
     @Test
-    fun signInScreen_validInput_navigatesToHome() = runTest {
+    fun signInScreen_validInput_navigatesToHome() {
         composeTestRule.onNodeWithText("Email").performTextInput("msd.khoshkam@gmail.com")
         composeTestRule.onNodeWithText("Password").performTextInput("12345678")
         composeTestRule.onNodeWithText("Log in").performClick()
 
         // Wait for navigation to complete (adjust timeout as needed)
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
+        composeTestRule.waitUntil(timeoutMillis = 2000) {
             navController.currentDestination?.route == HomeNavigation.ROUTE
         }
 
@@ -96,7 +95,7 @@ class SignInScreenTest {
         composeTestRule.onNodeWithText("Forgot?").performClick()
 
         // Wait for navigation to complete (adjust timeout as needed)
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
+        composeTestRule.waitUntil(timeoutMillis = 2000) {
             navController.currentDestination?.route == ResetPasswordNavigation.ROUTE
         }
 
