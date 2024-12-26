@@ -17,7 +17,6 @@ jobs:
 
       - name: Run lint
         run: ./gradlew lint
-        continue-on-error: false
 
       - name: Upload lint report
         uses: actions/upload-artifact@v4
