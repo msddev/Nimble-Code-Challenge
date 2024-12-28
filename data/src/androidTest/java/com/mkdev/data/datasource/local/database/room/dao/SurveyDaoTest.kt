@@ -93,7 +93,7 @@ class SurveyDaoTest {
     @Test
     fun getById_should_return_null_when_survey_not_found() = runTest {
         // Given
-        val nonexistentId = "nonexistent_id"
+        val nonexistentId = 100001
 
         // When
         val retrievedSurvey = surveyDao.getById(nonexistentId)
