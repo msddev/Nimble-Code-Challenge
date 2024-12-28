@@ -1,16 +1,18 @@
 package com.mkdev.data.datasource.remote.model.request.singIn
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SignInRequest(
-    @SerializedName("grant_type")
+    @SerialName("grant_type")
     val grantType: String,
-    @SerializedName("email")
+    @SerialName("email")
     val email: String,
-    @SerializedName("password")
+    @SerialName("password")
     val password: String,
-    @SerializedName("client_id")
+    @SerialName("client_id")
     val clientId: String,
-    @SerializedName("client_secret")
+    @SerialName("client_secret")
     val clientSecret: String,
 )

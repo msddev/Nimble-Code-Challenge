@@ -8,18 +8,16 @@ import javax.inject.Inject
 class SurveyDomainMapper @Inject constructor() {
     fun mapToSurveyDomainModel(surveyResponse: SurveyResponse): SurveyModel {
         return SurveyModel(
-            id = surveyResponse.id,
-            title = surveyResponse.attributes.title,
-            description = surveyResponse.attributes.description,
-            coverImageUrl = surveyResponse.attributes.coverImageUrl,
-            isActive = surveyResponse.attributes.isActive,
-            surveyType = surveyResponse.attributes.surveyType
+            title = surveyResponse.title,
+            description = surveyResponse.description,
+            coverImageUrl = surveyResponse.coverImageUrl,
+            isActive = surveyResponse.isActive,
+            surveyType = surveyResponse.surveyType
         )
     }
 
     fun mapToSurveyDomainModel(surveyEntity: SurveyEntity): SurveyModel {
         return SurveyModel(
-            id = surveyEntity.id,
             title = surveyEntity.title,
             description = surveyEntity.description,
             coverImageUrl = surveyEntity.coverImageUrl,

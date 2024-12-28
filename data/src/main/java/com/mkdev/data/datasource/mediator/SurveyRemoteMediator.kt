@@ -13,7 +13,6 @@ import com.mkdev.data.datasource.remote.api.SurveyApi
 import com.mkdev.data.utils.RemoteApiPaging
 import retrofit2.HttpException
 import java.io.IOException
-import java.lang.RuntimeException
 
 @OptIn(ExperimentalPagingApi::class)
 internal class SurveyRemoteMediator(
@@ -62,8 +61,8 @@ internal class SurveyRemoteMediator(
             }
 
             val response = surveyApi.getSurveys(page = page, pageSize = RemoteApiPaging.PAGE_SIZE)
-            val surveys = response.body()?.data
-            val endOfPaginationReached = surveys.isNullOrEmpty()
+            val surveys = response.data
+            val endOfPaginationReached = surveys.isEmpty()
 
             // Clear local data for REFRESH
             if (loadType == LoadType.REFRESH) {
@@ -74,15 +73,15 @@ internal class SurveyRemoteMediator(
             val prevKey = if (page == RemoteApiPaging.FIRST_PAGE) null else page - 1
             val nextKey = if (endOfPaginationReached) null else page + 1
 
-            val surveyEntities = surveys?.map { surveyDto ->
-                surveyEntityMapper.mapToSurveyEntity(surveyDto)
+            val surveyEntities = surveys.map { surveyDto ->
+                surveyEntityMapper.mapToSurveyEntity(surveyDto.data)
             }
 
             // Insert new surveys and remote keys
-            surveyEntities?.let { surveyDao.insertAll(it) }
-            surveys?.map {
-                SurveyRemoteKeyEntity(surveyId = it.id, prevPage = prevKey, nextPage = nextKey)
-            }?.let { surveyRemoteKeyDao.insertAll(it) }
+            surveyEntities.let { surveyDao.insertAll(it) }
+            surveys.map {
+                SurveyRemoteKeyEntity(prevPage = prevKey, nextPage = nextKey)
+            }.let { surveyRemoteKeyDao.insertAll(it) }
 
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: IOException) {

@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.dagger.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.protobuf)
+    alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -59,10 +61,8 @@ dependencies {
     // Networking
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.converter.gson)
-    implementation(libs.retrofit2.adapter.rxjava2)
     implementation(libs.okhttp3)
     implementation(libs.okhttp3.logging.interceptor)
-    implementation(libs.kotlinx.serialization.json)
 
     // DataStore, ProtoBuf
     implementation(libs.datastore)
@@ -74,6 +74,13 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
     implementation(libs.room.paging)
+
+    // JsonApiX
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.jsonapix.core)
+    kapt(libs.jsonapix.processor)
+    implementation(libs.jsonapix.retrofit)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     // Unit Test
     testImplementation(libs.junit)

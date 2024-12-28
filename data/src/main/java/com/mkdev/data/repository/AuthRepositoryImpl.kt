@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import retrofit2.HttpException
 
 class AuthRepositoryImpl(
     private val userLocalSource: UserLocalSource,
@@ -43,13 +42,8 @@ class AuthRepositoryImpl(
                 )
             )
         }.onSuccess { result ->
-            if (result.isSuccessful) {
-                userLocalSource.update { signInMapper.mapToUserLocal(result.body()?.data) }
-                emit(Resource.Success(Unit))
-            } else {
-                val apiException = apiErrorHandler.handleError(HttpException(result))
-                emit(Resource.Error(apiException.message))
-            }
+            userLocalSource.update { signInMapper.mapToUserLocal(result.data) }
+            emit(Resource.Success(Unit))
         }.onFailure { throwable ->
             val apiException = apiErrorHandler.handleError(throwable)
             emit(Resource.Error(apiException.message))
@@ -79,12 +73,7 @@ class AuthRepositoryImpl(
                 )
             )
         }.onSuccess { result ->
-            if (result.isSuccessful) {
-                emit(Resource.Success(result.body()?.meta?.message))
-            } else {
-                val apiException = apiErrorHandler.handleError(HttpException(result))
-                emit(Resource.Error(apiException.message))
-            }
+            emit(Resource.Success(result.rootMeta?.message))
         }.onFailure { throwable ->
             val apiException = apiErrorHandler.handleError(throwable)
             emit(Resource.Error(apiException.message))

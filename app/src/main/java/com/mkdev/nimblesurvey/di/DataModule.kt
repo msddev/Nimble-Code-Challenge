@@ -3,7 +3,9 @@ package com.mkdev.nimblesurvey.di
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
-import com.google.gson.Gson
+import com.infinum.jsonapix.TypeAdapterFactory
+import com.infinum.jsonapix.retrofit.JsonXConverterFactory
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.mkdev.data.datasource.local.UserLocal
 import com.mkdev.data.datasource.local.crypto.Crypto
 import com.mkdev.data.datasource.local.crypto.CryptoImpl
@@ -15,7 +17,6 @@ import com.mkdev.data.datasource.local.datastore.UserLocalSourceImpl
 import com.mkdev.data.datasource.remote.api.AuthApi
 import com.mkdev.data.datasource.remote.api.SurveyApi
 import com.mkdev.data.datasource.remote.interceptor.AuthInterceptor
-import com.mkdev.data.utils.ApiErrorHandler
 import com.mkdev.nimblesurvey.BuildConfig
 import com.mkdev.nimblesurvey.utils.ApiConfigs
 import dagger.Binds
@@ -24,14 +25,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 import kotlin.time.toJavaDuration
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -53,16 +54,6 @@ abstract class DataModule {
     ): UserLocalSource
 
     internal companion object {
-
-        @Provides
-        @Singleton
-        fun provideApiErrorHandler(gson: Gson): ApiErrorHandler {
-            return ApiErrorHandler(gson)
-        }
-
-        @Provides
-        @Singleton
-        fun provideGson(): Gson = Gson()
 
         @Provides
         @Singleton
@@ -101,22 +92,21 @@ abstract class DataModule {
 
         @Singleton
         @Provides
-        fun provideConverterFactory(): Converter.Factory {
-            return GsonConverterFactory.create()
-        }
-
-        @Singleton
-        @Provides
         fun provideRetrofitApiService(
             okHttpClient: OkHttpClient,
-            converterFactory: Converter.Factory,
-        ): Retrofit =
-            Retrofit.Builder()
+        ): Retrofit {
+            val networkJson = Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+            }
+
+            return Retrofit.Builder()
                 .baseUrl(BuildConfig.API_URL)
-                .addConverterFactory(converterFactory)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(JsonXConverterFactory(TypeAdapterFactory()))
+                .addConverterFactory(networkJson.asConverterFactory("application/json".toMediaType()))
                 .client(okHttpClient)
                 .build()
+        }
 
         @Singleton
         @Provides

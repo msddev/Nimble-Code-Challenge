@@ -18,7 +18,7 @@ interface SurveyRemoteKeyDao {
     suspend fun insertOrReplace(remoteKey: SurveyRemoteKeyEntity)
 
     @Query("SELECT * FROM survey_remote_key_table WHERE surveyId = :id")
-    suspend fun remoteKeysId(id: String): SurveyRemoteKeyEntity?
+    suspend fun remoteKeysId(id: Int): SurveyRemoteKeyEntity?
 
     @Query("DELETE FROM survey_remote_key_table")
     suspend fun clearRemoteKeys()

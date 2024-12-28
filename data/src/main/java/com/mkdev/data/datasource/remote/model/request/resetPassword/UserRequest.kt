@@ -1,8 +1,10 @@
 package com.mkdev.data.datasource.remote.model.request.resetPassword
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UserRequest(
-    @SerializedName("email")
+    @SerialName("email")
     val email: String
 )

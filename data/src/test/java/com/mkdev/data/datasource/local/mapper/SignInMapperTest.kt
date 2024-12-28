@@ -25,7 +25,7 @@ class SignInMapperTest {
     @Test
     fun `mapToUserLocal should return UserLocal when signInResponse is not null`() {
         // Given
-        val signInResponse = SignInResponseFactory.createSignInResponse()
+        val signInResponse = SignInResponseFactory.createSignInResponse().data
 
         // When
         val result = signInMapper.mapToUserLocal(signInResponse)
@@ -33,10 +33,10 @@ class SignInMapperTest {
         // Then
         // Assert that the result is not null and then access its properties
         val userLocal = requireNotNull(result)
-        assertEquals(signInResponse.attributes.accessToken, userLocal.accessToken)
-        assertEquals(signInResponse.attributes.refreshToken, userLocal.refreshToken)
-        assertEquals(signInResponse.attributes.createdAt, userLocal.createdAt)
-        assertEquals(signInResponse.attributes.expiresIn, userLocal.expiresIn)
-        assertEquals(signInResponse.attributes.tokenType, userLocal.tokenType)
+        assertEquals(signInResponse.accessToken, userLocal.accessToken)
+        assertEquals(signInResponse.refreshToken, userLocal.refreshToken)
+        assertEquals(signInResponse.createdAt.toString(), userLocal.createdAt)
+        assertEquals(signInResponse.expiresIn.toString(), userLocal.expiresIn)
+        assertEquals(signInResponse.tokenType, userLocal.tokenType)
     }
 }
