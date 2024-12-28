@@ -3,17 +3,18 @@ package com.mkdev.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
+import com.infinum.jsonapix.core.resources.DefaultError
 import com.mkdev.data.datasource.local.datastore.UserLocalSource
 import com.mkdev.data.datasource.local.mapper.SignInMapper
 import com.mkdev.data.datasource.remote.api.AuthApi
-import com.mkdev.data.datasource.remote.model.response.base.BaseApiResponse
-import com.mkdev.data.datasource.remote.model.response.singIn.SignInResponse
-import com.mkdev.data.factory.MetaResponseFactory
+import com.mkdev.data.datasource.remote.model.response.resetPassword.ResetPasswordMetaResponse
+import com.mkdev.data.datasource.remote.model.response.resetPassword.ResetPasswordResponse
+import com.mkdev.data.datasource.remote.model.response.resetPassword.ResetPasswordResponseModel
 import com.mkdev.data.factory.SignInRequestFactory
 import com.mkdev.data.factory.SignInResponseFactory
 import com.mkdev.data.factory.UserLocalFactory
 import com.mkdev.data.utils.ApiErrorHandler
-import com.mkdev.data.utils.ApiException.HttpError
+import com.mkdev.data.utils.ApiException
 import com.mkdev.data.utils.ClientKeysNdkWrapper
 import com.mkdev.domain.utils.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,11 +27,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito.*
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.anyOrNull
+import retrofit2.HttpException
 import retrofit2.Response
-import retrofit2.Response as RetrofitResponse
 
 @ExperimentalCoroutinesApi
 class AuthRepositoryTest {
@@ -76,18 +78,13 @@ class AuthRepositoryTest {
         // Given
         val signInRequest = SignInRequestFactory.createSignInRequest()
         val signInResponse = SignInResponseFactory.createSignInResponse()
-        val metaResponse = MetaResponseFactory.createMetaResponse()
+
         val userLocal = UserLocalFactory.createUserLocal()
-        val apiResponse = RetrofitResponse.success(
-            BaseApiResponse(
-                signInResponse,
-                metaResponse
-            )
-        )
+
         `when`(clientKeysNdkWrapperMock.getClientId()).thenReturn("mocked_client_id")
         `when`(clientKeysNdkWrapperMock.getClientSecret()).thenReturn("mocked_client_secret")
-        `when`(authApi.signIn(anyOrNull())).thenReturn(apiResponse)
-        `when`(signInMapper.mapToUserLocal(signInResponse)).thenReturn(userLocal)
+        `when`(authApi.signIn(anyOrNull())).thenReturn(signInResponse)
+        `when`(signInMapper.mapToUserLocal(signInResponse.data)).thenReturn(userLocal)
 
         // When-Then
         authRepository.signIn(
@@ -105,11 +102,16 @@ class AuthRepositoryTest {
     fun `signIn should emit loading and then error on failure`() = runTest {
         // Given
         val signInRequest = SignInRequestFactory.createSignInRequest()
-        val errorResponse =
-            Response.error<BaseApiResponse<SignInResponse>>(400, "client error".toResponseBody())
-        val expectedApiException = HttpError(400, "Client error message")
 
-        `when`(authApi.signIn(anyOrNull())).thenReturn(errorResponse)
+        val expectedApiException = ApiException.HttpError(400, "Client error message")
+
+        `when`(authApi.signIn(anyOrNull())).thenThrow(
+            HttpException(
+                Response.error<Unit>(400,
+                    "{\"errors\": [{\"detail\": \"Mocked error message\"}]}".toResponseBody()
+                )
+            )
+        )
         `when`(apiErrorHandler.handleError(anyOrNull())).thenReturn(expectedApiException)
 
         // When-Then
@@ -152,17 +154,14 @@ class AuthRepositoryTest {
         // Given
         val email = "test@example.com"
 
-        val metaResponse = MetaResponseFactory.createMetaResponse()
-        val apiResponse = RetrofitResponse.success(
-            BaseApiResponse(
-                Unit,
-                metaResponse
-            )
+        val response = ResetPasswordResponseModel(
+            data = ResetPasswordResponse(),
+            rootMeta = ResetPasswordMetaResponse(message = "")
         )
 
         `when`(clientKeysNdkWrapperMock.getClientId()).thenReturn("mocked_client_id")
         `when`(clientKeysNdkWrapperMock.getClientSecret()).thenReturn("mocked_client_secret")
-        `when`(authApi.resetPassword(anyOrNull())).thenReturn(apiResponse)
+        `when`(authApi.resetPassword(anyOrNull())).thenReturn(response)
 
         // When-Then
         authRepository.resetPassword(email).test {
@@ -177,14 +176,23 @@ class AuthRepositoryTest {
     fun `resetPassword should emit loading and error on failure`() = runTest {
         val email = "test@example.com"
 
-        val errorResponse =
-            Response.error<BaseApiResponse<Unit>>(400, "client error".toResponseBody())
-        val expectedApiException = HttpError(400, "Client error message")
+        val errorResponse = ResetPasswordResponseModel(
+            data = ResetPasswordResponse(),
+            errors = listOf(DefaultError(code = "", title = "", detail = "", status = ""))
+        )
 
-        `when`(authApi.resetPassword(anyOrNull())).thenReturn(errorResponse)
+        `when`(authApi.resetPassword(anyOrNull())).thenThrow(
+            HttpException(
+                Response.error<Unit>(400,
+                    "{\"errors\": [{\"detail\": \"Mocked error message\"}]}".toResponseBody()
+                )
+            )
+        )
+        val expectedApiException = ApiException.HttpError(400, "Client error message")
+
+        `when`(clientKeysNdkWrapperMock.getClientId()).thenReturn("mocked_client_id")
+        `when`(clientKeysNdkWrapperMock.getClientSecret()).thenReturn("mocked_client_secret")
         `when`(apiErrorHandler.handleError(anyOrNull())).thenReturn(expectedApiException)
-
-        `when`(authApi.resetPassword(anyOrNull())).thenReturn(errorResponse)
 
         // When-Then
         authRepository.resetPassword(email).test {
