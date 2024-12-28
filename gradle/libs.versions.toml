@@ -23,7 +23,7 @@ glideCompose = "2.4.4"
 pagingCompose = "3.3.5"
 retrofit2 = "2.9.0"
 okhttp3 = "5.0.0-alpha.12"
-kotlinxSerializationJson = "1.7.3"
+kotlinxSerializationJson = "1.6.2"
 lifecycleCompose = "2.8.7"
 composeRuntimeLivedata = "1.7.6"
 datastore = "1.1.1"
@@ -119,4 +119,3 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobuf" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-
