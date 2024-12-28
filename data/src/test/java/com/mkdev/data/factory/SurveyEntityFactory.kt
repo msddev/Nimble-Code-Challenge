@@ -19,10 +19,4 @@ object SurveyEntityFactory {
             surveyType = surveyType
         )
     }
-
-    fun createSurveyEntityList(count: Int = 5): List<SurveyEntity> {
-        return (1..count).map {
-            createSurveyEntity()
-        }
-    }
 }

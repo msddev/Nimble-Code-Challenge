@@ -12,10 +12,4 @@ object SurveyRemoteKeyEntityFactory {
             nextPage = nextPage
         )
     }
-
-    fun createSurveyRemoteKeyEntityList(count: Int = 5): List<SurveyRemoteKeyEntity> {
-        return (1..count).map {
-            createSurveyRemoteKeyEntity()
-        }
-    }
 }

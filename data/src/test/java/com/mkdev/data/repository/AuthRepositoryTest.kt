@@ -3,7 +3,6 @@ package com.mkdev.data.repository
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.infinum.jsonapix.core.resources.DefaultError
 import com.mkdev.data.datasource.local.datastore.UserLocalSource
 import com.mkdev.data.datasource.local.mapper.SignInMapper
 import com.mkdev.data.datasource.remote.api.AuthApi
@@ -175,11 +174,6 @@ class AuthRepositoryTest {
     @Test
     fun `resetPassword should emit loading and error on failure`() = runTest {
         val email = "test@example.com"
-
-        val errorResponse = ResetPasswordResponseModel(
-            data = ResetPasswordResponse(),
-            errors = listOf(DefaultError(code = "", title = "", detail = "", status = ""))
-        )
 
         `when`(authApi.resetPassword(anyOrNull())).thenThrow(
             HttpException(
