@@ -1,13 +1,22 @@
 package com.mkdev.data.datasource.remote.model.response.singIn
 
+import com.infinum.jsonapix.annotations.JsonApiX
+import com.infinum.jsonapix.core.JsonApiModel
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import com.google.gson.annotations.SerializedName
-
+@Serializable
+@SerialName("token")
+@JsonApiX("token")
 data class SignInResponse(
-    @SerializedName("attributes")
-    val attributes: SignInAttributesResponse,
-    @SerializedName("id")
-    val id: String,
-    @SerializedName("type")
-    val type: String
-)
+    @SerialName("access_token")
+    val accessToken: String,
+    @SerialName("created_at")
+    val createdAt: Long,
+    @SerialName("expires_in")
+    val expiresIn: Long,
+    @SerialName("refresh_token")
+    val refreshToken: String,
+    @SerialName("token_type")
+    val tokenType: String
+) : JsonApiModel()

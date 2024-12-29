@@ -12,7 +12,7 @@ import com.mkdev.data.datasource.local.database.room.dao.SurveyRemoteKeyDao
 import com.mkdev.data.datasource.local.database.room.entity.SurveyEntity
 import com.mkdev.data.datasource.local.mapper.SurveyEntityMapper
 import com.mkdev.data.datasource.remote.api.SurveyApi
-import com.mkdev.data.datasource.remote.model.response.base.BaseApiResponse
+import com.mkdev.data.datasource.remote.model.response.survey.SurveyResponseList
 import com.mkdev.data.factory.SurveyEntityFactory
 import com.mkdev.data.factory.SurveyRemoteKeyEntityFactory
 import com.mkdev.data.factory.SurveyResponseFactory
@@ -26,7 +26,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
-import retrofit2.Response
+import org.mockito.kotlin.anyOrNull
 
 @OptIn(ExperimentalPagingApi::class)
 @RunWith(MockitoJUnitRunner::class)
@@ -61,7 +61,7 @@ class SurveyRemoteMediatorTest {
     fun `refresh load returns success result when more data is present`() =
         runTest(testDispatcher) {
             // Given
-            val surveyResponse = SurveyResponseFactory.createSurveyResponse()
+            val surveyResponse = SurveyResponseFactory.createSurveyResponseList()
             val surveyEntity = SurveyEntityFactory.createSurveyEntity()
             val pagingState = PagingState<Int, SurveyEntity>(
                 listOf(),
@@ -70,9 +70,11 @@ class SurveyRemoteMediatorTest {
                 10
             )
             `when`(surveyApi.getSurveys(RemoteApiPaging.FIRST_PAGE, RemoteApiPaging.PAGE_SIZE))
-                .thenReturn(Response.success(BaseApiResponse(listOf(surveyResponse), null)))
+                .thenReturn(surveyResponse)
             `when`(surveyDao.getSurveysCount()).thenReturn(0)
-            `when`(surveyEntityMapper.mapToSurveyEntity(surveyResponse)).thenReturn(surveyEntity)
+            `when`(surveyEntityMapper.mapToSurveyEntity(surveyResponse.data[0].data)).thenReturn(
+                surveyEntity
+            )
 
             // When
             val result = surveyRemoteMediator.load(LoadType.REFRESH, pagingState)
@@ -93,7 +95,7 @@ class SurveyRemoteMediatorTest {
                 10
             )
             `when`(surveyApi.getSurveys(RemoteApiPaging.FIRST_PAGE, RemoteApiPaging.PAGE_SIZE))
-                .thenReturn(Response.success(BaseApiResponse(null, null)))
+                .thenReturn(SurveyResponseList(data = emptyList()))
             `when`(surveyDao.getSurveysCount()).thenReturn(0)
 
             // When
@@ -129,9 +131,9 @@ class SurveyRemoteMediatorTest {
         runTest(testDispatcher) {
             // Given
             val remoteKeys = SurveyRemoteKeyEntityFactory.createSurveyRemoteKeyEntity(prevPage = 1)
-            val surveyResponse = SurveyResponseFactory.createSurveyResponse()
+            val surveyResponse = SurveyResponseFactory.createSurveyResponseList()
             val surveyEntity = SurveyEntityFactory.createSurveyEntity()
-            val pagingState = PagingState<Int, SurveyEntity>(
+            val pagingState = PagingState(
                 listOf(PagingSource.LoadResult.Page(listOf(surveyEntity), null, 2)),
                 null,
                 PagingConfig(10),
@@ -139,8 +141,10 @@ class SurveyRemoteMediatorTest {
             )
             `when`(surveyRemoteKeyDao.remoteKeysId(surveyEntity.id)).thenReturn(remoteKeys)
             `when`(surveyApi.getSurveys(1, RemoteApiPaging.PAGE_SIZE))
-                .thenReturn(Response.success(BaseApiResponse(listOf(surveyResponse), null)))
-            `when`(surveyEntityMapper.mapToSurveyEntity(surveyResponse)).thenReturn(surveyEntity)
+                .thenReturn(surveyResponse)
+            `when`(surveyEntityMapper.mapToSurveyEntity(surveyResponse.data[0].data)).thenReturn(
+                surveyEntity
+            )
 
             // When
             val result = surveyRemoteMediator.load(LoadType.PREPEND, pagingState)
@@ -198,19 +202,21 @@ class SurveyRemoteMediatorTest {
     @Test
     fun `append load returns success result when more data is present`() = runTest(testDispatcher) {
         // Given
-        val remoteKeys = SurveyRemoteKeyEntityFactory.createSurveyRemoteKeyEntity(nextPage = 2)
-        val surveyResponse = SurveyResponseFactory.createSurveyResponse()
+        val remoteKeys = SurveyRemoteKeyEntityFactory.createSurveyRemoteKeyEntity()
+        val surveyResponse = SurveyResponseFactory.createSurveyResponseList()
         val surveyEntity = SurveyEntityFactory.createSurveyEntity()
-        val pagingState = PagingState<Int, SurveyEntity>(
+        val pagingState = PagingState(
             listOf(PagingSource.LoadResult.Page(listOf(surveyEntity), null, 2)),
             null,
             PagingConfig(10),
             10
         )
-        `when`(surveyRemoteKeyDao.remoteKeysId(surveyEntity.id)).thenReturn(remoteKeys)
-        `when`(surveyApi.getSurveys(2, RemoteApiPaging.PAGE_SIZE))
-            .thenReturn(Response.success(BaseApiResponse(listOf(surveyResponse), null)))
-        `when`(surveyEntityMapper.mapToSurveyEntity(surveyResponse)).thenReturn(surveyEntity)
+        `when`(surveyRemoteKeyDao.remoteKeysId(anyOrNull())).thenReturn(remoteKeys)
+        `when`(surveyApi.getSurveys(anyOrNull(), anyOrNull()))
+            .thenReturn(surveyResponse)
+        `when`(surveyEntityMapper.mapToSurveyEntity(anyOrNull())).thenReturn(
+            surveyEntity
+        )
 
         // When
         val result = surveyRemoteMediator.load(LoadType.APPEND, pagingState)

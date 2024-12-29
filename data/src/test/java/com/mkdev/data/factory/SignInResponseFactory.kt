@@ -1,26 +1,24 @@
 package com.mkdev.data.factory
 
-import com.mkdev.data.datasource.remote.model.response.singIn.SignInAttributesResponse
 import com.mkdev.data.datasource.remote.model.response.singIn.SignInResponse
+import com.mkdev.data.datasource.remote.model.response.singIn.SignInResponseModel
 
 object SignInResponseFactory {
 
     fun createSignInResponse(
         accessToken: String = "access_token",
         refreshToken: String = "refresh_token",
-        createdAt: String = "created_at",
-        expiresIn: String = "expires_in",
+        createdAt: Long = 1001001,
+        expiresIn: Long = 1000220,
         tokenType: String = "token_type",
-        id: String = "id",
-        type: String = "type"
-    ): SignInResponse {
-        val attributes = SignInAttributesResponse(
+    ): SignInResponseModel {
+        val data = SignInResponse(
             accessToken = accessToken,
             refreshToken = refreshToken,
             createdAt = createdAt,
             expiresIn = expiresIn,
             tokenType = tokenType
         )
-        return SignInResponse(attributes = attributes, id = id, type = type)
+        return SignInResponseModel(data = data)
     }
 }

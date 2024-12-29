@@ -63,14 +63,14 @@ class AuthInterceptor @Inject constructor(
 
                         when (refreshTokenResponse.code()) {
                             HTTP_OK -> {
-                                refreshTokenResponse.body()!!.data?.attributes?.also { data ->
+                                refreshTokenResponse.body()?.data?.also { data ->
                                     userLocalSource.update {
                                         (it ?: return@update null)
                                             .toBuilder()
                                             .setAccessToken(data.accessToken)
                                             .setRefreshToken(data.refreshToken)
-                                            .setCreatedAt(data.createdAt)
-                                            .setExpiresIn(data.expiresIn)
+                                            .setCreatedAt(data.createdAt.toString())
+                                            .setExpiresIn(data.expiresIn.toString())
                                             .setTokenType(data.tokenType)
                                             .build()
                                     }

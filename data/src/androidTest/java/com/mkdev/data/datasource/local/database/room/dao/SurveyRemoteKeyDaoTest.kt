@@ -99,7 +99,7 @@ class SurveyRemoteKeyDaoTest {
     @Test
     fun remoteKeysId_should_return_null_when_remote_key_not_found() = runTest(testDispatcher) {
         // Given
-        val nonexistentId = "nonexistent_id"
+        val nonexistentId = 100001
 
         // When
         val retrievedRemoteKey = surveyRemoteKeyDao.remoteKeysId(nonexistentId)

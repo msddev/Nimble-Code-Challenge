@@ -1,23 +1,22 @@
 package com.mkdev.data.utils
 
-import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
-import com.mkdev.data.datasource.remote.model.response.error.LoginErrorResponse
+import com.infinum.jsonapix.asJsonXHttpException
+import com.infinum.jsonapix.core.resources.DefaultError
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class ApiErrorHandler @Inject constructor(private val gson: Gson) {
+class ApiErrorHandler @Inject constructor() {
     fun handleError(throwable: Throwable): ApiException {
         return when (throwable) {
             is IOException -> ApiException.NetworkError(throwable.message)
             is HttpException -> {
-                val errorBody = throwable.response()?.errorBody()?.string()
                 val code = throwable.code()
                 try {
-                    val errorResponse = gson.fromJson(errorBody, LoginErrorResponse::class.java)
-                    val errorMessage = errorResponse.errors.firstOrNull()?.detail
-                    ApiException.HttpError(code, errorMessage)
+                    val jsonXHttpException = throwable.asJsonXHttpException<DefaultError>()
+                    val defaultError = jsonXHttpException.errors?.firstOrNull()
+                    ApiException.HttpError(code, defaultError?.detail)
                 } catch (exception: JsonSyntaxException) {
                     ApiException.ParseError("Error parsing error response")
                 } catch (exception: Exception) {

@@ -4,7 +4,7 @@ import com.mkdev.data.datasource.local.database.room.entity.SurveyRemoteKeyEntit
 
 object SurveyRemoteKeyEntityFactory {
     fun createSurveyRemoteKeyEntity(
-        surveyId: String = "survey_id",
+        surveyId: Int = 1,
         prevPage: Int? = 1,
         nextPage: Int? = 2
     ): SurveyRemoteKeyEntity {
@@ -17,7 +17,7 @@ object SurveyRemoteKeyEntityFactory {
 
     fun createSurveyRemoteKeyEntityList(count: Int = 5): List<SurveyRemoteKeyEntity> {
         return (1..count).map {
-            createSurveyRemoteKeyEntity(surveyId = "survey_id_$it")
+            createSurveyRemoteKeyEntity(surveyId = it)
         }
     }
 }

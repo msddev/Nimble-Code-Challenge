@@ -3,9 +3,8 @@ package com.mkdev.data.datasource.remote.interceptor
 import com.mkdev.data.datasource.local.UserLocal
 import com.mkdev.data.datasource.local.datastore.UserLocalSource
 import com.mkdev.data.datasource.remote.api.AuthApi
-import com.mkdev.data.datasource.remote.model.response.base.BaseApiResponse
-import com.mkdev.data.datasource.remote.model.response.singIn.SignInAttributesResponse
 import com.mkdev.data.datasource.remote.model.response.singIn.SignInResponse
+import com.mkdev.data.datasource.remote.model.response.singIn.SignInResponseModel
 import com.mkdev.data.utils.ApiConfigs
 import com.mkdev.data.utils.ClientKeysNdkWrapper
 import kotlinx.coroutines.flow.flowOf
@@ -21,7 +20,10 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.*
+import org.mockito.Mockito.anyString
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.anyOrNull
 import java.net.HttpURLConnection
@@ -124,19 +126,14 @@ class AuthInterceptorTest {
         val newAccessToken = "newAccessToken"
         val refreshToken = "refreshToken"
         val refreshTokenResponse = RetrofitResponse.success(
-            BaseApiResponse(
+            SignInResponseModel(
                 data = SignInResponse(
-                    attributes = SignInAttributesResponse(
-                        accessToken = newAccessToken,
-                        createdAt = "",
-                        expiresIn = "",
-                        refreshToken = refreshToken,
-                        tokenType = ""
-                    ),
-                    id = "",
-                    type = ""
-                ),
-                meta = null
+                    accessToken = newAccessToken,
+                    createdAt = 1001001,
+                    expiresIn = 1100110,
+                    refreshToken = refreshToken,
+                    tokenType = ""
+                )
             )
         )
 
@@ -169,7 +166,7 @@ class AuthInterceptorTest {
         // Given
         val accessToken = "accessToken"
         val refreshToken = "refreshToken"
-        val refreshTokenResponse = RetrofitResponse.error<BaseApiResponse<SignInResponse>>(
+        val refreshTokenResponse = RetrofitResponse.error<SignInResponseModel>(
             HttpURLConnection.HTTP_UNAUTHORIZED,
             RealResponseBody("", 0L, Buffer())
         )

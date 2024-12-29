@@ -16,7 +16,7 @@ interface SurveyDao {
     fun getByPaging(): PagingSource<Int, SurveyEntity>
 
     @Query("SELECT * FROM survey_table WHERE id =:id LIMIT 1")
-    suspend fun getById(id: String): SurveyEntity
+    suspend fun getById(id: Int): SurveyEntity
 
     @Query("DELETE FROM survey_table")
     suspend fun clearAll()

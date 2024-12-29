@@ -6,9 +6,8 @@ import javax.inject.Inject
 
 class SurveyEntityMapper @Inject constructor() {
     fun mapToSurveyEntity(surveyResponse: SurveyResponse): SurveyEntity {
-        return with(surveyResponse.attributes) {
+        return with(surveyResponse) {
             SurveyEntity(
-                id = surveyResponse.id,
                 title = title,
                 description = description,
                 coverImageUrl = coverImageUrl,

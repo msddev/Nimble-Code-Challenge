@@ -1,7 +1,8 @@
 package com.mkdev.data.datasource.remote.api
 
-import com.mkdev.data.datasource.remote.model.response.base.BaseApiResponse
-import com.mkdev.data.factory.MetaResponseFactory
+import com.mkdev.data.datasource.remote.model.response.resetPassword.ResetPasswordMetaResponse
+import com.mkdev.data.datasource.remote.model.response.resetPassword.ResetPasswordResponse
+import com.mkdev.data.datasource.remote.model.response.resetPassword.ResetPasswordResponseModel
 import com.mkdev.data.factory.RefreshTokenRequestFactory
 import com.mkdev.data.factory.ResetPasswordRequestFactory
 import com.mkdev.data.factory.SignInRequestFactory
@@ -32,10 +33,7 @@ class AuthApiTest {
             // Given
             val signInRequest = SignInRequestFactory.createSignInRequest()
             val signInResponse = SignInResponseFactory.createSignInResponse()
-            val metaResponse = MetaResponseFactory.createMetaResponse()
-            val response =
-                Response.success(BaseApiResponse(data = signInResponse, meta = metaResponse))
-            coEvery { authApi.signIn(signInRequest) } returns response
+            coEvery { authApi.signIn(signInRequest) } returns signInResponse
 
             // When
             val result = authApi.signIn(signInRequest)
@@ -52,7 +50,7 @@ class AuthApiTest {
                     }
                 )
             }
-            Assert.assertEquals(response, result)
+            Assert.assertEquals(signInResponse, result)
         }
 
     @Test
@@ -61,9 +59,7 @@ class AuthApiTest {
             // Given
             val refreshTokenRequest = RefreshTokenRequestFactory.createRefreshTokenRequest()
             val signInResponse = SignInResponseFactory.createSignInResponse()
-            val metaResponse = MetaResponseFactory.createMetaResponse()
-            val response =
-                Response.success(BaseApiResponse(data = signInResponse, meta = metaResponse))
+            val response = Response.success(signInResponse)
             coEvery { authApi.refreshToken(refreshTokenRequest) } returns response
 
             // When
@@ -88,8 +84,10 @@ class AuthApiTest {
         runBlocking {
             // Given
             val resetPasswordRequest = ResetPasswordRequestFactory.createResetPasswordRequest()
-            val metaResponse = MetaResponseFactory.createMetaResponse()
-            val response = Response.success(BaseApiResponse(data = Unit, meta = metaResponse))
+            val response = ResetPasswordResponseModel(
+                data = ResetPasswordResponse(),
+                rootMeta = ResetPasswordMetaResponse(message = "")
+            )
             coEvery { authApi.resetPassword(resetPasswordRequest) } returns response
 
             // When

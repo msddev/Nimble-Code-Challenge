@@ -1,14 +1,16 @@
 package com.mkdev.data.datasource.remote.model.request.refreshToken
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RefreshTokenRequest(
-    @SerializedName("grant_type")
+    @SerialName("grant_type")
     val grantType: String,
-    @SerializedName("refresh_token")
+    @SerialName("refresh_token")
     val refreshToken: String,
-    @SerializedName("client_id")
+    @SerialName("client_id")
     val clientId: String,
-    @SerializedName("client_secret")
+    @SerialName("client_secret")
     val clientSecret: String,
 )
