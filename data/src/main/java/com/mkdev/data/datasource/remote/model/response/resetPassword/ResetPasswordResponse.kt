@@ -7,14 +7,13 @@ import com.infinum.jsonapix.core.resources.Meta
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@SerialName("resetPassword")
-@JsonApiX("resetPassword")
 @Serializable
-data class ResetPasswordResponse(val test: String? = null) : JsonApiModel()
+@JsonApiX("resetPassword", isNullable = true)
+class ResetPasswordResponse : JsonApiModel()
 
-@SerialName("resetPassword")
 @Serializable
 @JsonApiXMeta("resetPassword")
 data class ResetPasswordMetaResponse(
+    @SerialName("message")
     val message: String
 ) : Meta
